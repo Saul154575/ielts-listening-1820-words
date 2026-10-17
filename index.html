@@ -1,0 +1,2307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="雅思听力1820词">
+    <title>雅思听力 1、4 部分填空基础词汇（1820词）· 听音盲写特训</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.12);
+            --warning: #f59e0b;
+            --warning-bg: rgba(245, 158, 11, 0.15);
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 12px 40px;
+        }
+
+        .app-wrapper {
+            width: 100%;
+            max-width: 740px;
+        }
+
+        /* 顶部激励与总进度看板 */
+        .dashboard-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .brand-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .brand-title h1 {
+            font-size: 18.5px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .rank-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 999px;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .stats-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .stat-pill {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid var(--card-border);
+            padding: 5px 11px;
+            border-radius: 999px;
+            font-size: 12px;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-pill.highlight-pill {
+            background: rgba(245, 158, 11, 0.12);
+            border-color: rgba(245, 158, 11, 0.4);
+            color: #fde68a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .stat-pill.sync-pill {
+            background: rgba(59, 130, 246, 0.14);
+            border-color: rgba(59, 130, 246, 0.45);
+            color: #93c5fd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .stat-pill.sync-pill:hover,
+        .stat-pill.highlight-pill:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.15);
+        }
+
+        .stat-pill b {
+            color: var(--text-main);
+        }
+
+        .stat-pill.highlight-pill b {
+            color: #fbbf24;
+        }
+
+        .stat-pill.sync-pill b {
+            color: #60a5fa;
+        }
+
+        /* 双进度条区域 */
+        .progress-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .progress-group {
+                grid-template-columns: 1fr;
+            }
+            .brand-title h1 {
+                font-size: 16.5px;
+            }
+        }
+
+        .progress-box {
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 11px 14px;
+        }
+
+        .progress-label-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            margin-bottom: 7px;
+        }
+
+        .progress-label-row span:first-child {
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .progress-label-row span:last-child {
+            color: var(--text-main);
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .bar-track {
+            width: 100%;
+            height: 10px;
+            background: #0f172a;
+            border-radius: 999px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill-total {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bar-fill-page6 {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 每日打卡日历折叠/展开面板 */
+        .calendar-section {
+            margin-top: 14px;
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .calendar-title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .calendar-title-group h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        .today-status-tag {
+            font-size: 11.5px;
+            padding: 2px 9px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .today-status-tag.checked {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .today-status-tag.unchecked {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fcd34d;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        .month-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .month-nav button {
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: #cbd5e1;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .month-nav span {
+            font-size: 13px;
+            font-weight: 700;
+            min-width: 86px;
+            text-align: center;
+            font-family: monospace;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 11.5px;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .cal-day {
+            min-height: 42px;
+            border-radius: 8px;
+            background: rgba(30, 41, 59, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 2px;
+            position: relative;
+            user-select: none;
+        }
+
+        .cal-day.empty {
+            background: transparent;
+            border-color: transparent;
+        }
+
+        .cal-day.is-today {
+            border-color: #60a5fa;
+            box-shadow: inset 0 0 0 1px #60a5fa;
+        }
+
+        .cal-day.checked-light {
+            background: rgba(16, 185, 129, 0.18);
+            border-color: rgba(16, 185, 129, 0.45);
+        }
+
+        .cal-day.checked-goal {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.32), rgba(59, 130, 246, 0.28));
+            border-color: #34d399;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.2);
+        }
+
+        .cal-day-num {
+            font-size: 12px;
+            font-weight: 700;
+            color: #cbd5e1;
+            line-height: 1.1;
+        }
+
+        .cal-day.checked-light .cal-day-num,
+        .cal-day.checked-goal .cal-day-num {
+            color: #fff;
+        }
+
+        .cal-day-sub {
+            font-size: 9.5px;
+            color: #34d399;
+            margin-top: 2px;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .cal-day.checked-goal .cal-day-sub {
+            color: #fde68a;
+        }
+
+        .calendar-legend {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 11.5px;
+            color: var(--text-sub);
+        }
+
+        .legend-items {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .legend-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+
+        /* 云同步与手机端弹窗 Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.82);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 16px;
+        }
+
+        .modal-card {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 18px;
+            width: 100%;
+            max-width: 520px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .sync-code-box {
+            display: flex;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .sync-code-input {
+            flex: 1;
+            background: #0f172a;
+            border: 2px solid #3b82f6;
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 18px;
+            font-family: monospace;
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .guide-step-box {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        /* 主交互卡片 */
+        .main-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 22px 20px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        /* 模式选择卡片列表 */
+        .mode-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        @media (max-width: 560px) {
+            .mode-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .mode-card {
+            background: rgba(15, 23, 42, 0.65);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            position: relative;
+        }
+
+        .mode-card:hover {
+            border-color: #60a5fa;
+        }
+
+        .mode-card.active {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.12);
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .mode-card h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mode-card p {
+            font-size: 12.5px;
+            color: var(--text-sub);
+            line-height: 1.45;
+        }
+
+        .mode-count-tag {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            color: #cbd5e1;
+            font-family: monospace;
+        }
+
+        /* 自定义页码选择器 */
+        .page-range-bar {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: 13.5px;
+        }
+
+        .page-range-bar select {
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid #475569;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        /* 特训选项开关栏 */
+        .settings-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 12px 14px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+            margin-bottom: 18px;
+            font-size: 12.5px;
+            color: var(--text-sub);
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-label input {
+            accent-color: var(--primary);
+            width: 15px;
+            height: 15px;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-start-main {
+            width: 100%;
+            padding: 16px;
+            font-size: 17px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+        }
+
+        /* 单局内 20 词胶囊进度条 */
+        .session-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 13.5px;
+        }
+
+        .combo-pill {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12.5px;
+        }
+
+        .capsules-grid {
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            gap: 4px;
+            margin-bottom: 18px;
+        }
+
+        .capsule {
+            height: 8px;
+            border-radius: 99px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            transition: all 0.25s ease;
+        }
+
+        .capsule.current {
+            background: #3b82f6;
+            border-color: #60a5fa;
+            box-shadow: 0 0 8px #3b82f6;
+            transform: scaleY(1.3);
+        }
+
+        .capsule.done-perfect {
+            background: var(--success);
+            border-color: #34d399;
+        }
+
+        .capsule.done-fixed {
+            background: var(--warning);
+            border-color: #fbbf24;
+        }
+
+        /* 听音与释义提示区 */
+        .prompt-card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 18px 16px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .meta-tags {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            font-size: 11.5px;
+            padding: 3px 9px;
+            border-radius: 6px;
+            background: rgba(59, 130, 246, 0.15);
+            color: #93c5fd;
+            font-weight: 600;
+        }
+
+        .meta-tag.plural-tag {
+            background: rgba(245, 158, 11, 0.18);
+            color: #fcd34d;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        .meta-tag.mistake-tag {
+            background: rgba(239, 68, 68, 0.18);
+            color: #fca5a5;
+        }
+
+        .chinese-hint {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .word-mask-dots {
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            color: #64748b;
+            letter-spacing: 3px;
+            margin-top: 4px;
+        }
+
+        /* 发音控制按钮组 */
+        .audio-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .btn-audio-main {
+            background: var(--primary);
+            color: white;
+            padding: 10px 18px;
+            font-size: 13.5px;
+            border-radius: 999px;
+        }
+
+        .btn-audio-slow {
+            background: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            padding: 10px 14px;
+            font-size: 13px;
+            border-radius: 999px;
+            border: 1px solid var(--card-border);
+        }
+
+        /* 输入框 */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .spell-input {
+            width: 100%;
+            background: #0f172a;
+            border: 2px solid #475569;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 22px;
+            color: #fff;
+            text-align: center;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            letter-spacing: 2px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .spell-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+        }
+
+        .spell-input.input-error {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25);
+            animation: shake 0.35s ease;
+        }
+
+        .spell-input.input-success {
+            border-color: var(--success);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-submit {
+            background: var(--success);
+            color: #fff;
+            flex: 1;
+            padding: 14px;
+            font-size: 16px;
+        }
+
+        .btn-quit {
+            background: transparent;
+            border: 1px solid #475569;
+            color: var(--text-sub);
+            padding: 14px 16px;
+            font-size: 14px;
+        }
+
+        /* 魔鬼纠错展示面板 */
+        .feedback-box {
+            margin-top: 16px;
+            border-radius: 12px;
+            padding: 14px 14px;
+            display: none;
+            text-align: center;
+            line-height: 1.55;
+        }
+
+        .feedback-box.show-error {
+            display: block;
+            background: var(--danger-bg);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .feedback-box.show-success {
+            display: block;
+            background: var(--success-bg);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .error-headline {
+            color: #fca5a5;
+            font-weight: 800;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        /* 逐字母比对砖块 */
+        .diff-tiles {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin: 10px 0;
+        }
+
+        .char-tile {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 36px;
+            padding: 0 5px;
+            border-radius: 7px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 20px;
+            font-weight: 800;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid #475569;
+            color: #e2e8f0;
+        }
+
+        .char-tile.char-wrong {
+            background: #ef4444;
+            border-color: #f87171;
+            color: #fff;
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.45);
+        }
+
+        .user-wrong-attempt {
+            font-size: 13.5px;
+            color: #cbd5e1;
+            margin-bottom: 4px;
+            font-family: monospace;
+        }
+
+        .user-wrong-attempt del {
+            color: #f87171;
+            margin-left: 6px;
+            font-size: 15px;
+        }
+
+        .retype-instruction {
+            margin-top: 8px;
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px dashed #fbbf24;
+            color: #fde68a;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* 结算界面 */
+        .summary-area {
+            display: none;
+            text-align: center;
+        }
+
+        .summary-score-circle {
+            width: 104px;
+            height: 104px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.2));
+            border: 3px solid var(--success);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .summary-score-circle b {
+            font-size: 28px;
+            color: #fff;
+        }
+
+        .summary-score-circle span {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .checkin-banner {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.18), rgba(245, 158, 11, 0.18));
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            color: #fde68a;
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: inline-block;
+        }
+
+        .mistake-review-list {
+            text-align: left;
+            background: rgba(15, 23, 42, 0.65);
+            border-radius: 12px;
+            padding: 12px;
+            margin: 14px 0;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .mistake-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 13.5px;
+        }
+
+        .mistake-item:last-child {
+            border-bottom: none;
+        }
+
+        .mistake-item b {
+            font-family: monospace;
+            font-size: 15px;
+            color: #f87171;
+            letter-spacing: 1px;
+        }
+
+        .shortcut-tip {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 12px;
+        }
+
+        .kbd {
+            background: #0f172a;
+            border: 1px solid #334155;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #94a3b8;
+        }
+
+        .footer-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .link-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 12px;
+        }
+
+        .link-btn:hover {
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+    <!-- 顶部全局激励与双进度条看板 -->
+    <div class="dashboard-card">
+        <div class="header-row">
+            <div class="brand-title">
+                <h1>🦘 雅思听力 1、4 部分填空基础词汇（1820词）</h1>
+                <span class="rank-badge" id="rankBadge">Lv.1 听音觉醒者</span>
+            </div>
+            <div class="top-actions">
+                <button class="stat-pill sync-pill" onclick="openSyncModal()" title="手机与电脑云端实时同步">
+                    📱💻 云同步: <b id="syncStatusShort">已开启</b>
+                </button>
+                <button class="stat-pill highlight-pill" onclick="toggleCalendarPanel()" title="点击展开/收起打卡日历">
+                    📅 连续: <b id="currentDayStreak">0</b>天 (最高 <b id="maxDayStreak">0</b>天) ▾
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-pills">
+            <div class="stat-pill">🔥 今日已刷: <b id="todayCount">0</b> 词</div>
+            <div class="stat-pill">🗓️ 累计打卡: <b id="totalCheckinDays">0</b> 天</div>
+            <div class="stat-pill">⚡ 最高连击: <b id="bestStreak">0</b></div>
+            <div class="stat-pill">💀 错题本: <b id="mistakeCount">0</b> 词</div>
+        </div>
+
+        <div class="progress-group">
+            <div class="progress-box">
+                <div class="progress-label-row">
+                    <span>🏆 全库消灭总进度 (18页全量)</span>
+                    <span id="totalProgressText">0 / 1820 (0.0%)</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill-total" id="totalProgressBar"></div>
+                </div>
+            </div>
+
+            <div class="progress-box">
+                <div class="progress-label-row">
+                    <span>📘 前 6 页（高频区）吃透进度</span>
+                    <span id="page6ProgressText">0 / 700 (0.0%)</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill-page6" id="page6ProgressBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 每日打卡日历面板 -->
+        <div class="calendar-section" id="calendarSection">
+            <div class="calendar-header">
+                <div class="calendar-title-group">
+                    <h3>🗓️ 每日听写打卡日历</h3>
+                    <span class="today-status-tag unchecked" id="todayCheckinBadge">⏳ 今日待打卡 (0/20词)</span>
+                </div>
+                <div class="month-nav">
+                    <button type="button" onclick="changeCalendarMonth(-1)">◀</button>
+                    <span id="calendarMonthLabel">2026年10月</span>
+                    <button type="button" onclick="changeCalendarMonth(1)">▶</button>
+                </div>
+            </div>
+
+            <div class="calendar-weekdays">
+                <div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>日</div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+
+            <div class="calendar-legend">
+                <div class="legend-items">
+                    <span><i class="legend-dot" style="background: rgba(16, 185, 129, 0.45);"></i>已打卡 (1~19词)</span>
+                    <span><i class="legend-dot" style="background: linear-gradient(135deg, #10b981, #3b82f6);"></i>🔥 满额达标 (≥20词/天)</span>
+                </div>
+                <span id="selectedDayDetail">💡 点击任意日期可查看当日详细战绩</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="main-card">
+        <!-- 1. 待机开始界面 -->
+        <div id="startScreen">
+            <div style="text-align: left; margin-bottom: 14px;">
+                <h2 style="font-size: 17px; margin-bottom: 6px;">🎯 选择本局特训模式（20 词 / 局 · 约 5 分钟）</h2>
+                <p style="font-size: 13px; color: var(--text-sub);">
+                    专为雅思听力 Part 1 & Part 4 填空题打造：<b>强制遮挡拼写 + 澳洲口音 (en-AU) + 拼错逐字母标红 & 强制罚写肌肉记忆</b>。
+                </p>
+            </div>
+
+            <div class="mode-grid">
+                <div class="mode-card active" id="mode-all" onclick="selectMode('all')">
+                    <h3>
+                        <span>🎲 全库随机突击</span>
+                        <span class="mode-count-tag" id="tag-all">剩余 1820 词</span>
+                    </h3>
+                    <p>从 1820 个未掌握词库中随机抽 20 词。拼对即归档消灭，5 分钟快速过一局！</p>
+                </div>
+
+                <div class="mode-card" id="mode-page6" onclick="selectMode('page6')">
+                    <h3>
+                        <span>📘 前 6 页专项恶补</span>
+                        <span class="mode-count-tag" id="tag-page6">剩余 700 词</span>
+                    </h3>
+                    <p>专抽第 1~6 页最核心的高频基础词，把“听得懂但写不出”的词砸进手指肌肉记忆！</p>
+                </div>
+
+                <div class="mode-card" id="mode-mistakes" onclick="selectMode('mistakes')">
+                    <h3>
+                        <span>💀 魔鬼错题本复仇</span>
+                        <span class="mode-count-tag" id="tag-mistakes">0 词待复仇</span>
+                    </h3>
+                    <p>专抽你之前拼错或漏掉复数的死穴词汇，消灭一个少一个，考前必刷！</p>
+                </div>
+
+                <div class="mode-card" id="mode-custom" onclick="selectMode('custom')">
+                    <h3>
+                        <span>📑 按页码范围自选</span>
+                        <span class="mode-count-tag">第 1~18 页</span>
+                    </h3>
+                    <p>今天背到第几页就刷第几页！自由指定页码区间进行 20 词听写抽查。</p>
+                </div>
+            </div>
+
+            <div class="page-range-bar" id="customPageBar">
+                <span>选择页码范围：第</span>
+                <select id="startPageSelect" onchange="updateCustomCount()"></select>
+                <span>页 至 第</span>
+                <select id="endPageSelect" onchange="updateCustomCount()"></select>
+                <span>页（未掌握 <b id="customRemainCount">0</b> 词）</span>
+            </div>
+
+            <div class="settings-bar">
+                <label class="toggle-label">
+                    <input type="checkbox" id="pluralHintToggle" checked>
+                    <span>提示【复数后缀 -s】</span>
+                </label>
+                <label class="toggle-label">
+                    <input type="checkbox" id="lengthHintToggle" checked>
+                    <span>显示字母个数虚线</span>
+                </label>
+                <label class="toggle-label">
+                    <input type="checkbox" id="blindRetypeToggle" checked>
+                    <span>🔥 拼错罚写时盲打校验</span>
+                </label>
+            </div>
+
+            <button class="btn btn-start-main" onclick="startSession()">
+                🚀 开始本局 20 词听写特训
+            </button>
+
+            <div class="footer-tools">
+                <span id="voiceStatusText">🔊 正在就绪语音引擎...</span>
+                <div style="display: flex; gap: 12px;">
+                    <button class="link-btn" onclick="openSyncModal()">📱 手机端与多端云同步</button>
+                    <button class="link-btn" onclick="exportProgress()">导出备份</button>
+                    <button class="link-btn" onclick="importProgress()">导入进度</button>
+                    <button class="link-btn" onclick="resetProgress()">重置进度</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 听写特训主界面 -->
+        <div id="trainingScreen" style="display: none;">
+            <div class="session-top-bar">
+                <div>
+                    <span id="modeTitleBadge" style="color: var(--text-sub); font-weight: 600;">🎲 全库特训</span>
+                    <span style="margin-left: 8px; font-family: monospace; font-weight: 700;" id="sessionStepText">1 / 20</span>
+                </div>
+                <div class="combo-pill" id="comboPill">🔥 连击 x0</div>
+            </div>
+
+            <!-- 20 格可视化进度胶囊 -->
+            <div class="capsules-grid" id="capsulesGrid"></div>
+
+            <!-- 听音与中文释义卡片 -->
+            <div class="prompt-card">
+                <div class="meta-tags" id="wordMetaTags"></div>
+                <div class="chinese-hint" id="chineseHintText">加载中...</div>
+                <div class="word-mask-dots" id="wordMaskDots"></div>
+
+                <div class="audio-controls">
+                    <button class="btn btn-audio-main" type="button" onclick="playCurrentAudio(0.9)">
+                        🔊 澳洲发音 (Tab)
+                    </button>
+                    <button class="btn btn-audio-slow" type="button" onclick="playCurrentAudio(0.62)">
+                        🐢 慢速 (0.6x)
+                    </button>
+                    <button class="btn btn-audio-slow" type="button" onclick="playOnlineDictAudio()" title="手机静音或无澳洲语音包时可点此播放词典原声">
+                        🎵 词典原声
+                    </button>
+                </div>
+            </div>
+
+            <!-- 盲写输入框 -->
+            <div class="input-wrapper">
+                <input type="text" id="spellInput" class="spell-input"
+                       placeholder="听音盲写单词..."
+                       autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="latin">
+            </div>
+
+            <div class="action-row">
+                <button class="btn btn-submit" id="submitBtn" onclick="handleSubmit()">
+                    ✅ 提交检验 (Enter)
+                </button>
+                <button class="btn btn-quit" onclick="returnToHome()">
+                    返回主页
+                </button>
+            </div>
+
+            <!-- 魔鬼纠错面板 -->
+            <div class="feedback-box" id="feedbackBox"></div>
+
+            <div class="shortcut-tip">
+                电脑端：<span class="kbd">Enter</span> 提交 &nbsp;|&nbsp; <span class="kbd">Tab</span> 重播发音 &nbsp;&nbsp; 手机端：直接点虚拟键盘回车或绿色按钮
+            </div>
+        </div>
+
+        <!-- 3. 单局 20 词结算战报界面 -->
+        <div id="summaryScreen" class="summary-area">
+            <div class="summary-score-circle">
+                <b id="summaryAccuracy">100%</b>
+                <span>一次拼对率</span>
+            </div>
+            <h2 style="margin-bottom: 8px;" id="summaryHeadline">🎉 本局 20 词特训完成！</h2>
+            <div class="checkin-banner" id="summaryCheckinBanner">📅 今日打卡与云端进度已同步！</div>
+            <p style="color: var(--text-sub); font-size: 14px; margin-bottom: 16px;" id="summarySubtext"></p>
+
+            <div id="summaryMistakesContainer" style="display: none;">
+                <div style="text-align: left; font-size: 13px; color: #fca5a5; font-weight: 700; margin-bottom: 6px;">
+                    🚨 本局经历“魔鬼纠错”的词汇（已同步至云端错题本，点击可听音复习）：
+                </div>
+                <div class="mistake-review-list" id="summaryMistakeList"></div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;">
+                <button class="btn btn-start-main" style="flex: 2;" onclick="startSession()">
+                    🚀 再来一局 (20 词)
+                </button>
+                <button class="btn btn-audio-slow" id="retrySessionMistakesBtn" style="flex: 1; display: none;" onclick="startSessionWithMistakes()">
+                    💀 立即重刷本局错词
+                </button>
+                <button class="btn btn-quit" onclick="returnToHome()">
+                    返回主页看日历
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 手机端使用 & 云端同步设置弹窗 -->
+<div class="modal-overlay" id="syncModal" onclick="if(event.target===this)closeSyncModal()">
+    <div class="modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="font-size: 18px;">📱💻 手机 ↔ 电脑云端实时同步</h3>
+            <button class="btn-quit" style="padding: 4px 10px; border-radius: 6px;" onclick="closeSyncModal()">✕</button>
+        </div>
+
+        <p style="font-size: 13px; color: var(--text-sub); line-height: 1.5;">
+            系统已为你生成独立同步码。只要在<b>手机和电脑上输入同一个同步码</b>，两端的已掌握词库、错题本和打卡日历就会<b>自动实时合并</b>！
+        </p>
+
+        <div class="sync-code-box">
+            <input type="text" id="syncCodeInput" class="sync-code-input" value="" maxlength="16" placeholder="输入专属同步暗号">
+            <button class="btn btn-audio-main" style="border-radius: 10px;" onclick="saveSyncCodeAndSync()">
+                ☁️ 绑定并同步
+            </button>
+        </div>
+        <div id="syncModalLog" style="font-size: 12.5px; color: #34d399; min-height: 20px; text-align: center; font-weight: 600;"></div>
+
+        <div class="guide-step-box">
+            <div style="font-weight: 800; color: #fff; margin-bottom: 6px;">📲 如何在手机上使用并同步？</div>
+            <p style="margin-bottom: 8px;">
+                1. 用手机浏览器（Safari / Chrome）打开本网站网址（或扫描下方二维码）；<br>
+                2. 点击浏览器菜单中的<b>“添加到主屏幕”</b>，即可像原生 App 一样全屏运行；<br>
+                3. 在手机端打开本弹窗，输入与电脑相同的<b>同步码</b>，点击“绑定并同步”即可！
+            </p>
+            <div style="text-align: center; margin-top: 10px;" id="qrContainer">
+                <img id="dynamicQrImg" src="" alt="手机扫码打开"
+                     style="width: 135px; height: 135px; border-radius: 8px; border: 4px solid #fff; background: #fff; display: none;">
+                <div id="qrTipText" style="font-size: 11px; color: #94a3b8; margin-top: 4px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1820 全量带页码词库
+    const fullWordList = [{"word": "information", "hint": "信息", "page": 1}, {"word": "course", "hint": "课程", "page": 1}, {"word": "student", "hint": "学生", "page": 1}, {"word": "room", "hint": "房间", "page": 1}, {"word": "animals", "hint": "动物", "page": 1}, {"word": "food", "hint": "食物", "page": 1}, {"word": "computer", "hint": "电脑", "page": 1}, {"word": "local", "hint": "当地的", "page": 1}, {"word": "presentation", "hint": "学生在国外课上作的演讲", "page": 1}, {"word": "population", "hint": "人口", "page": 1}, {"word": "area", "hint": "地区", "page": 1}, {"word": "address", "hint": "地址", "page": 1}, {"word": "group", "hint": "群体", "page": 1}, {"word": "person", "hint": "人", "page": 1}, {"word": "music", "hint": "音乐", "page": 1}, {"word": "facilities", "hint": "设施", "page": 1}, {"word": "city", "hint": "城市", "page": 1}, {"word": "garden", "hint": "花园", "page": 1}, {"word": "ground", "hint": "地面", "page": 1}, {"word": "system", "hint": "系统,体系", "page": 1}, {"word": "report", "hint": "报告", "page": 1}, {"word": "country", "hint": "国家", "page": 1}, {"word": "car", "hint": "汽车", "page": 1}, {"word": "meeting", "hint": "会议", "page": 1}, {"word": "planner", "hint": "计划,计划表", "page": 1}, {"word": "bus", "hint": "公共汽车", "page": 1}, {"word": "black", "hint": "黑色", "page": 1}, {"word": "lack", "hint": "缺乏", "page": 1}, {"word": "insurance", "hint": "保险", "page": 1}, {"word": "term", "hint": "学期,术语", "page": 1}, {"word": "check", "hint": "检验", "page": 1}, {"word": "family", "hint": "家庭", "page": 1}, {"word": "children", "hint": "儿童的复数", "page": 1}, {"word": "questions", "hint": "问题", "page": 1}, {"word": "card", "hint": "卡片", "page": 1}, {"word": "lunch", "hint": "午餐", "page": 1}, {"word": "pounds", "hint": "英镑(复数)", "page": 1}, {"word": "shop", "hint": "商店", "page": 1}, {"word": "words", "hint": "单词(复数)", "page": 1}, {"word": "crime", "hint": "犯罪", "page": 1}, {"word": "minutes", "hint": "分钟(复数)", "page": 1}, {"word": "building", "hint": "建筑物", "page": 1}, {"word": "water", "hint": "水", "page": 1}, {"word": "training", "hint": "培训", "page": 1}, {"word": "interview", "hint": "面试", "page": 1}, {"word": "topic", "hint": "话题", "page": 1}, {"word": "teacher", "hint": "教师", "page": 1}, {"word": "working", "hint": "工作", "page": 1}, {"word": "thursday", "hint": "周四", "page": 1}, {"word": "fitness", "hint": "健康", "page": 1}, {"word": "subject", "hint": "主题", "page": 1}, {"word": "planning", "hint": "计划", "page": 1}, {"word": "officer", "hint": "官员", "page": 1}, {"word": "skills", "hint": "技能", "page": 1}, {"word": "saturday", "hint": "周六", "page": 1}, {"word": "restaurant", "hint": "餐厅", "page": 1}, {"word": "oxford", "hint": "牛津", "page": 1}, {"word": "problems", "hint": "问题", "page": 1}, {"word": "museum", "hint": "博物馆", "page": 1}, {"word": "industry", "hint": "工业", "page": 1}, {"word": "reading", "hint": "阅读", "page": 1}, {"word": "sports", "hint": "体育,运动", "page": 1}, {"word": "month", "hint": "月份", "page": 1}, {"word": "available", "hint": "可获得的,有时间的", "page": 1}, {"word": "third", "hint": "第三", "page": 1}, {"word": "education", "hint": "教育", "page": 1}, {"word": "shopping", "hint": "购物", "page": 1}, {"word": "department", "hint": "系,商店", "page": 1}, {"word": "per", "hint": "每", "page": 1}, {"word": "rate", "hint": "比例", "page": 1}, {"word": "tutor", "hint": "辅导教师,辅导员", "page": 1}, {"word": "details", "hint": "细节(复数)", "page": 1}, {"word": "reason", "hint": "理由", "page": 1}, {"word": "village", "hint": "山村", "page": 1}, {"word": "writing", "hint": "写作", "page": 1}, {"word": "materials", "hint": "材料(复数)", "page": 1}, {"word": "type", "hint": "类型", "page": 1}, {"word": "million", "hint": "百万", "page": 1}, {"word": "conference", "hint": "正式会议", "page": 1}, {"word": "difficult", "hint": "困难的", "page": 1}, {"word": "doctor", "hint": "医生", "page": 1}, {"word": "price", "hint": "价格", "page": 1}, {"word": "key", "hint": "重点的,关键", "page": 1}, {"word": "public", "hint": "公共的", "page": 1}, {"word": "staff", "hint": "员工,职员", "page": 1}, {"word": "film", "hint": "胶卷,电影", "page": 1}, {"word": "goods", "hint": "物品", "page": 1}, {"word": "furniture", "hint": "家具", "page": 1}, {"word": "personal", "hint": "个人的", "page": 1}, {"word": "walking", "hint": "步行", "page": 1}, {"word": "company", "hint": "公司", "page": 1}, {"word": "tv", "hint": "电视", "page": 1}, {"word": "office", "hint": "办公室", "page": 1}, {"word": "teaching", "hint": "教学", "page": 1}, {"word": "clothes", "hint": "服装", "page": 1}, {"word": "parents", "hint": "父母", "page": 1}, {"word": "items", "hint": "物品,东西,项目", "page": 1}, {"word": "advice", "hint": "建议", "page": 1}, {"word": "fees", "hint": "费用,学费,杂费", "page": 1}, {"word": "class", "hint": "班级", "page": 2}, {"word": "female", "hint": "女性", "page": 2}, {"word": "handbook", "hint": "手册", "page": 2}, {"word": "reception", "hint": "接待处", "page": 2}, {"word": "smoking", "hint": "吸烟", "page": 2}, {"word": "degree", "hint": "学位", "page": 2}, {"word": "speed", "hint": "速度", "page": 2}, {"word": "date", "hint": "日期", "page": 2}, {"word": "articles", "hint": "文章", "page": 2}, {"word": "financial", "hint": "金融的", "page": 2}, {"word": "bathroom", "hint": "卫生间", "page": 2}, {"word": "cheaper", "hint": "便宜些", "page": 2}, {"word": "angry", "hint": "气愤", "page": 2}, {"word": "video", "hint": "录像", "page": 2}, {"word": "effective", "hint": "有效的", "page": 2}, {"word": "london", "hint": "伦敦", "page": 2}, {"word": "plus", "hint": "加", "page": 2}, {"word": "famous", "hint": "著名的", "page": 2}, {"word": "may", "hint": "五月", "page": 2}, {"word": "management", "hint": "管理", "page": 2}, {"word": "countries", "hint": "国家", "page": 2}, {"word": "child", "hint": "儿童", "page": 2}, {"word": "order", "hint": "命令", "page": 2}, {"word": "factors", "hint": "因素", "page": 2}, {"word": "record", "hint": "记录,唱片", "page": 2}, {"word": "kitchen", "hint": "厨房", "page": 2}, {"word": "monday", "hint": "周一", "page": 2}, {"word": "professor", "hint": "教授", "page": 2}, {"word": "further", "hint": "进一步", "page": 2}, {"word": "manager", "hint": "经理", "page": 2}, {"word": "surname", "hint": "姓", "page": 2}, {"word": "australia", "hint": "澳大利亚", "page": 2}, {"word": "trousers", "hint": "裤子", "page": 2}, {"word": "shoes", "hint": "鞋", "page": 2}, {"word": "subjects", "hint": "主题", "page": 2}, {"word": "results", "hint": "结果", "page": 2}, {"word": "full-time", "hint": "全日制", "page": 2}, {"word": "expensive", "hint": "昂贵的", "page": 2}, {"word": "fish", "hint": "鱼", "page": 2}, {"word": "tuesday", "hint": "周二", "page": 2}, {"word": "activities", "hint": "活动", "page": 2}, {"word": "swimming pool", "hint": "游泳池", "page": 2}, {"word": "list", "hint": "单子,列表", "page": 2}, {"word": "light", "hint": "灯", "page": 2}, {"word": "approach", "hint": "方法,接近", "page": 2}, {"word": "weekend", "hint": "周末", "page": 2}, {"word": "traveling", "hint": "旅游", "page": 2}, {"word": "cause", "hint": "起因", "page": 2}, {"word": "social", "hint": "社会的", "page": 2}, {"word": "radio", "hint": "收音机", "page": 2}, {"word": "accommodation", "hint": "住宿", "page": 2}, {"word": "level", "hint": "水平", "page": 2}, {"word": "copy", "hint": "复印", "page": 2}, {"word": "spanish", "hint": "西班牙的,西班牙", "page": 2}, {"word": "clock", "hint": "钟", "page": 2}, {"word": "letter", "hint": "信,字母", "page": 2}, {"word": "ticket", "hint": "票", "page": 2}, {"word": "transportation", "hint": "交通", "page": 2}, {"word": "drinking", "hint": "饮水", "page": 2}, {"word": "cambridge", "hint": "剑桥", "page": 2}, {"word": "media", "hint": "媒体", "page": 2}, {"word": "station", "hint": "车站", "page": 2}, {"word": "desk", "hint": "书桌", "page": 2}, {"word": "boat", "hint": "船", "page": 2}, {"word": "buildings", "hint": "建筑物", "page": 2}, {"word": "mail", "hint": "邮件", "page": 2}, {"word": "contact", "hint": "接触", "page": 2}, {"word": "safety", "hint": "安全", "page": 2}, {"word": "dinner", "hint": "晚餐", "page": 2}, {"word": "form", "hint": "表格", "page": 2}, {"word": "park", "hint": "公园", "page": 2}, {"word": "ability", "hint": "能力", "page": 2}, {"word": "team", "hint": "队伍", "page": 2}, {"word": "evening", "hint": "晚间", "page": 2}, {"word": "general", "hint": "普通的", "page": 2}, {"word": "history", "hint": "历史", "page": 2}, {"word": "club", "hint": "俱乐部", "page": 2}, {"word": "sunday", "hint": "周日", "page": 2}, {"word": "dark", "hint": "黑暗的", "page": 2}, {"word": "regular", "hint": "规律的", "page": 2}, {"word": "drinks", "hint": "饮料", "page": 2}, {"word": "union", "hint": "学生会", "page": 2}, {"word": "offer", "hint": "提供", "page": 2}, {"word": "return", "hint": "往返", "page": 2}, {"word": "quality", "hint": "质量", "page": 2}, {"word": "german", "hint": "德国人", "page": 2}, {"word": "language", "hint": "语言", "page": 2}, {"word": "environment", "hint": "环境", "page": 2}, {"word": "tutorials", "hint": "小组讨论", "page": 2}, {"word": "fire", "hint": "火灾,解雇", "page": 2}, {"word": "college", "hint": "学院", "page": 2}, {"word": "seat", "hint": "座位", "page": 2}, {"word": "century", "hint": "世纪", "page": 2}, {"word": "equipment", "hint": "设备", "page": 2}, {"word": "methods", "hint": "方法", "page": 2}, {"word": "location", "hint": "地理位置", "page": 2}, {"word": "title", "hint": "标题", "page": 2}, {"word": "culture", "hint": "文化", "page": 2}, {"word": "transport", "hint": "交通", "page": 2}, {"word": "campus", "hint": "校园", "page": 2}, {"word": "ideas", "hint": "观点", "page": 2}, {"word": "world", "hint": "世界", "page": 2}, {"word": "coffee", "hint": "咖啡", "page": 2}, {"word": "session", "hint": "课程,时间", "page": 2}, {"word": "certificate", "hint": "证书", "page": 2}, {"word": "goals", "hint": "目标", "page": 2}, {"word": "energy", "hint": "能量", "page": 2}, {"word": "experience", "hint": "经验", "page": 2}, {"word": "avenue", "hint": "大街", "page": 2}, {"word": "senior", "hint": "高级的,大四学生", "page": 2}, {"word": "deposit", "hint": "押金", "page": 2}, {"word": "extra", "hint": "额外的", "page": 2}, {"word": "tape", "hint": "磁带", "page": 2}, {"word": "government", "hint": "政府", "page": 2}, {"word": "trains", "hint": "火车", "page": 2}, {"word": "view", "hint": "风景,视线", "page": 2}, {"word": "teams", "hint": "小组", "page": 2}, {"word": "membership", "hint": "会员资格", "page": 2}, {"word": "difficulties", "hint": "困难", "page": 2}, {"word": "beach", "hint": "海滩", "page": 2}, {"word": "plants", "hint": "植物", "page": 2}, {"word": "top", "hint": "顶尖", "page": 2}, {"word": "sleep", "hint": "睡觉", "page": 2}, {"word": "rent", "hint": "房租", "page": 2}, {"word": "lock", "hint": "锁", "page": 2}, {"word": "trouble", "hint": "麻烦", "page": 2}, {"word": "vegetarian", "hint": "素食主义者", "page": 2}, {"word": "tour", "hint": "旅游", "page": 2}, {"word": "narrator", "hint": "叙述者", "page": 2}, {"word": "costs", "hint": "成本", "page": 3}, {"word": "health", "hint": "健康", "page": 3}, {"word": "background", "hint": "背景", "page": 3}, {"word": "underground", "hint": "地下", "page": 3}, {"word": "october", "hint": "十月", "page": 3}, {"word": "spending", "hint": "花费", "page": 3}, {"word": "kindergarten", "hint": "幼儿园", "page": 3}, {"word": "site", "hint": "位置", "page": 3}, {"word": "project", "hint": "项目", "page": 3}, {"word": "november", "hint": "十一月", "page": 3}, {"word": "beginning", "hint": "开始", "page": 3}, {"word": "survey", "hint": "调查", "page": 3}, {"word": "purpose", "hint": "目的", "page": 3}, {"word": "passport", "hint": "护照", "page": 3}, {"word": "interest", "hint": "兴趣", "page": 3}, {"word": "range", "hint": "范围", "page": 3}, {"word": "effect", "hint": "效果", "page": 3}, {"word": "decoration", "hint": "装修,装饰", "page": 3}, {"word": "america", "hint": "美国", "page": 3}, {"word": "migration", "hint": "迁徙,移民", "page": 3}, {"word": "service", "hint": "服务", "page": 3}, {"word": "party", "hint": "晚会", "page": 3}, {"word": "exams", "hint": "考试", "page": 3}, {"word": "relationship", "hint": "关系", "page": 3}, {"word": "failure", "hint": "失败", "page": 3}, {"word": "environmental", "hint": "环境的", "page": 3}, {"word": "asia", "hint": "亚洲", "page": 3}, {"word": "waste", "hint": "浪费", "page": 3}, {"word": "demonstration", "hint": "示威", "page": 3}, {"word": "festival", "hint": "节日", "page": 3}, {"word": "traffic", "hint": "交通", "page": 3}, {"word": "least", "hint": "至少", "page": 3}, {"word": "wheel", "hint": "方向盘,车轮", "page": 3}, {"word": "mature", "hint": "成熟的", "page": 3}, {"word": "discount", "hint": "打折", "page": 3}, {"word": "purse", "hint": "钱包", "page": 3}, {"word": "care", "hint": "关注", "page": 3}, {"word": "flexible", "hint": "灵活的", "page": 3}, {"word": "practical", "hint": "实际的", "page": 3}, {"word": "store", "hint": "商场", "page": 3}, {"word": "table", "hint": "桌子", "page": 3}, {"word": "support", "hint": "支持", "page": 3}, {"word": "choice", "hint": "选择", "page": 3}, {"word": "glass", "hint": "玻璃", "page": 3}, {"word": "higher", "hint": "更高", "page": 3}, {"word": "statistics", "hint": "统计学", "page": 3}, {"word": "individual", "hint": "个人的", "page": 3}, {"word": "technical", "hint": "科技的", "page": 3}, {"word": "wednesday", "hint": "周三", "page": 3}, {"word": "colleges", "hint": "学院", "page": 3}, {"word": "variety", "hint": "种类", "page": 3}, {"word": "hall", "hint": "大厅", "page": 3}, {"word": "bicycle", "hint": "自行车", "page": 3}, {"word": "occupation", "hint": "职业", "page": 3}, {"word": "tickets", "hint": "票", "page": 3}, {"word": "experiment", "hint": "实验", "page": 3}, {"word": "readers", "hint": "读者", "page": 3}, {"word": "pollution", "hint": "污染", "page": 3}, {"word": "place", "hint": "位置", "page": 3}, {"word": "hospital", "hint": "医院", "page": 3}, {"word": "farming", "hint": "农业", "page": 3}, {"word": "travel", "hint": "旅游", "page": 3}, {"word": "police", "hint": "警察", "page": 3}, {"word": "telephone", "hint": "电话", "page": 3}, {"word": "birds", "hint": "鸟类", "page": 3}, {"word": "clear", "hint": "清楚的", "page": 3}, {"word": "theory", "hint": "理论", "page": 3}, {"word": "visa", "hint": "签证", "page": 3}, {"word": "assignment", "hint": "作业", "page": 3}, {"word": "farm", "hint": "农场", "page": 3}, {"word": "board", "hint": "木板,董事会", "page": 3}, {"word": "painting", "hint": "绘画", "page": 3}, {"word": "hand", "hint": "手", "page": 3}, {"word": "size", "hint": "大小", "page": 3}, {"word": "railway", "hint": "铁路", "page": 3}, {"word": "skill", "hint": "技能", "page": 3}, {"word": "period", "hint": "阶段", "page": 3}, {"word": "medical", "hint": "医疗的", "page": 3}, {"word": "disease", "hint": "疾病", "page": 3}, {"word": "entrance", "hint": "入口", "page": 3}, {"word": "confidence", "hint": "自信", "page": 3}, {"word": "zoo", "hint": "动物园", "page": 3}, {"word": "standard", "hint": "标准", "page": 3}, {"word": "exam", "hint": "考试", "page": 3}, {"word": "case", "hint": "案例", "page": 3}, {"word": "different", "hint": "不同的", "page": 3}, {"word": "requirement", "hint": "要求", "page": 3}, {"word": "dollars", "hint": "美金", "page": 3}, {"word": "bank", "hint": "银行", "page": 3}, {"word": "schedule", "hint": "课程表", "page": 3}, {"word": "dress", "hint": "服装", "page": 3}, {"word": "air", "hint": "空气", "page": 3}, {"word": "groups", "hint": "团队", "page": 3}, {"word": "attacks", "hint": "袭击", "page": 3}, {"word": "studies", "hint": "研究", "page": 3}, {"word": "suggestion", "hint": "建议", "page": 3}, {"word": "falcons", "hint": "隼(猎鹰)", "page": 3}, {"word": "yellow", "hint": "黄色", "page": 3}, {"word": "cleaning", "hint": "清洁", "page": 3}, {"word": "communication", "hint": "交流", "page": 3}, {"word": "existing", "hint": "存在", "page": 3}, {"word": "international", "hint": "国际的", "page": 3}, {"word": "fancy", "hint": "喜欢", "page": 3}, {"word": "firm", "hint": "公司", "page": 3}, {"word": "therapy", "hint": "理疗", "page": 3}, {"word": "australian", "hint": "澳大利亚", "page": 3}, {"word": "chinese", "hint": "中文", "page": 3}, {"word": "recreation", "hint": "娱乐", "page": 3}, {"word": "january", "hint": "一月", "page": 3}, {"word": "property", "hint": "财产", "page": 3}, {"word": "natural", "hint": "自然的", "page": 3}, {"word": "issues", "hint": "问题", "page": 3}, {"word": "awareness", "hint": "意识", "page": 3}, {"word": "phone", "hint": "电话", "page": 3}, {"word": "employees", "hint": "员工", "page": 3}, {"word": "thought", "hint": "想法", "page": 3}, {"word": "learn", "hint": "学习", "page": 3}, {"word": "fishing", "hint": "钓鱼", "page": 3}, {"word": "major", "hint": "专业", "page": 3}, {"word": "computers", "hint": "电脑", "page": 3}, {"word": "recycled", "hint": "回收", "page": 3}, {"word": "marks", "hint": "分数", "page": 3}, {"word": "plant", "hint": "植物", "page": 3}, {"word": "weekly", "hint": "每周的", "page": 3}, {"word": "power", "hint": "权力", "page": 4}, {"word": "jacket", "hint": "夹克", "page": 4}, {"word": "cave", "hint": "洞穴", "page": 4}, {"word": "engine", "hint": "发动机", "page": 4}, {"word": "guest", "hint": "客人", "page": 4}, {"word": "march", "hint": "三月", "page": 4}, {"word": "diary", "hint": "日记", "page": 4}, {"word": "families", "hint": "家庭", "page": 4}, {"word": "complete", "hint": "完成、完全的", "page": 4}, {"word": "cards", "hint": "卡片", "page": 4}, {"word": "discussion", "hint": "讨论", "page": 4}, {"word": "advanced", "hint": "先进的", "page": 4}, {"word": "feature", "hint": "特点", "page": 4}, {"word": "deadline", "hint": "最后期限", "page": 4}, {"word": "luck", "hint": "运气", "page": 4}, {"word": "point", "hint": "要点", "page": 4}, {"word": "assessment", "hint": "学习考核", "page": 4}, {"word": "temple", "hint": "寺庙", "page": 4}, {"word": "field", "hint": "领域", "page": 4}, {"word": "currency", "hint": "货币", "page": 4}, {"word": "test", "hint": "测试", "page": 4}, {"word": "wear", "hint": "穿着", "page": 4}, {"word": "special", "hint": "特别", "page": 4}, {"word": "professional", "hint": "专业的", "page": 4}, {"word": "guy", "hint": "家伙", "page": 4}, {"word": "stress", "hint": "重音", "page": 4}, {"word": "shortage", "hint": "缺点", "page": 4}, {"word": "central", "hint": "中央的", "page": 4}, {"word": "mountain", "hint": "山脉", "page": 4}, {"word": "charge", "hint": "收费", "page": 4}, {"word": "material", "hint": "材料", "page": 4}, {"word": "meat", "hint": "肉类", "page": 4}, {"word": "solution", "hint": "解决", "page": 4}, {"word": "priority", "hint": "优先", "page": 4}, {"word": "eyesight", "hint": "视力", "page": 4}, {"word": "feet", "hint": "脚步", "page": 4}, {"word": "personality", "hint": "个性", "page": 4}, {"word": "embassy", "hint": "大使馆", "page": 4}, {"word": "sale", "hint": "销售", "page": 4}, {"word": "quarter", "hint": "四分之一", "page": 4}, {"word": "gender", "hint": "性别", "page": 4}, {"word": "exhibition", "hint": "展览", "page": 4}, {"word": "dominant", "hint": "主要的", "page": 4}, {"word": "recruit", "hint": "招聘", "page": 4}, {"word": "visas", "hint": "签证", "page": 4}, {"word": "related", "hint": "相关的", "page": 4}, {"word": "various", "hint": "各种的", "page": 4}, {"word": "focus", "hint": "集中", "page": 4}, {"word": "cottage", "hint": "小屋", "page": 4}, {"word": "school", "hint": "学校", "page": 4}, {"word": "fridge", "hint": "冰箱", "page": 4}, {"word": "physical", "hint": "身体的", "page": 4}, {"word": "color", "hint": "颜色", "page": 4}, {"word": "sound", "hint": "声音", "page": 4}, {"word": "church", "hint": "教堂", "page": 4}, {"word": "machines", "hint": "机器", "page": 4}, {"word": "emergency", "hint": "紧急", "page": 4}, {"word": "assistant", "hint": "助手", "page": 4}, {"word": "condition", "hint": "状况", "page": 4}, {"word": "europe", "hint": "欧洲", "page": 4}, {"word": "distance", "hint": "距离", "page": 4}, {"word": "library", "hint": "图书馆", "page": 4}, {"word": "referee", "hint": "裁判员", "page": 4}, {"word": "vocabulary", "hint": "词汇", "page": 4}, {"word": "unusual", "hint": "非同寻常", "page": 4}, {"word": "credit", "hint": "信用", "page": 4}, {"word": "april", "hint": "四月", "page": 4}, {"word": "travelers", "hint": "游客", "page": 4}, {"word": "june", "hint": "六月", "page": 4}, {"word": "appearance", "hint": "外貌", "page": 4}, {"word": "factory", "hint": "工厂", "page": 4}, {"word": "effects", "hint": "结果", "page": 4}, {"word": "speaker", "hint": "演讲者", "page": 4}, {"word": "career", "hint": "职业", "page": 4}, {"word": "reference", "hint": "参考书目", "page": 4}, {"word": "landlady", "hint": "女房东", "page": 4}, {"word": "mother", "hint": "母亲", "page": 4}, {"word": "part-time", "hint": "兼职", "page": 4}, {"word": "town", "hint": "小镇", "page": 4}, {"word": "wildlife", "hint": "野生动物、植物", "page": 4}, {"word": "commission", "hint": "委员会", "page": 4}, {"word": "starting", "hint": "开始", "page": 4}, {"word": "theoretical", "hint": "理论的", "page": 4}, {"word": "headache", "hint": "头痛", "page": 4}, {"word": "sense", "hint": "感觉", "page": 4}, {"word": "pills", "hint": "药片", "page": 4}, {"word": "regularly", "hint": "定期地", "page": 4}, {"word": "original", "hint": "最初地", "page": 4}, {"word": "prepare", "hint": "准备", "page": 4}, {"word": "videos", "hint": "录像", "page": 4}, {"word": "break", "hint": "休息", "page": 4}, {"word": "foot", "hint": "脚", "page": 4}, {"word": "total", "hint": "总数", "page": 4}, {"word": "difference", "hint": "差异", "page": 4}, {"word": "responsibility", "hint": "责任", "page": 4}, {"word": "daily", "hint": "每日", "page": 4}, {"word": "aids", "hint": "帮助", "page": 4}, {"word": "sport", "hint": "运动", "page": 4}, {"word": "photos", "hint": "照片", "page": 4}, {"word": "army", "hint": "军队", "page": 4}, {"word": "penny", "hint": "便士", "page": 4}, {"word": "insects", "hint": "昆虫", "page": 4}, {"word": "shift", "hint": "倒班", "page": 4}, {"word": "sample", "hint": "样本", "page": 4}, {"word": "job", "hint": "工作", "page": 4}, {"word": "pottery", "hint": "瓷器", "page": 4}, {"word": "business", "hint": "商业", "page": 4}, {"word": "cinema", "hint": "电影院", "page": 4}, {"word": "notice", "hint": "注意", "page": 4}, {"word": "seafood", "hint": "海鮮", "page": 4}, {"word": "experimental", "hint": "实验的", "page": 4}, {"word": "postcode", "hint": "邮编", "page": 4}, {"word": "cheese", "hint": "奶酪", "page": 4}, {"word": "refreshment", "hint": "饮料", "page": 4}, {"word": "region", "hint": "地区", "page": 4}, {"word": "horse", "hint": "马", "page": 4}, {"word": "common", "hint": "普通", "page": 4}, {"word": "jam", "hint": "堵塞", "page": 4}, {"word": "advantages", "hint": "优势", "page": 4}, {"word": "aim", "hint": "目的", "page": 4}, {"word": "mid", "hint": "中间", "page": 4}, {"word": "rare", "hint": "罕见", "page": 4}, {"word": "current", "hint": "目前的", "page": 5}, {"word": "french", "hint": "法语", "page": 5}, {"word": "worker", "hint": "工人", "page": 5}, {"word": "waiter", "hint": "服务生", "page": 5}, {"word": "qualification", "hint": "资格", "page": 5}, {"word": "selection", "hint": "选择", "page": 5}, {"word": "priorities", "hint": "优先权", "page": 5}, {"word": "nationality", "hint": "国籍", "page": 5}, {"word": "tea", "hint": "茶", "page": 5}, {"word": "foreign", "hint": "国外", "page": 5}, {"word": "finding", "hint": "发现", "page": 5}, {"word": "relations", "hint": "关系", "page": 5}, {"word": "faculty", "hint": "系", "page": 5}, {"word": "overhead", "hint": "头上", "page": 5}, {"word": "growth", "hint": "成长", "page": 5}, {"word": "cassettes", "hint": "磁带", "page": 5}, {"word": "infection", "hint": "发炎", "page": 5}, {"word": "plastic", "hint": "塑料", "page": 5}, {"word": "thousand", "hint": "一千", "page": 5}, {"word": "cooperation", "hint": "合作", "page": 5}, {"word": "cd", "hint": "磁带", "page": 5}, {"word": "mosquito", "hint": "蚊子", "page": 5}, {"word": "photographs", "hint": "照片", "page": 5}, {"word": "train", "hint": "火车", "page": 5}, {"word": "adult", "hint": "成人", "page": 5}, {"word": "thief", "hint": "小偷", "page": 5}, {"word": "pink", "hint": "粉色", "page": 5}, {"word": "applicants", "hint": "申请者", "page": 5}, {"word": "ocean", "hint": "海洋", "page": 5}, {"word": "wood", "hint": "木材", "page": 5}, {"word": "ohp", "hint": "投影", "page": 5}, {"word": "popular", "hint": "时髦的", "page": 5}, {"word": "weekends", "hint": "周末", "page": 5}, {"word": "matching", "hint": "搭配", "page": 5}, {"word": "supply", "hint": "提供", "page": 5}, {"word": "noble", "hint": "高尚的", "page": 5}, {"word": "seminar", "hint": "研讨会", "page": 5}, {"word": "tools", "hint": "工具", "page": 5}, {"word": "nature", "hint": "自然", "page": 5}, {"word": "green", "hint": "绿色", "page": 5}, {"word": "resources", "hint": "资源", "page": 5}, {"word": "ambition", "hint": "野心,抱负", "page": 5}, {"word": "skirt", "hint": "短裙", "page": 5}, {"word": "trees", "hint": "树", "page": 5}, {"word": "britain", "hint": "英国", "page": 5}, {"word": "qualifications", "hint": "资格", "page": 5}, {"word": "elder", "hint": "长辈", "page": 5}, {"word": "collection", "hint": "收集", "page": 5}, {"word": "consultant", "hint": "咨询者", "page": 5}, {"word": "council", "hint": "委员会", "page": 5}, {"word": "scholarship", "hint": "奖学金", "page": 5}, {"word": "trip", "hint": "旅行", "page": 5}, {"word": "pence", "hint": "便士", "page": 5}, {"word": "scotsman", "hint": "苏格兰人", "page": 5}, {"word": "flowers", "hint": "花朵", "page": 5}, {"word": "tones", "hint": "汉语的音调", "page": 5}, {"word": "documents", "hint": "文件", "page": 5}, {"word": "heavy", "hint": "重的", "page": 5}, {"word": "objective", "hint": "目标", "page": 5}, {"word": "sydney", "hint": "悉尼", "page": 5}, {"word": "impact", "hint": "影响", "page": 5}, {"word": "atmospheric", "hint": "大气的", "page": 5}, {"word": "attention", "hint": "注意", "page": 5}, {"word": "fashion", "hint": "时髦", "page": 5}, {"word": "silver", "hint": "银的", "page": 5}, {"word": "diseases", "hint": "疾病", "page": 5}, {"word": "stronger", "hint": "更强的", "page": 5}, {"word": "weight", "hint": "重量", "page": 5}, {"word": "cost", "hint": "花费", "page": 5}, {"word": "united", "hint": "联合的", "page": 5}, {"word": "normal", "hint": "正常的", "page": 5}, {"word": "theatre", "hint": "剧院", "page": 5}, {"word": "parent", "hint": "父母", "page": 5}, {"word": "processing", "hint": "处理", "page": 5}, {"word": "exaggerate", "hint": "夸张", "page": 5}, {"word": "savings", "hint": "存钱", "page": 5}, {"word": "side", "hint": "边", "page": 5}, {"word": "weekdays", "hint": "周末", "page": 5}, {"word": "several", "hint": "几个", "page": 5}, {"word": "result", "hint": "结果", "page": 5}, {"word": "sleeping", "hint": "睡眠", "page": 5}, {"word": "identification", "hint": "识别,身份", "page": 5}, {"word": "visual", "hint": "视觉的", "page": 5}, {"word": "drowsiness", "hint": "嗜睡的", "page": 5}, {"word": "volunteer", "hint": "自愿者", "page": 5}, {"word": "technology", "hint": "科技", "page": 5}, {"word": "direct", "hint": "直接的", "page": 5}, {"word": "short", "hint": "短的", "page": 5}, {"word": "scientists", "hint": "科学家", "page": 5}, {"word": "jeans", "hint": "牛仔服", "page": 5}, {"word": "recorder", "hint": "录音机", "page": 5}, {"word": "injury", "hint": "受伤", "page": 5}, {"word": "classical", "hint": "古典的", "page": 5}, {"word": "extensive", "hint": "广泛的", "page": 5}, {"word": "architecture", "hint": "建筑物", "page": 5}, {"word": "temples", "hint": "寺庙", "page": 5}, {"word": "chair", "hint": "椅子", "page": 5}, {"word": "loan", "hint": "贷款", "page": 5}, {"word": "stores", "hint": "商场", "page": 5}, {"word": "kelp", "hint": "海藻", "page": 5}, {"word": "storehouse", "hint": "仓库", "page": 5}, {"word": "hens", "hint": "母鸡", "page": 5}, {"word": "street", "hint": "街道", "page": 5}, {"word": "road", "hint": "路", "page": 5}, {"word": "intermediate", "hint": "中级的", "page": 5}, {"word": "useful", "hint": "有用的", "page": 5}, {"word": "forest", "hint": "森林", "page": 5}, {"word": "rainfall", "hint": "降水", "page": 5}, {"word": "ignorance", "hint": "无知", "page": 5}, {"word": "explosion", "hint": "爆炸", "page": 5}, {"word": "wetland", "hint": "沼泽地", "page": 5}, {"word": "model", "hint": "模型", "page": 5}, {"word": "booklist", "hint": "书目单", "page": 5}, {"word": "filmed", "hint": "拍摄", "page": 5}, {"word": "governments", "hint": "政府", "page": 5}, {"word": "machine", "hint": "机器", "page": 5}, {"word": "birmingham", "hint": "伯明翰", "page": 5}, {"word": "fiber", "hint": "纤维", "page": 5}, {"word": "nursing", "hint": "护理", "page": 5}, {"word": "review", "hint": "评论", "page": 5}, {"word": "tribe", "hint": "部落", "page": 5}, {"word": "ancient", "hint": "古代的", "page": 5}, {"word": "palace", "hint": "宫殿", "page": 6}, {"word": "disco", "hint": "的士高", "page": 6}, {"word": "cultivation", "hint": "培育", "page": 6}, {"word": "graduates", "hint": "毕业生", "page": 6}, {"word": "lifestyle", "hint": "生活方式", "page": 6}, {"word": "human", "hint": "人类", "page": 6}, {"word": "retirement", "hint": "退休", "page": 6}, {"word": "exercise", "hint": "练习", "page": 6}, {"word": "hobbies", "hint": "爱好", "page": 6}, {"word": "engineer", "hint": "工程师", "page": 6}, {"word": "participants", "hint": "参加者", "page": 6}, {"word": "map", "hint": "地图", "page": 6}, {"word": "reservation", "hint": "保留", "page": 6}, {"word": "trends", "hint": "趋势", "page": 6}, {"word": "fraud", "hint": "诈骗,假货", "page": 6}, {"word": "friday", "hint": "周五", "page": 6}, {"word": "charges", "hint": "费用", "page": 6}, {"word": "content", "hint": "内容", "page": 6}, {"word": "maximum", "hint": "最大", "page": 6}, {"word": "summary", "hint": "总结", "page": 6}, {"word": "performance", "hint": "表现", "page": 6}, {"word": "money", "hint": "钱", "page": 6}, {"word": "wide", "hint": "广泛的", "page": 6}, {"word": "cash", "hint": "现金", "page": 6}, {"word": "lawyer", "hint": "律师", "page": 6}, {"word": "difficulty", "hint": "困难", "page": 6}, {"word": "centre", "hint": "中心", "page": 6}, {"word": "literature", "hint": "文学", "page": 6}, {"word": "conclusion", "hint": "结论", "page": 6}, {"word": "picture", "hint": "图", "page": 6}, {"word": "inspiring", "hint": "鼓舞人心的", "page": 6}, {"word": "rising", "hint": "上升的", "page": 6}, {"word": "sweater", "hint": "毛衣", "page": 6}, {"word": "wise", "hint": "明智的", "page": 6}, {"word": "secondary", "hint": "第二的", "page": 6}, {"word": "dangerous", "hint": "危险的", "page": 6}, {"word": "causes", "hint": "原因", "page": 6}, {"word": "strategy", "hint": "策略", "page": 6}, {"word": "newspaper", "hint": "报纸", "page": 6}, {"word": "garage", "hint": "车库", "page": 6}, {"word": "analysis", "hint": "分析", "page": 6}, {"word": "familiar", "hint": "熟悉的", "page": 6}, {"word": "placement", "hint": "放置", "page": 6}, {"word": "guitar", "hint": "吉他", "page": 6}, {"word": "japanese", "hint": "日本", "page": 6}, {"word": "tourists", "hint": "游客", "page": 6}, {"word": "tower", "hint": "塔", "page": 6}, {"word": "conquest", "hint": "征服", "page": 6}, {"word": "future", "hint": "未来", "page": 6}, {"word": "sportswear", "hint": "运动服", "page": 6}, {"word": "fruit", "hint": "水果", "page": 6}, {"word": "farmers", "hint": "农民", "page": 6}, {"word": "rule", "hint": "规则", "page": 6}, {"word": "entertainment", "hint": "娱乐", "page": 6}, {"word": "lab", "hint": "实验室", "page": 6}, {"word": "parking", "hint": "停车", "page": 6}, {"word": "speech", "hint": "演讲", "page": 6}, {"word": "master", "hint": "硕士", "page": 6}, {"word": "setting", "hint": "位置", "page": 6}, {"word": "delegate", "hint": "代表", "page": 6}, {"word": "fly", "hint": "飞行", "page": 6}, {"word": "patients", "hint": "病人", "page": 6}, {"word": "brochures", "hint": "小册子", "page": 6}, {"word": "papers", "hint": "报纸", "page": 6}, {"word": "soil", "hint": "土壤", "page": 6}, {"word": "commercials", "hint": "商业", "page": 6}, {"word": "midnight", "hint": "午夜", "page": 6}, {"word": "transfer", "hint": "转换", "page": 6}, {"word": "benefits", "hint": "优势", "page": 6}, {"word": "clubs", "hint": "俱乐部", "page": 6}, {"word": "cover", "hint": "包括", "page": 6}, {"word": "drop-off", "hint": "放下", "page": 6}, {"word": "pictures", "hint": "图片", "page": 6}, {"word": "west", "hint": "西部", "page": 6}, {"word": "intelligence", "hint": "智力", "page": 6}, {"word": "educational", "hint": "教育的", "page": 6}, {"word": "method", "hint": "方法", "page": 6}, {"word": "journal", "hint": "学术期刊", "page": 6}, {"word": "introduction", "hint": "简介", "page": 6}, {"word": "aware", "hint": "意识", "page": 6}, {"word": "mining", "hint": "采矿", "page": 6}, {"word": "activity", "hint": "活动", "page": 6}, {"word": "habits", "hint": "习惯", "page": 6}, {"word": "behavior", "hint": "行为", "page": 6}, {"word": "animal", "hint": "动物", "page": 6}, {"word": "neighboring", "hint": "邻居的", "page": 6}, {"word": "printed", "hint": "打印", "page": 6}, {"word": "formal", "hint": "正式的", "page": 6}, {"word": "identities", "hint": "身份", "page": 6}, {"word": "spare", "hint": "多余的", "page": 6}, {"word": "sheet", "hint": "床单", "page": 6}, {"word": "urchin", "hint": "海胆", "page": 6}, {"word": "penicillin", "hint": "盘尼西林", "page": 6}, {"word": "checks", "hint": "支票", "page": 6}, {"word": "movie", "hint": "电影", "page": 6}, {"word": "sunlight", "hint": "阳光", "page": 6}, {"word": "july", "hint": "七月", "page": 6}, {"word": "academic", "hint": "学术的", "page": 6}, {"word": "piano", "hint": "钢琴", "page": 6}, {"word": "york", "hint": "约克", "page": 6}, {"word": "data", "hint": "数据", "page": 6}, {"word": "export", "hint": "出口", "page": 6}, {"word": "register", "hint": "注册", "page": 6}, {"word": "debt", "hint": "债务", "page": 6}, {"word": "crocodiles", "hint": "鳄鱼", "page": 7}, {"word": "cocktail", "hint": "鸡尾酒", "page": 7}, {"word": "airport", "hint": "机场", "page": 7}, {"word": "cop", "hint": "警察", "page": 7}, {"word": "temper", "hint": "脾气", "page": 7}, {"word": "passengers", "hint": "旅客", "page": 7}, {"word": "sources", "hint": "资源", "page": 7}, {"word": "touching", "hint": "接触", "page": 7}, {"word": "breakfast", "hint": "早餐", "page": 7}, {"word": "control", "hint": "控制", "page": 7}, {"word": "shoppers", "hint": "购物者", "page": 7}, {"word": "island", "hint": "岛屿", "page": 7}, {"word": "berlin", "hint": "柏林", "page": 7}, {"word": "diet", "hint": "饮食", "page": 7}, {"word": "contacts", "hint": "接触", "page": 7}, {"word": "mails", "hint": "邮件", "page": 7}, {"word": "greece", "hint": "希腊", "page": 7}, {"word": "semester", "hint": "学期", "page": 7}, {"word": "space", "hint": "空间", "page": 7}, {"word": "sight", "hint": "视觉", "page": 7}, {"word": "workshop", "hint": "工作室", "page": 7}, {"word": "land", "hint": "土地", "page": 7}, {"word": "european", "hint": "欧洲的", "page": 7}, {"word": "organizer", "hint": "组织者", "page": 7}, {"word": "stone", "hint": "石头", "page": 7}, {"word": "sick", "hint": "生病", "page": 7}, {"word": "inadequate", "hint": "不足的", "page": 7}, {"word": "hat", "hint": "帽子", "page": 7}, {"word": "books", "hint": "书", "page": 7}, {"word": "rapid", "hint": "快速的", "page": 7}, {"word": "wall", "hint": "墙", "page": 7}, {"word": "habit", "hint": "习惯", "page": 7}, {"word": "muscles", "hint": "肌肉", "page": 7}, {"word": "expenses", "hint": "花费", "page": 7}, {"word": "terms", "hint": "学期,术语", "page": 7}, {"word": "salary", "hint": "薪水", "page": 7}, {"word": "products", "hint": "产品", "page": 7}, {"word": "writer", "hint": "作家", "page": 7}, {"word": "warming", "hint": "变暖", "page": 7}, {"word": "role", "hint": "角色", "page": 7}, {"word": "states", "hint": "州", "page": 7}, {"word": "charity", "hint": "慈善", "page": 7}, {"word": "intact", "hint": "完好无损的", "page": 7}, {"word": "confident", "hint": "自信的", "page": 7}, {"word": "donation", "hint": "捐款", "page": 7}, {"word": "bones", "hint": "骨头", "page": 7}, {"word": "gym", "hint": "体育馆", "page": 7}, {"word": "guide", "hint": "导游,指导", "page": 7}, {"word": "stock", "hint": "存货", "page": 7}, {"word": "announcement", "hint": "宣布", "page": 7}, {"word": "decision", "hint": "决定", "page": 7}, {"word": "overseas", "hint": "海外", "page": 7}, {"word": "solar", "hint": "太阳的", "page": 7}, {"word": "option", "hint": "选择", "page": 7}, {"word": "instructors", "hint": "教练", "page": 7}, {"word": "lift", "hint": "电梯", "page": 7}, {"word": "challenging", "hint": "挑战的", "page": 7}, {"word": "objectives", "hint": "目的", "page": 7}, {"word": "double", "hint": "双的", "page": 7}, {"word": "rules", "hint": "规则", "page": 7}, {"word": "text", "hint": "文章", "page": 7}, {"word": "motorcycle", "hint": "摩托车", "page": 7}, {"word": "companies", "hint": "公司", "page": 7}, {"word": "british", "hint": "英国的", "page": 7}, {"word": "cough", "hint": "咳嗽", "page": 7}, {"word": "player", "hint": "选手", "page": 7}, {"word": "types", "hint": "种类", "page": 7}, {"word": "sheep", "hint": "羊", "page": 7}, {"word": "medicine", "hint": "药品", "page": 7}, {"word": "tractor", "hint": "拖拉机", "page": 7}, {"word": "egyptian", "hint": "埃及的", "page": 7}, {"word": "water-skiing", "hint": "划水", "page": 7}, {"word": "slip", "hint": "一张纸", "page": 7}, {"word": "mobile", "hint": "运动的", "page": 7}, {"word": "grade", "hint": "年级", "page": 7}, {"word": "finance", "hint": "金融", "page": 7}, {"word": "percentage", "hint": "百分比", "page": 7}, {"word": "peasants", "hint": "农民", "page": 7}, {"word": "features", "hint": "特点", "page": 7}, {"word": "night", "hint": "夜晚", "page": 7}, {"word": "extension", "hint": "分机", "page": 7}, {"word": "willow", "hint": "柳树", "page": 7}, {"word": "window", "hint": "窗户", "page": 7}, {"word": "presentations", "hint": "演讲", "page": 7}, {"word": "rural", "hint": "乡下的", "page": 7}, {"word": "chest", "hint": "胸部", "page": 7}, {"word": "holiday", "hint": "假期", "page": 7}, {"word": "harmful", "hint": "有害的", "page": 7}, {"word": "nationalities", "hint": "国籍", "page": 7}, {"word": "length", "hint": "长度", "page": 7}, {"word": "drama", "hint": "戏剧", "page": 7}, {"word": "psychiatric", "hint": "精神病的", "page": 7}, {"word": "places", "hint": "地点", "page": 7}, {"word": "biology", "hint": "生物", "page": 7}, {"word": "styles", "hint": "方式", "page": 7}, {"word": "association", "hint": "协会", "page": 7}, {"word": "successful", "hint": "成功的", "page": 7}, {"word": "unreliable", "hint": "不可依赖的", "page": 7}, {"word": "crops", "hint": "庄稼", "page": 7}, {"word": "safe", "hint": "安全的", "page": 7}, {"word": "nervous", "hint": "紧张的", "page": 7}, {"word": "stones", "hint": "石头", "page": 7}, {"word": "girlfriend", "hint": "女友", "page": 7}, {"word": "convenient", "hint": "方便的", "page": 7}, {"word": "unconvincing", "hint": "没有说服力的", "page": 7}, {"word": "line", "hint": "队", "page": 7}, {"word": "weather", "hint": "天气", "page": 7}, {"word": "conversation", "hint": "对话", "page": 7}, {"word": "gap", "hint": "縫隙", "page": 7}, {"word": "cities", "hint": "城市", "page": 7}, {"word": "bedroom", "hint": "卧室", "page": 7}, {"word": "wind", "hint": "风", "page": 7}, {"word": "agency", "hint": "代理机构", "page": 8}, {"word": "sex", "hint": "性别", "page": 8}, {"word": "desire", "hint": "欲望", "page": 8}, {"word": "summer", "hint": "夏天", "page": 8}, {"word": "institutions", "hint": "机构", "page": 8}, {"word": "dishes", "hint": "菜", "page": 8}, {"word": "walls", "hint": "墙", "page": 8}, {"word": "comfortable", "hint": "舒适的", "page": 8}, {"word": "forestry", "hint": "林业", "page": 8}, {"word": "clients", "hint": "客户", "page": 8}, {"word": "yen", "hint": "日元", "page": 8}, {"word": "rubbish", "hint": "垃圾", "page": 8}, {"word": "wave", "hint": "波浪", "page": 8}, {"word": "shelter", "hint": "遮蔽处", "page": 8}, {"word": "attentive", "hint": "注意的", "page": 8}, {"word": "previous", "hint": "原来的", "page": 8}, {"word": "plan", "hint": "计划", "page": 8}, {"word": "useless", "hint": "除非", "page": 8}, {"word": "restaurants", "hint": "餐厅", "page": 8}, {"word": "professions", "hint": "职业", "page": 8}, {"word": "skating", "hint": "滑冰", "page": 8}, {"word": "accommodations", "hint": "住宿", "page": 8}, {"word": "accidents", "hint": "事故", "page": 8}, {"word": "emergencies", "hint": "紧急", "page": 8}, {"word": "recording", "hint": "录音", "page": 8}, {"word": "controversy", "hint": "争论", "page": 8}, {"word": "comedy", "hint": "喜剧", "page": 8}, {"word": "relaxation", "hint": "放松", "page": 8}, {"word": "dialogue", "hint": "对话", "page": 8}, {"word": "personnel", "hint": "职员", "page": 8}, {"word": "fossils", "hint": "化石", "page": 8}, {"word": "dedication", "hint": "献身", "page": 8}, {"word": "attempts", "hint": "努力", "page": 8}, {"word": "palm", "hint": "棕榈树", "page": 8}, {"word": "noisy", "hint": "嘈杂的", "page": 8}, {"word": "science", "hint": "科学", "page": 8}, {"word": "lender", "hint": "借钱给别人的人", "page": 8}, {"word": "basic", "hint": "基础的", "page": 8}, {"word": "damage", "hint": "毁坏", "page": 8}, {"word": "redundant", "hint": "多余的", "page": 8}, {"word": "pocket", "hint": "口袋", "page": 8}, {"word": "handy", "hint": "方便的", "page": 8}, {"word": "spider", "hint": "蜘蛛", "page": 8}, {"word": "bowls", "hint": "碗", "page": 8}, {"word": "suburb", "hint": "郊区", "page": 8}, {"word": "passage", "hint": "文章", "page": 8}, {"word": "advertising", "hint": "广告", "page": 8}, {"word": "magazine", "hint": "杂志", "page": 8}, {"word": "textbook", "hint": "教材", "page": 8}, {"word": "fingers", "hint": "手指", "page": 8}, {"word": "statement", "hint": "陈述", "page": 8}, {"word": "signature", "hint": "签名", "page": 8}, {"word": "leisure", "hint": "休闲", "page": 8}, {"word": "medium", "hint": "中度", "page": 8}, {"word": "diplomas", "hint": "毕业证", "page": 8}, {"word": "reasons", "hint": "理由", "page": 8}, {"word": "ownership", "hint": "所有权", "page": 8}, {"word": "workshops", "hint": "工作室", "page": 8}, {"word": "chin", "hint": "下巴", "page": 8}, {"word": "cloth", "hint": "布", "page": 8}, {"word": "profits", "hint": "利润", "page": 8}, {"word": "sales", "hint": "销售", "page": 8}, {"word": "postgraduate", "hint": "研究生", "page": 8}, {"word": "figures", "hint": "数字", "page": 8}, {"word": "vacancies", "hint": "空缺", "page": 8}, {"word": "kits", "hint": "工具箱", "page": 8}, {"word": "positions", "hint": "位置,职位", "page": 8}, {"word": "client", "hint": "客户", "page": 8}, {"word": "pressure", "hint": "压力", "page": 8}, {"word": "solve", "hint": "解决", "page": 8}, {"word": "temperature", "hint": "温度", "page": 8}, {"word": "open-book", "hint": "开卷", "page": 8}, {"word": "abbreviation", "hint": "缩写", "page": 8}, {"word": "flourishment", "hint": "繁荣", "page": 8}, {"word": "movies", "hint": "电影", "page": 8}, {"word": "minimum", "hint": "最小", "page": 8}, {"word": "youth", "hint": "年轻", "page": 8}, {"word": "chapters", "hint": "章,回", "page": 8}, {"word": "psychology", "hint": "心理学", "page": 8}, {"word": "grants", "hint": "助学金", "page": 8}, {"word": "phd", "hint": "博士", "page": 8}, {"word": "hints", "hint": "暗示", "page": 8}, {"word": "loans", "hint": "贷款", "page": 8}, {"word": "landlady's", "hint": "女房东的", "page": 8}, {"word": "costly", "hint": "费用", "page": 8}, {"word": "cooking", "hint": "做饭", "page": 8}, {"word": "blond", "hint": "金发的", "page": 8}, {"word": "market", "hint": "市场", "page": 8}, {"word": "organic", "hint": "有机的", "page": 8}, {"word": "burger", "hint": "汉堡", "page": 8}, {"word": "smelly", "hint": "臭味", "page": 8}, {"word": "regional", "hint": "地区的", "page": 8}, {"word": "indian", "hint": "印度的,印第安", "page": 8}, {"word": "projector", "hint": "投影仪", "page": 8}, {"word": "irregular", "hint": "不规则的", "page": 8}, {"word": "carpet", "hint": "地毯", "page": 8}, {"word": "dust", "hint": "灰尘", "page": 8}, {"word": "resistant", "hint": "抵抗的", "page": 8}, {"word": "conservation", "hint": "保留,保护区", "page": 8}, {"word": "steak", "hint": "牛排", "page": 8}, {"word": "interviewee", "hint": "受访者", "page": 8}, {"word": "volunteers", "hint": "自愿者", "page": 8}, {"word": "blood", "hint": "血液", "page": 8}, {"word": "application", "hint": "申请,应用", "page": 9}, {"word": "nap", "hint": "小睡", "page": 9}, {"word": "clothing", "hint": "服装", "page": 9}, {"word": "interviews", "hint": "面试,采访", "page": 9}, {"word": "hard-working", "hint": "努力工作的", "page": 9}, {"word": "picnic", "hint": "野餐", "page": 9}, {"word": "isolation", "hint": "隔离", "page": 9}, {"word": "pie", "hint": "饼", "page": 9}, {"word": "frequent", "hint": "经常的", "page": 9}, {"word": "mileage", "hint": "里程表", "page": 9}, {"word": "loyal", "hint": "忠诚的", "page": 9}, {"word": "treatment", "hint": "治疗", "page": 9}, {"word": "average", "hint": "平均", "page": 9}, {"word": "perks", "hint": "优惠", "page": 9}, {"word": "route", "hint": "路线", "page": 9}, {"word": "uniform", "hint": "制服", "page": 9}, {"word": "survival", "hint": "生存", "page": 9}, {"word": "representative", "hint": "代表", "page": 9}, {"word": "apartment", "hint": "公寓", "page": 9}, {"word": "dropout", "hint": "辍学", "page": 9}, {"word": "nursery", "hint": "育儿所", "page": 9}, {"word": "detail", "hint": "细节", "page": 9}, {"word": "panic", "hint": "恐惧", "page": 9}, {"word": "towel", "hint": "毛巾", "page": 9}, {"word": "grammar", "hint": "语法", "page": 9}, {"word": "steps", "hint": "步骤,台阶", "page": 9}, {"word": "x-ray", "hint": "射线", "page": 9}, {"word": "herb", "hint": "草药", "page": 9}, {"word": "attendance", "hint": "出勤率", "page": 9}, {"word": "respondents", "hint": "受采访者", "page": 9}, {"word": "linguistics", "hint": "语言学", "page": 9}, {"word": "acid", "hint": "酸", "page": 9}, {"word": "washing", "hint": "洗", "page": 9}, {"word": "rainwater", "hint": "雨水", "page": 9}, {"word": "draft", "hint": "草稿", "page": 9}, {"word": "robots", "hint": "机器人", "page": 9}, {"word": "elements", "hint": "因素", "page": 9}, {"word": "ballroom", "hint": "舞会", "page": 9}, {"word": "workload", "hint": "工作量", "page": 9}, {"word": "microbiology", "hint": "微生物学", "page": 9}, {"word": "souvenirs", "hint": "纪念品", "page": 9}, {"word": "award", "hint": "奖励", "page": 9}, {"word": "internet", "hint": "互联网", "page": 9}, {"word": "tablets", "hint": "药片", "page": 9}, {"word": "incoming", "hint": "打入的(电话)", "page": 9}, {"word": "rice", "hint": "大米", "page": 9}, {"word": "height", "hint": "高度", "page": 9}, {"word": "helpline", "hint": "帮助热线", "page": 9}, {"word": "unemployment", "hint": "失业", "page": 9}, {"word": "gesture", "hint": "手势", "page": 9}, {"word": "allergy", "hint": "过敏", "page": 9}, {"word": "compulsory", "hint": "必修的", "page": 9}, {"word": "parties", "hint": "晚会", "page": 9}, {"word": "regulation", "hint": "规则", "page": 9}, {"word": "process", "hint": "过程", "page": 9}, {"word": "width", "hint": "宽度", "page": 9}, {"word": "image", "hint": "形象", "page": 9}, {"word": "favorite", "hint": "最喜爱的", "page": 9}, {"word": "slim", "hint": "瘦的", "page": 9}, {"word": "flats", "hint": "公寓", "page": 9}, {"word": "favor", "hint": "喜爱", "page": 9}, {"word": "online", "hint": "在线", "page": 9}, {"word": "flag", "hint": "旗", "page": 9}, {"word": "burglar", "hint": "夜盗", "page": 9}, {"word": "barbecue", "hint": "烧烤", "page": 9}, {"word": "scar", "hint": "伤疤", "page": 9}, {"word": "private", "hint": "私人的", "page": 9}, {"word": "illness", "hint": "疾病", "page": 9}, {"word": "law", "hint": "法律", "page": 9}, {"word": "crocodile", "hint": "鳄鱼", "page": 9}, {"word": "access", "hint": "接近", "page": 9}, {"word": "mass", "hint": "大众", "page": 9}, {"word": "male", "hint": "男性", "page": 9}, {"word": "making", "hint": "制造", "page": 9}, {"word": "advertisements", "hint": "广告", "page": 9}, {"word": "precious", "hint": "珍贵的", "page": 9}, {"word": "interviewer", "hint": "采访者", "page": 9}, {"word": "universities", "hint": "大学", "page": 9}, {"word": "electricity", "hint": "电", "page": 9}, {"word": "keys", "hint": "钥匙", "page": 9}, {"word": "duty", "hint": "责任", "page": 9}, {"word": "factories", "hint": "工厂", "page": 9}, {"word": "blind", "hint": "盲的", "page": 9}, {"word": "threats", "hint": "威胁", "page": 9}, {"word": "abuse", "hint": "虐待", "page": 9}, {"word": "dependent", "hint": "依赖的", "page": 9}, {"word": "cramming", "hint": "填鸭式教学", "page": 9}, {"word": "vaccine", "hint": "疫苗", "page": 9}, {"word": "instruments", "hint": "仪器", "page": 9}, {"word": "design", "hint": "设计", "page": 9}, {"word": "subtitle", "hint": "副标题", "page": 9}, {"word": "meals", "hint": "膳食", "page": 9}, {"word": "hiring", "hint": "雇佣", "page": 9}, {"word": "destination", "hint": "目的地", "page": 9}, {"word": "refreshments", "hint": "饮料", "page": 9}, {"word": "beats", "hint": "心跳", "page": 9}, {"word": "pair", "hint": "副", "page": 9}, {"word": "bristol", "hint": "布里斯托(英国地名)", "page": 9}, {"word": "dictation", "hint": "听写", "page": 9}, {"word": "telescope", "hint": "望远镜", "page": 9}, {"word": "safari", "hint": "野生动物园", "page": 9}, {"word": "outline", "hint": "提纲", "page": 9}, {"word": "yoga", "hint": "瑜珈", "page": 9}, {"word": "taxi", "hint": "出租车", "page": 9}, {"word": "mid-morning", "hint": "上午10点左右", "page": 10}, {"word": "teeth", "hint": "牙齿", "page": 10}, {"word": "grain", "hint": "谷物", "page": 10}, {"word": "position", "hint": "位置", "page": 10}, {"word": "exchange", "hint": "交换", "page": 10}, {"word": "recycling", "hint": "回收", "page": 10}, {"word": "delivery", "hint": "发送", "page": 10}, {"word": "enrollment", "hint": "报名", "page": 10}, {"word": "flat", "hint": "公寓", "page": 10}, {"word": "sharp", "hint": "锋利的", "page": 10}, {"word": "flight", "hint": "航班", "page": 10}, {"word": "sewage", "hint": "下水道", "page": 10}, {"word": "sizes", "hint": "尺寸", "page": 10}, {"word": "timber", "hint": "木材", "page": 10}, {"word": "trinity", "hint": "三一学院", "page": 10}, {"word": "neck", "hint": "脖子,颈部", "page": 10}, {"word": "pleasure", "hint": "乐趣", "page": 10}, {"word": "regulations", "hint": "规则", "page": 10}, {"word": "institute", "hint": "机构", "page": 10}, {"word": "visible", "hint": "可见的", "page": 10}, {"word": "silence", "hint": "安静的", "page": 10}, {"word": "internal", "hint": "内部的", "page": 10}, {"word": "injection", "hint": "注射", "page": 10}, {"word": "disputes", "hint": "争端", "page": 10}, {"word": "cable", "hint": "电缆", "page": 10}, {"word": "shuttle", "hint": "穿梭", "page": 10}, {"word": "actor", "hint": "男演员", "page": 10}, {"word": "draws", "hint": "绘图", "page": 10}, {"word": "phone-in", "hint": "打入电话", "page": 10}, {"word": "resource", "hint": "资源", "page": 10}, {"word": "concessions", "hint": "让步", "page": 10}, {"word": "fund-raising", "hint": "筹资", "page": 10}, {"word": "publication", "hint": "出版物", "page": 10}, {"word": "excursion", "hint": "远足", "page": 10}, {"word": "antibiotics", "hint": "抗生素", "page": 10}, {"word": "nets", "hint": "网", "page": 10}, {"word": "applied", "hint": "应用的", "page": 10}, {"word": "slang", "hint": "俚语", "page": 10}, {"word": "historian", "hint": "历史学家", "page": 10}, {"word": "healthcare", "hint": "健康保健", "page": 10}, {"word": "newsletters", "hint": "简报", "page": 10}, {"word": "switch", "hint": "开关", "page": 10}, {"word": "heater", "hint": "热水器", "page": 10}, {"word": "organization", "hint": "组织", "page": 10}, {"word": "experienced", "hint": "有经验的", "page": 10}, {"word": "modern", "hint": "现代的", "page": 10}, {"word": "overall", "hint": "整个的", "page": 10}, {"word": "caves", "hint": "洞穴", "page": 10}, {"word": "pattern", "hint": "模式", "page": 10}, {"word": "lights", "hint": "灯", "page": 10}, {"word": "rat", "hint": "老鼠", "page": 10}, {"word": "playground", "hint": "操场", "page": 10}, {"word": "script", "hint": "手稿", "page": 10}, {"word": "existence", "hint": "存在", "page": 10}, {"word": "doors", "hint": "门", "page": 10}, {"word": "maid", "hint": "女仆", "page": 10}, {"word": "baldness", "hint": "秃头", "page": 10}, {"word": "golf", "hint": "高尔夫", "page": 10}, {"word": "insect", "hint": "昆虫", "page": 10}, {"word": "isolated", "hint": "与世隔绝的", "page": 10}, {"word": "sandwich", "hint": "三明治", "page": 10}, {"word": "memorise", "hint": "记住", "page": 10}, {"word": "birth", "hint": "出生", "page": 10}, {"word": "gold", "hint": "金子", "page": 10}, {"word": "actions", "hint": "行动", "page": 10}, {"word": "feedbacks", "hint": "反馈", "page": 10}, {"word": "hard-hoofed", "hint": "硬蹄的", "page": 10}, {"word": "standards", "hint": "标准", "page": 10}, {"word": "tours", "hint": "旅行", "page": 10}, {"word": "risks", "hint": "冒险", "page": 10}, {"word": "keywords", "hint": "关键词", "page": 10}, {"word": "surprise", "hint": "惊奇", "page": 10}, {"word": "pal", "hint": "伙伴", "page": 10}, {"word": "flour", "hint": "面粉", "page": 10}, {"word": "measurement", "hint": "测量", "page": 10}, {"word": "stability", "hint": "稳定", "page": 10}, {"word": "enormous", "hint": "广泛的", "page": 10}, {"word": "utensils", "hint": "器具", "page": 10}, {"word": "canadian", "hint": "加拿大人", "page": 10}, {"word": "divorce", "hint": "离婚", "page": 10}, {"word": "breath-taking", "hint": "令人屏住呼吸的", "page": 10}, {"word": "speaking", "hint": "口语", "page": 10}, {"word": "audio", "hint": "声音的", "page": 10}, {"word": "majority", "hint": "多数", "page": 10}, {"word": "nuts", "hint": "坚果", "page": 10}, {"word": "therapist", "hint": "理疗专家", "page": 10}, {"word": "kangaroo", "hint": "袋鼠", "page": 10}, {"word": "corpse", "hint": "尸体", "page": 10}, {"word": "spot", "hint": "地点", "page": 10}, {"word": "questionnaire", "hint": "问卷", "page": 10}, {"word": "intensive", "hint": "强化的", "page": 10}, {"word": "sites", "hint": "地点", "page": 10}, {"word": "keepers", "hint": "养育者", "page": 11}, {"word": "religion", "hint": "宗教", "page": 11}, {"word": "castle", "hint": "城堡", "page": 11}, {"word": "worthwhile", "hint": "值得的", "page": 11}, {"word": "empty", "hint": "空的", "page": 11}, {"word": "marketing", "hint": "市场营销", "page": 11}, {"word": "cafeteria", "hint": "自助餐厅", "page": 11}, {"word": "bedsit", "hint": "小套房", "page": 11}, {"word": "sewer", "hint": "下水道", "page": 11}, {"word": "package", "hint": "包装", "page": 11}, {"word": "main", "hint": "主要的", "page": 11}, {"word": "donations", "hint": "捐献", "page": 11}, {"word": "warm", "hint": "温暖的", "page": 11}, {"word": "audience", "hint": "观众", "page": 11}, {"word": "sleepy", "hint": "嗜睡的", "page": 11}, {"word": "distant", "hint": "远的", "page": 11}, {"word": "product", "hint": "产品", "page": 11}, {"word": "ending", "hint": "结果", "page": 11}, {"word": "texture", "hint": "质地", "page": 11}, {"word": "levels", "hint": "水平", "page": 11}, {"word": "detailed", "hint": "细节的", "page": 11}, {"word": "employee", "hint": "员工", "page": 11}, {"word": "item", "hint": "项目", "page": 11}, {"word": "vacuum", "hint": "真空", "page": 11}, {"word": "insomnia", "hint": "失眠", "page": 11}, {"word": "residents", "hint": "居民", "page": 11}, {"word": "examples", "hint": "例子", "page": 11}, {"word": "lounge", "hint": "休息大厅", "page": 11}, {"word": "construction", "hint": "建设", "page": 11}, {"word": "planners", "hint": "计划", "page": 11}, {"word": "designer", "hint": "设计师", "page": 11}, {"word": "corporation", "hint": "公司", "page": 11}, {"word": "customer", "hint": "顾客", "page": 11}, {"word": "candle", "hint": "蜡烛", "page": 11}, {"word": "engineers", "hint": "工程师", "page": 11}, {"word": "driver", "hint": "司机", "page": 11}, {"word": "grass", "hint": "草", "page": 11}, {"word": "agencies", "hint": "机构", "page": 11}, {"word": "mid-day", "hint": "中午", "page": 11}, {"word": "fare", "hint": "车船差旅费", "page": 11}, {"word": "engineering", "hint": "工程", "page": 11}, {"word": "story", "hint": "故事", "page": 11}, {"word": "supermarket", "hint": "超市", "page": 11}, {"word": "evidence", "hint": "证据", "page": 11}, {"word": "wealth", "hint": "财富", "page": 11}, {"word": "zero", "hint": "零", "page": 11}, {"word": "cliff", "hint": "悬崖", "page": 11}, {"word": "printing", "hint": "打印", "page": 11}, {"word": "physically", "hint": "身体地", "page": 11}, {"word": "practice", "hint": "练习", "page": 11}, {"word": "concert", "hint": "音乐会", "page": 11}, {"word": "choices", "hint": "选择", "page": 11}, {"word": "production", "hint": "生产", "page": 11}, {"word": "investment", "hint": "投资", "page": 11}, {"word": "positive", "hint": "积极的", "page": 11}, {"word": "irrigation", "hint": "灌溉", "page": 11}, {"word": "scarce", "hint": "少地", "page": 11}, {"word": "bicycles", "hint": "自行车", "page": 11}, {"word": "handling", "hint": "处理", "page": 11}, {"word": "cafe", "hint": "咖啡厅", "page": 11}, {"word": "rock", "hint": "岩石", "page": 11}, {"word": "existent", "hint": "存在", "page": 11}, {"word": "removal", "hint": "去掉", "page": 11}, {"word": "branch", "hint": "分支,分部", "page": 11}, {"word": "low-risk", "hint": "低风险", "page": 11}, {"word": "informative", "hint": "通知的", "page": 11}, {"word": "exciting", "hint": "令人兴奋的", "page": 11}, {"word": "certificates", "hint": "证书", "page": 11}, {"word": "effectively", "hint": "有效地", "page": 11}, {"word": "drop-out", "hint": "辍学率", "page": 11}, {"word": "additional", "hint": "额外地", "page": 11}, {"word": "september", "hint": "九月", "page": 11}, {"word": "co-operation", "hint": "合作", "page": 11}, {"word": "score", "hint": "分数", "page": 11}, {"word": "disagreement", "hint": "不同意", "page": 11}, {"word": "camera", "hint": "相机", "page": 11}, {"word": "juice", "hint": "果汁", "page": 11}, {"word": "touring", "hint": "旅游", "page": 11}, {"word": "disabled", "hint": "残疾人", "page": 11}, {"word": "silent", "hint": "安静的", "page": 11}, {"word": "conqueror", "hint": "征服者", "page": 11}, {"word": "wax", "hint": "蜡", "page": 11}, {"word": "unfair", "hint": "不公平", "page": 11}, {"word": "sugar", "hint": "糖", "page": 11}, {"word": "clever", "hint": "聪明的", "page": 11}, {"word": "flower", "hint": "花", "page": 11}, {"word": "mid-semester", "hint": "学期中", "page": 11}, {"word": "historical", "hint": "历史的", "page": 11}, {"word": "domestic", "hint": "内部的", "page": 11}, {"word": "distribution", "hint": "分布", "page": 11}, {"word": "midmorning", "hint": "上午十点左右", "page": 11}, {"word": "virtually", "hint": "几乎", "page": 11}, {"word": "tourist", "hint": "游客", "page": 11}, {"word": "monopoly", "hint": "垄断", "page": 11}, {"word": "supervisor", "hint": "导师", "page": 11}, {"word": "confirmation", "hint": "证实", "page": 11}, {"word": "shear", "hint": "剪羊毛", "page": 11}, {"word": "study", "hint": "学习", "page": 11}, {"word": "occupants", "hint": "占领者", "page": 11}, {"word": "hotel", "hint": "酒店", "page": 12}, {"word": "visitors", "hint": "访问者", "page": 12}, {"word": "close-up", "hint": "特写镜头", "page": 12}, {"word": "tiles", "hint": "瓷砖", "page": 12}, {"word": "likelihood", "hint": "可能性", "page": 12}, {"word": "recall", "hint": "回忆", "page": 12}, {"word": "renewal", "hint": "更新", "page": 12}, {"word": "lecture", "hint": "授课", "page": 12}, {"word": "danger", "hint": "危险", "page": 12}, {"word": "inaccurate", "hint": "不准确", "page": 12}, {"word": "foyer", "hint": "门厅", "page": 12}, {"word": "remark", "hint": "评价", "page": 12}, {"word": "pure", "hint": "纯洁的", "page": 12}, {"word": "fortnight", "hint": "两周,十四天", "page": 12}, {"word": "stomach", "hint": "胃", "page": 12}, {"word": "repetition", "hint": "重复", "page": 12}, {"word": "non-drinker", "hint": "不喝酒的人", "page": 12}, {"word": "breeding", "hint": "繁殖", "page": 12}, {"word": "correspondence", "hint": "写信", "page": 12}, {"word": "dancer", "hint": "舞者", "page": 12}, {"word": "wollongong", "hint": "卧龙岗(大学)", "page": 12}, {"word": "center", "hint": "中心", "page": 12}, {"word": "casual", "hint": "随便的", "page": 12}, {"word": "snacks", "hint": "零食", "page": 12}, {"word": "enquiry", "hint": "咨询", "page": 12}, {"word": "commuter", "hint": "通勤者", "page": 12}, {"word": "track", "hint": "轨迹", "page": 12}, {"word": "drawer", "hint": "抽屉", "page": 12}, {"word": "enthusiasm", "hint": "热情", "page": 12}, {"word": "classmates", "hint": "同学", "page": 12}, {"word": "excitement", "hint": "兴奋", "page": 12}, {"word": "housekeeping", "hint": "家务管理", "page": 12}, {"word": "circle", "hint": "圆圈", "page": 12}, {"word": "rental", "hint": "租金", "page": 12}, {"word": "emotion", "hint": "感情", "page": 12}, {"word": "topics", "hint": "话题", "page": 12}, {"word": "fine", "hint": "好的", "page": 12}, {"word": "countryside", "hint": "乡村", "page": 12}, {"word": "horses", "hint": "马", "page": 12}, {"word": "performers", "hint": "表演者", "page": 12}, {"word": "miserable", "hint": "痛苦的", "page": 12}, {"word": "craft", "hint": "手艺", "page": 12}, {"word": "roommate", "hint": "室友", "page": 12}, {"word": "woods", "hint": "森林", "page": 12}, {"word": "lake", "hint": "湖", "page": 12}, {"word": "occasion", "hint": "场合", "page": 12}, {"word": "laser", "hint": "激光", "page": 12}, {"word": "african", "hint": "非洲人", "page": 12}, {"word": "koalas", "hint": "考拉", "page": 12}, {"word": "hero", "hint": "英雄", "page": 12}, {"word": "bookshelf", "hint": "书架", "page": 12}, {"word": "political", "hint": "政治的", "page": 12}, {"word": "washington", "hint": "华盛顿", "page": 12}, {"word": "author", "hint": "作者", "page": 12}, {"word": "facility", "hint": "设施", "page": 12}, {"word": "photojournalism", "hint": "摄影新闻学", "page": 12}, {"word": "payment", "hint": "付款", "page": 12}, {"word": "unanimous", "hint": "意见一致的", "page": 12}, {"word": "referees", "hint": "裁判", "page": 12}, {"word": "mathematic", "hint": "数学的", "page": 12}, {"word": "serious", "hint": "严肃的", "page": 12}, {"word": "accurate", "hint": "精确的", "page": 12}, {"word": "depth", "hint": "深度", "page": 12}, {"word": "occupational", "hint": "职业的", "page": 12}, {"word": "tourism", "hint": "旅游业", "page": 12}, {"word": "homework", "hint": "家庭作业", "page": 12}, {"word": "unhealthy", "hint": "不健康的", "page": 12}, {"word": "curtains", "hint": "窗帘", "page": 12}, {"word": "tree", "hint": "树", "page": 12}, {"word": "biological", "hint": "生物的", "page": 12}, {"word": "velvet", "hint": "天鹅绒", "page": 12}, {"word": "bibliography", "hint": "参考书目", "page": 12}, {"word": "fifth", "hint": "第五", "page": 12}, {"word": "prone", "hint": "容易", "page": 12}, {"word": "catalog", "hint": "目录", "page": 12}, {"word": "description", "hint": "描述", "page": 12}, {"word": "essential", "hint": "基本的", "page": 12}, {"word": "steel", "hint": "钢材", "page": 12}, {"word": "royal", "hint": "皇家的", "page": 12}, {"word": "youngster", "hint": "年轻人", "page": 12}, {"word": "ordinary", "hint": "普通的", "page": 12}, {"word": "eagle", "hint": "鹰", "page": 12}, {"word": "geography", "hint": "地理", "page": 12}, {"word": "forms", "hint": "表格", "page": 12}, {"word": "preposition", "hint": "介词", "page": 12}, {"word": "wing", "hint": "翅膀,翼", "page": 12}, {"word": "watchdog", "hint": "警察局的名称", "page": 12}, {"word": "second-hand", "hint": "二手的", "page": 12}, {"word": "book", "hint": "书", "page": 12}, {"word": "cheerful", "hint": "高兴的", "page": 12}, {"word": "settlement", "hint": "定居", "page": 12}, {"word": "booklet", "hint": "小册子", "page": 12}, {"word": "co-operative", "hint": "合作的", "page": 12}, {"word": "cattle", "hint": "牲畜", "page": 12}, {"word": "driving", "hint": "开车", "page": 12}, {"word": "contracts", "hint": "合同,印花税", "page": 12}, {"word": "barren", "hint": "贫瘠的", "page": 13}, {"word": "meal", "hint": "饭", "page": 13}, {"word": "event", "hint": "事件", "page": 13}, {"word": "conditions", "hint": "条件", "page": 13}, {"word": "payable", "hint": "可付的", "page": 13}, {"word": "elbow", "hint": "肘", "page": 13}, {"word": "hunting", "hint": "打猎", "page": 13}, {"word": "achievement", "hint": "成功", "page": 13}, {"word": "candidate", "hint": "候选人", "page": 13}, {"word": "subtitles", "hint": "小标题", "page": 13}, {"word": "essay", "hint": "论文", "page": 13}, {"word": "similar", "hint": "相似的", "page": 13}, {"word": "toys", "hint": "玩具", "page": 13}, {"word": "heartbeat", "hint": "心脏跳动", "page": 13}, {"word": "scientific", "hint": "科学的", "page": 13}, {"word": "expectancy", "hint": "期待", "page": 13}, {"word": "libraries", "hint": "图书馆", "page": 13}, {"word": "source", "hint": "资源", "page": 13}, {"word": "energies", "hint": "能量", "page": 13}, {"word": "fabric", "hint": "纺织品", "page": 13}, {"word": "sentences", "hint": "句子", "page": 13}, {"word": "first-aid", "hint": "援助", "page": 13}, {"word": "section", "hint": "部分", "page": 13}, {"word": "intervention", "hint": "干涉", "page": 13}, {"word": "firms", "hint": "公司", "page": 13}, {"word": "astronomy", "hint": "天文学", "page": 13}, {"word": "metal", "hint": "金属", "page": 13}, {"word": "retails", "hint": "零售", "page": 13}, {"word": "investigators", "hint": "调查人", "page": 13}, {"word": "seven-screen", "hint": "7个屏幕的", "page": 13}, {"word": "suit", "hint": "西装", "page": 13}, {"word": "star", "hint": "星", "page": 13}, {"word": "chemist", "hint": "医药师", "page": 13}, {"word": "independence", "hint": "独立", "page": 13}, {"word": "assignments", "hint": "作业", "page": 13}, {"word": "age", "hint": "年纪", "page": 13}, {"word": "revision", "hint": "修改", "page": 13}, {"word": "immune", "hint": "免疫的", "page": 13}, {"word": "present", "hint": "礼物,目前的", "page": 13}, {"word": "boot", "hint": "靴子", "page": 13}, {"word": "precision", "hint": "精密度", "page": 13}, {"word": "patterns", "hint": "图案", "page": 13}, {"word": "self-discipline", "hint": "自我约束", "page": 13}, {"word": "tune", "hint": "曲调", "page": 13}, {"word": "artistic", "hint": "艺术的", "page": 13}, {"word": "creeks", "hint": "小溪", "page": 13}, {"word": "clean", "hint": "干净的", "page": 13}, {"word": "self-funded", "hint": "自给自足", "page": 13}, {"word": "smoke", "hint": "烟", "page": 13}, {"word": "booking", "hint": "预定", "page": 13}, {"word": "economics", "hint": "经济学", "page": 13}, {"word": "smokers", "hint": "抽烟者", "page": 13}, {"word": "turning", "hint": "转弯处", "page": 13}, {"word": "psychological", "hint": "心里的", "page": 13}, {"word": "cups", "hint": "杯子", "page": 13}, {"word": "addition", "hint": "额外", "page": 13}, {"word": "dentist", "hint": "牙医", "page": 13}, {"word": "submit", "hint": "服从", "page": 13}, {"word": "carving", "hint": "雕刻", "page": 13}, {"word": "drop", "hint": "落下", "page": 13}, {"word": "expansion", "hint": "扩充", "page": 13}, {"word": "sailing", "hint": "航行", "page": 13}, {"word": "privacy", "hint": "隐私", "page": 13}, {"word": "salad", "hint": "沙拉", "page": 13}, {"word": "administrator", "hint": "管理者", "page": 13}, {"word": "violent", "hint": "猛烈的", "page": 13}, {"word": "sportsman", "hint": "男运动员", "page": 13}, {"word": "welfare", "hint": "福利", "page": 13}, {"word": "rows", "hint": "行", "page": 13}, {"word": "alaska", "hint": "阿拉斯加", "page": 13}, {"word": "maintenance", "hint": "维护", "page": 13}, {"word": "reform", "hint": "改革", "page": 13}, {"word": "cab", "hint": "出租车", "page": 13}, {"word": "spoons", "hint": "勺子", "page": 13}, {"word": "affairs", "hint": "事件", "page": 13}, {"word": "apostrophe", "hint": "右上角省略号", "page": 13}, {"word": "cycling", "hint": "骑自行车", "page": 13}, {"word": "government-funded", "hint": "政府资助的", "page": 13}, {"word": "link", "hint": "连接", "page": 13}, {"word": "industrial", "hint": "工业的", "page": 13}, {"word": "orientation", "hint": "新生入学教育会", "page": 13}, {"word": "program", "hint": "节目", "page": 13}, {"word": "national", "hint": "国家的", "page": 13}, {"word": "registration", "hint": "注册", "page": 13}, {"word": "waitress", "hint": "女服务员", "page": 13}, {"word": "former", "hint": "原来的", "page": 13}, {"word": "wheels", "hint": "轮子", "page": 13}, {"word": "surroundings", "hint": "周围", "page": 13}, {"word": "flash", "hint": "闪", "page": 13}, {"word": "exception", "hint": "例外", "page": 13}, {"word": "reinforced", "hint": "加强的", "page": 13}, {"word": "helmet", "hint": "头盔", "page": 13}, {"word": "preference", "hint": "偏爱", "page": 13}, {"word": "migratory", "hint": "迁移的", "page": 14}, {"word": "highly-trained", "hint": "高度训练的", "page": 14}, {"word": "skiing", "hint": "滑雪", "page": 14}, {"word": "blocks", "hint": "街区", "page": 14}, {"word": "children's", "hint": "儿童的", "page": 14}, {"word": "prospectus", "hint": "招生简章", "page": 14}, {"word": "seats", "hint": "座位", "page": 14}, {"word": "catering", "hint": "饮食", "page": 14}, {"word": "purest", "hint": "纯净的", "page": 14}, {"word": "profession", "hint": "职业", "page": 14}, {"word": "harbor", "hint": "港口", "page": 14}, {"word": "skin", "hint": "皮肤", "page": 14}, {"word": "housing", "hint": "住房", "page": 14}, {"word": "heroine", "hint": "女主人公", "page": 14}, {"word": "ape", "hint": "猿", "page": 14}, {"word": "complaint", "hint": "抱怨", "page": 14}, {"word": "noise", "hint": "噪音", "page": 14}, {"word": "diploma", "hint": "文凭,毕业证", "page": 14}, {"word": "potential", "hint": "潜在的", "page": 14}, {"word": "value", "hint": "价值", "page": 14}, {"word": "pacific", "hint": "太平洋", "page": 14}, {"word": "species", "hint": "种类", "page": 14}, {"word": "mixture", "hint": "混合物", "page": 14}, {"word": "irritable", "hint": "易怒的", "page": 14}, {"word": "arrival", "hint": "到达", "page": 14}, {"word": "bookshop", "hint": "书店", "page": 14}, {"word": "satisfaction", "hint": "满意", "page": 14}, {"word": "prizes", "hint": "奖金", "page": 14}, {"word": "stations", "hint": "火车站,局", "page": 14}, {"word": "bacteria", "hint": "细菌", "page": 14}, {"word": "drugs", "hint": "药品", "page": 14}, {"word": "australians", "hint": "澳大利亚人", "page": 14}, {"word": "cream", "hint": "奶油", "page": 14}, {"word": "painkillers", "hint": "止痛片", "page": 14}, {"word": "pages", "hint": "页码", "page": 14}, {"word": "usual", "hint": "普通的", "page": 14}, {"word": "laboratory", "hint": "实验室", "page": 14}, {"word": "classroom", "hint": "教室", "page": 14}, {"word": "sundial", "hint": "日晷", "page": 14}, {"word": "latest", "hint": "最新的", "page": 14}, {"word": "development", "hint": "发展", "page": 14}, {"word": "inquiries", "hint": "询问", "page": 14}, {"word": "protein", "hint": "蛋白质", "page": 14}, {"word": "kids", "hint": "儿童", "page": 14}, {"word": "farms", "hint": "农场", "page": 14}, {"word": "photocopies", "hint": "复印", "page": 14}, {"word": "banking", "hint": "银行业", "page": 14}, {"word": "exposure", "hint": "曝光", "page": 14}, {"word": "contaminants", "hint": "污染物", "page": 14}, {"word": "status", "hint": "地位", "page": 14}, {"word": "trolley", "hint": "电车", "page": 14}, {"word": "thriller", "hint": "惊悚片", "page": 14}, {"word": "inability", "hint": "没能力", "page": 14}, {"word": "stage", "hint": "舞台,阶段", "page": 14}, {"word": "cassette", "hint": "磁带", "page": 14}, {"word": "steam", "hint": "蒸汽", "page": 14}, {"word": "pets", "hint": "宠物", "page": 14}, {"word": "permit", "hint": "许可证", "page": 14}, {"word": "promising", "hint": "有前途的", "page": 14}, {"word": "discovery", "hint": "发现", "page": 14}, {"word": "bill", "hint": "帐单", "page": 14}, {"word": "profit", "hint": "利润", "page": 14}, {"word": "psycholinguistics", "hint": "心理语言学", "page": 14}, {"word": "customers", "hint": "顾客", "page": 14}, {"word": "parcel", "hint": "包裹", "page": 14}, {"word": "pianist", "hint": "钢琴家", "page": 14}, {"word": "households", "hint": "家庭", "page": 14}, {"word": "africa", "hint": "非洲", "page": 14}, {"word": "options", "hint": "选择", "page": 14}, {"word": "naught", "hint": "零", "page": 14}, {"word": "veterinarian", "hint": "兽医", "page": 14}, {"word": "carbon", "hint": "炭", "page": 14}, {"word": "brothers", "hint": "兄弟", "page": 14}, {"word": "stairs", "hint": "楼梯", "page": 14}, {"word": "pet", "hint": "宠物", "page": 14}, {"word": "sufficient", "hint": "充分的", "page": 14}, {"word": "parental", "hint": "父母的", "page": 14}, {"word": "institutes", "hint": "机构", "page": 14}, {"word": "vacancy", "hint": "空缺", "page": 14}, {"word": "vegetation", "hint": "植被", "page": 14}, {"word": "editor", "hint": "编辑", "page": 14}, {"word": "subjective", "hint": "主观的", "page": 14}, {"word": "formula", "hint": "公式", "page": 14}, {"word": "unsocial", "hint": "不善交际的", "page": 14}, {"word": "approval", "hint": "同意", "page": 14}, {"word": "refund", "hint": "退还", "page": 14}, {"word": "rehearsal", "hint": "演习,彩排", "page": 14}, {"word": "killer", "hint": "杀手", "page": 14}, {"word": "syndicate", "hint": "财团", "page": 14}, {"word": "employer", "hint": "雇主", "page": 14}, {"word": "post", "hint": "职位", "page": 14}, {"word": "weapon", "hint": "武器", "page": 15}, {"word": "motivation", "hint": "动机", "page": 15}, {"word": "trade", "hint": "贸易", "page": 15}, {"word": "efficient", "hint": "有效率的", "page": 15}, {"word": "duration", "hint": "持续", "page": 15}, {"word": "cup", "hint": "杯子", "page": 15}, {"word": "unique", "hint": "独特的", "page": 15}, {"word": "innovation", "hint": "革新", "page": 15}, {"word": "handout", "hint": "讲义", "page": 15}, {"word": "adults", "hint": "成人", "page": 15}, {"word": "photocopy", "hint": "复印", "page": 15}, {"word": "polish", "hint": "抛光,擦亮", "page": 15}, {"word": "lava", "hint": "火山岩", "page": 15}, {"word": "allowance", "hint": "津贴", "page": 15}, {"word": "folder", "hint": "文件夹", "page": 15}, {"word": "boots", "hint": "靴子", "page": 15}, {"word": "theft", "hint": "盗窃", "page": 15}, {"word": "bath", "hint": "浴室", "page": 15}, {"word": "magic", "hint": "魔术的", "page": 15}, {"word": "precautions", "hint": "预防", "page": 15}, {"word": "argument", "hint": "争论", "page": 15}, {"word": "blanket", "hint": "毯子", "page": 15}, {"word": "milk", "hint": "牛奶", "page": 15}, {"word": "knowledge", "hint": "知识", "page": 15}, {"word": "robber", "hint": "盗贼", "page": 15}, {"word": "western", "hint": "西方的", "page": 15}, {"word": "knife", "hint": "刀", "page": 15}, {"word": "critical", "hint": "批评的", "page": 15}, {"word": "consumption", "hint": "消费", "page": 15}, {"word": "code", "hint": "密码", "page": 15}, {"word": "idea", "hint": "主意", "page": 15}, {"word": "lemon", "hint": "柠檬", "page": 15}, {"word": "fever", "hint": "发烧", "page": 15}, {"word": "curly", "hint": "卷发的", "page": 15}, {"word": "crisis", "hint": "危机", "page": 15}, {"word": "tuition", "hint": "学费", "page": 15}, {"word": "belts", "hint": "带子", "page": 15}, {"word": "high-rise", "hint": "高层建筑", "page": 15}, {"word": "expire", "hint": "过期", "page": 15}, {"word": "monologue", "hint": "独白", "page": 15}, {"word": "reports", "hint": "报告", "page": 15}, {"word": "understanding", "hint": "理解", "page": 15}, {"word": "community", "hint": "社区", "page": 15}, {"word": "cotton", "hint": "棉花", "page": 15}, {"word": "mills", "hint": "工厂", "page": 15}, {"word": "systematic", "hint": "系统的", "page": 15}, {"word": "junior", "hint": "较低级别的", "page": 15}, {"word": "issue", "hint": "问题", "page": 15}, {"word": "shell", "hint": "贝壳", "page": 15}, {"word": "tutorial", "hint": "小组讨论", "page": 15}, {"word": "steady", "hint": "稳定的", "page": 15}, {"word": "deteriorate", "hint": "恶化", "page": 15}, {"word": "surface", "hint": "表面", "page": 15}, {"word": "accessible", "hint": "可接近的", "page": 15}, {"word": "random", "hint": "随机的", "page": 15}, {"word": "index", "hint": "索引", "page": 15}, {"word": "ankle", "hint": "踝", "page": 15}, {"word": "email", "hint": "电邮", "page": 15}, {"word": "seasoned", "hint": "风干", "page": 15}, {"word": "amount", "hint": "数量", "page": 15}, {"word": "cages", "hint": "笼子", "page": 15}, {"word": "fee", "hint": "费用", "page": 15}, {"word": "systems", "hint": "系统", "page": 15}, {"word": "candles", "hint": "蜡烛", "page": 15}, {"word": "martial", "hint": "武术的", "page": 15}, {"word": "rocks", "hint": "岩石", "page": 15}, {"word": "sensible", "hint": "明智的", "page": 15}, {"word": "apes", "hint": "猿", "page": 15}, {"word": "jobs", "hint": "工作", "page": 15}, {"word": "heading", "hint": "标题", "page": 15}, {"word": "disturbance", "hint": "打扰", "page": 15}, {"word": "freedom", "hint": "自由", "page": 15}, {"word": "experiments", "hint": "实验", "page": 15}, {"word": "observation", "hint": "观察", "page": 15}, {"word": "response", "hint": "回答", "page": 15}, {"word": "undergraduate", "hint": "本科生", "page": 15}, {"word": "jewelry", "hint": "珠宝", "page": 15}, {"word": "journalist", "hint": "记者", "page": 15}, {"word": "repair", "hint": "修理", "page": 15}, {"word": "ice", "hint": "冰", "page": 16}, {"word": "depression", "hint": "沮丧", "page": 16}, {"word": "traditional", "hint": "传统的", "page": 16}, {"word": "costume", "hint": "服装", "page": 16}, {"word": "december", "hint": "十二月", "page": 16}, {"word": "layer", "hint": "阶层", "page": 16}, {"word": "ambiguous", "hint": "有歧义的", "page": 16}, {"word": "excuse", "hint": "借口", "page": 16}, {"word": "self-sufficient", "hint": "自给自足", "page": 16}, {"word": "optic", "hint": "光学的", "page": 16}, {"word": "lessons", "hint": "课程", "page": 16}, {"word": "layout", "hint": "规划", "page": 16}, {"word": "alley", "hint": "小巷", "page": 16}, {"word": "ferries", "hint": "轮渡", "page": 16}, {"word": "coastal", "hint": "海边的", "page": 16}, {"word": "basis", "hint": "基础", "page": 16}, {"word": "cupboard", "hint": "橱柜", "page": 16}, {"word": "lions", "hint": "狮子", "page": 16}, {"word": "malaria", "hint": "疟疾", "page": 16}, {"word": "photograph", "hint": "照片", "page": 16}, {"word": "cycle", "hint": "循环", "page": 16}, {"word": "amazing", "hint": "令人惊讶的", "page": 16}, {"word": "reliable", "hint": "可依赖的", "page": 16}, {"word": "shelf", "hint": "架子", "page": 16}, {"word": "frequency", "hint": "频率", "page": 16}, {"word": "enhance", "hint": "提高", "page": 16}, {"word": "reflectance", "hint": "反射系数", "page": 16}, {"word": "beds", "hint": "床", "page": 16}, {"word": "reserve", "hint": "保留", "page": 16}, {"word": "england", "hint": "英格兰", "page": 16}, {"word": "genetic", "hint": "遗传的", "page": 16}, {"word": "timetable", "hint": "时间表", "page": 16}, {"word": "petrol", "hint": "汽油", "page": 16}, {"word": "adequate", "hint": "充足的", "page": 16}, {"word": "soundproof", "hint": "隔音的", "page": 16}, {"word": "bands", "hint": "乐队", "page": 16}, {"word": "oral", "hint": "口语的", "page": 16}, {"word": "archaeological", "hint": "考古学的", "page": 16}, {"word": "scotland", "hint": "苏格兰", "page": 16}, {"word": "loss", "hint": "损失", "page": 16}, {"word": "replacement", "hint": "替代", "page": 16}, {"word": "accountants", "hint": "会计", "page": 16}, {"word": "container", "hint": "容器", "page": 16}, {"word": "records", "hint": "记录,唱片", "page": 16}, {"word": "margin", "hint": "页边的空白", "page": 16}, {"word": "wedding", "hint": "婚礼", "page": 16}, {"word": "pension", "hint": "养老金", "page": 16}, {"word": "satellite", "hint": "卫星", "page": 16}, {"word": "accounting", "hint": "会计", "page": 16}, {"word": "cultural", "hint": "文化的", "page": 16}, {"word": "investigation", "hint": "调查", "page": 16}, {"word": "damages", "hint": "损害", "page": 16}, {"word": "assistance", "hint": "援助", "page": 16}, {"word": "camp", "hint": "露营", "page": 16}, {"word": "reverse", "hint": "相反的", "page": 16}, {"word": "leprosy", "hint": "麻风病", "page": 16}, {"word": "awful", "hint": "可怕的", "page": 16}, {"word": "imports", "hint": "进口", "page": 16}, {"word": "tributes", "hint": "供品", "page": 16}, {"word": "encyclopedia", "hint": "百科全书", "page": 16}, {"word": "spiral", "hint": "螺旋的", "page": 16}, {"word": "chemistry", "hint": "化学", "page": 16}, {"word": "bridge", "hint": "桥", "page": 16}, {"word": "majors", "hint": "专业", "page": 16}, {"word": "expert", "hint": "专家", "page": 16}, {"word": "chat", "hint": "聊天", "page": 16}, {"word": "mental", "hint": "精神的", "page": 16}, {"word": "duties", "hint": "责任", "page": 16}, {"word": "strike", "hint": "罢工一", "page": 16}, {"word": "dining", "hint": "吃饭", "page": 16}, {"word": "appeal", "hint": "呼吁", "page": 16}, {"word": "recipe", "hint": "处方", "page": 16}, {"word": "stuff", "hint": "原料", "page": 16}, {"word": "suggestions", "hint": "建议", "page": 16}, {"word": "resistance", "hint": "抵抗", "page": 16}, {"word": "decorations", "hint": "装饰", "page": 16}, {"word": "authority", "hint": "权威", "page": 16}, {"word": "agriculture", "hint": "农业", "page": 16}, {"word": "cot", "hint": "轻便小床", "page": 16}, {"word": "economy", "hint": "经济", "page": 16}, {"word": "opportunities", "hint": "机会", "page": 16}, {"word": "vegetable", "hint": "蔬菜", "page": 16}, {"word": "oil", "hint": "油", "page": 16}, {"word": "planting", "hint": "种植", "page": 16}, {"word": "abstract", "hint": "摘要", "page": 16}, {"word": "areas", "hint": "地区", "page": 16}, {"word": "improvement", "hint": "提高", "page": 16}, {"word": "eastern", "hint": "东方的", "page": 16}, {"word": "predictable", "hint": "可预言的", "page": 16}, {"word": "anger", "hint": "愤怒", "page": 16}, {"word": "pop", "hint": "流行的", "page": 16}, {"word": "mathematics", "hint": "数学", "page": 16}, {"word": "musical", "hint": "音乐的", "page": 17}, {"word": "microfilm", "hint": "缩微胶片", "page": 17}, {"word": "delay", "hint": "耽搁", "page": 17}, {"word": "cashier", "hint": "出纳员", "page": 17}, {"word": "chocolate", "hint": "巧克力", "page": 17}, {"word": "italy", "hint": "意大利", "page": 17}, {"word": "germany", "hint": "德国", "page": 17}, {"word": "appointment", "hint": "预约", "page": 17}, {"word": "sweaters", "hint": "毛衣", "page": 17}, {"word": "weeds", "hint": "野草", "page": 17}, {"word": "instrument", "hint": "仪器", "page": 17}, {"word": "companion", "hint": "同伴", "page": 17}, {"word": "pleasant", "hint": "愉快的", "page": 17}, {"word": "final", "hint": "最后的", "page": 17}, {"word": "usage", "hint": "使用", "page": 17}, {"word": "august", "hint": "八月", "page": 17}, {"word": "tube", "hint": "管子,地铁", "page": 17}, {"word": "tunnels", "hint": "隧道", "page": 17}, {"word": "steering", "hint": "操纵", "page": 17}, {"word": "hats", "hint": "帽子", "page": 17}, {"word": "spain", "hint": "西班牙", "page": 17}, {"word": "director", "hint": "主任", "page": 17}, {"word": "allergic", "hint": "过敏的", "page": 17}, {"word": "virtual", "hint": "虚的", "page": 17}, {"word": "headmaster", "hint": "校长", "page": 17}, {"word": "website", "hint": "网址", "page": 17}, {"word": "olympic", "hint": "奥林匹克", "page": 17}, {"word": "stern", "hint": "严厉的", "page": 17}, {"word": "saving", "hint": "存款", "page": 17}, {"word": "typical", "hint": "典型的", "page": 17}, {"word": "heart", "hint": "心脏", "page": 17}, {"word": "strength", "hint": "力量", "page": 17}, {"word": "cabinet", "hint": "橱柜", "page": 17}, {"word": "influence", "hint": "影响", "page": 17}, {"word": "chicks", "hint": "小鸡", "page": 17}, {"word": "geographic", "hint": "地理学的", "page": 17}, {"word": "france", "hint": "法国", "page": 17}, {"word": "videotape", "hint": "录像带", "page": 17}, {"word": "dioxide", "hint": "二氧化物", "page": 17}, {"word": "instruction", "hint": "指示", "page": 17}, {"word": "kilograms", "hint": "公斤", "page": 17}, {"word": "perfect", "hint": "完美的", "page": 17}, {"word": "humans", "hint": "人类", "page": 17}, {"word": "lamp", "hint": "灯", "page": 17}, {"word": "lakes", "hint": "湖", "page": 17}, {"word": "prevention", "hint": "预防", "page": 17}, {"word": "chapter", "hint": "章节", "page": 17}, {"word": "newspapers", "hint": "报纸", "page": 17}, {"word": "caf", "hint": "é 咖啡店", "page": 17}, {"word": "relief", "hint": "减轻痛苦", "page": 17}, {"word": "microphone", "hint": "麦克风", "page": 17}, {"word": "emperor", "hint": "皇帝", "page": 17}, {"word": "disposal", "hint": "处理", "page": 17}, {"word": "queen's", "hint": "女王的", "page": 17}, {"word": "rubber", "hint": "橡胶", "page": 17}, {"word": "illegal", "hint": "非法的", "page": 17}, {"word": "junction", "hint": "交汇处", "page": 17}, {"word": "mine", "hint": "矿", "page": 17}, {"word": "television", "hint": "电视", "page": 17}, {"word": "hunt", "hint": "打猎", "page": 17}, {"word": "suitable", "hint": "合适的", "page": 17}, {"word": "sign", "hint": "标记", "page": 17}, {"word": "optional", "hint": "可选择的", "page": 17}, {"word": "dial", "hint": "拨号", "page": 17}, {"word": "doctors", "hint": "医生", "page": 17}, {"word": "guests", "hint": "客人", "page": 17}, {"word": "magnificent", "hint": "华丽的", "page": 17}, {"word": "season", "hint": "季节", "page": 17}, {"word": "moustache", "hint": "胡子", "page": 17}, {"word": "employment", "hint": "雇佣", "page": 17}, {"word": "measure", "hint": "测量", "page": 17}, {"word": "fur", "hint": "皮毛", "page": 17}, {"word": "style", "hint": "风格", "page": 17}, {"word": "institution", "hint": "机构", "page": 17}, {"word": "paper", "hint": "纸", "page": 17}, {"word": "scandals", "hint": "丑闻", "page": 17}, {"word": "water-clock", "hint": "水钟", "page": 17}, {"word": "sponsor", "hint": "赞助者", "page": 17}, {"word": "subcommittee", "hint": "小组委员会", "page": 17}, {"word": "epidemic", "hint": "流行病", "page": 17}, {"word": "curriculum", "hint": "课程", "page": 17}, {"word": "kit", "hint": "工具箱", "page": 17}, {"word": "recommendation", "hint": "推荐", "page": 17}, {"word": "beard", "hint": "胡子", "page": 17}, {"word": "alternative", "hint": "可选择的", "page": 17}, {"word": "uncomfortable", "hint": "不舒服的", "page": 17}, {"word": "action", "hint": "行动", "page": 17}, {"word": "starter", "hint": "开胃品", "page": 17}, {"word": "relevant", "hint": "相关的", "page": 17}, {"word": "intelligent", "hint": "智力的", "page": 17}, {"word": "vocation", "hint": "职业", "page": 17}, {"word": "pensioners", "hint": "领退休金者", "page": 17}, {"word": "desert", "hint": "沙漠", "page": 17}, {"word": "miles", "hint": "英里", "page": 17}, {"word": "decline", "hint": "下降", "page": 17}, {"word": "accuracy", "hint": "准确度", "page": 17}, {"word": "beautiful", "hint": "美丽的", "page": 17}, {"word": "commuters", "hint": "通勤者", "page": 17}, {"word": "approaches", "hint": "法", "page": 17}, {"word": "shoplifters", "hint": "顺手牵羊的人", "page": 18}, {"word": "whales", "hint": "鲸鱼", "page": 18}, {"word": "beauty", "hint": "美女", "page": 18}, {"word": "riders", "hint": "骑手", "page": 18}, {"word": "mood", "hint": "情绪", "page": 18}, {"word": "capital", "hint": "资金", "page": 18}, {"word": "beginners", "hint": "初始者", "page": 18}, {"word": "band", "hint": "乐队", "page": 18}, {"word": "examination", "hint": "考试", "page": 18}, {"word": "scale", "hint": "天平", "page": 18}, {"word": "king", "hint": "国王", "page": 18}, {"word": "sculpture", "hint": "雕刻", "page": 18}, {"word": "serial", "hint": "连续的", "page": 18}, {"word": "chance", "hint": "机会", "page": 18}, {"word": "residence", "hint": "居住", "page": 18}, {"word": "contents", "hint": "内容", "page": 18}, {"word": "techniques", "hint": "技术", "page": 18}, {"word": "chart", "hint": "图表", "page": 18}, {"word": "appropriate", "hint": "适当的", "page": 18}, {"word": "network", "hint": "网络", "page": 18}, {"word": "raw", "hint": "生的", "page": 18}, {"word": "secretary", "hint": "秘书", "page": 18}, {"word": "tables", "hint": "桌子", "page": 18}, {"word": "rivers", "hint": "河", "page": 18}, {"word": "article", "hint": "文章,货品", "page": 18}, {"word": "raincoat", "hint": "雨衣", "page": 18}, {"word": "malaysia", "hint": "马来西亚", "page": 18}, {"word": "receptionist", "hint": "接待员", "page": 18}, {"word": "westerner", "hint": "西方人", "page": 18}, {"word": "badge", "hint": "徽章", "page": 18}, {"word": "ship", "hint": "船", "page": 18}, {"word": "vacation", "hint": "假期", "page": 18}, {"word": "nurse", "hint": "护士", "page": 18}, {"word": "composition", "hint": "组成成分", "page": 18}, {"word": "chancellor", "hint": "校长", "page": 18}, {"word": "landscape", "hint": "风景", "page": 18}, {"word": "blouse", "hint": "衬衫", "page": 18}, {"word": "floors", "hint": "地板", "page": 18}, {"word": "hits", "hint": "引人注意的东西", "page": 18}, {"word": "initial", "hint": "最初的", "page": 18}, {"word": "non-medicine", "hint": "非药品类", "page": 18}, {"word": "water-proof", "hint": "防水的", "page": 18}, {"word": "cleaner", "hint": "清洁工", "page": 18}, {"word": "art", "hint": "艺术", "page": 18}, {"word": "sickness", "hint": "疾病", "page": 18}, {"word": "cola", "hint": "可乐", "page": 18}, {"word": "pennies", "hint": "便士", "page": 18}, {"word": "measurements", "hint": "测量", "page": 18}, {"word": "colleagues", "hint": "同事", "page": 18}, {"word": "channel", "hint": "海峡", "page": 18}, {"word": "waterfall", "hint": "瀑布", "page": 18}, {"word": "dressing", "hint": "装饰,穿衣", "page": 18}, {"word": "self-defense", "hint": "自卫", "page": 18}, {"word": "stressful", "hint": "压力的", "page": 18}, {"word": "locations", "hint": "地理位置", "page": 18}, {"word": "pump", "hint": "泵", "page": 18}, {"word": "departmental", "hint": "部门的", "page": 18}, {"word": "rank", "hint": "等级", "page": 18}, {"word": "melbourne", "hint": "墨尔本", "page": 18}, {"word": "percent", "hint": "百分比", "page": 18}];
+
+    const WORD_TO_IDX = {};
+    fullWordList.forEach((w, idx) => {
+        WORD_TO_IDX[w.word.toLowerCase()] = idx;
+    });
+
+    const STORAGE_KEY = 'ielts_807_mastery_v2';
+    const SYNC_CODE_KEY = 'ielts_807_sync_code';
+
+    function getLocalDateKey(dateObj = new Date()) {
+        const y = dateObj.getFullYear();
+        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const d = String(dateObj.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    }
+
+    // 若本地未设置过同步码，为每个新设备随机生成独立6位码（避免公开到GitHub后多人串号）
+    function getOrInitSyncCode() {
+        let code = localStorage.getItem(SYNC_CODE_KEY);
+        if (!code) {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            code = ' KY';
+            code = 'KY';
+            for (let i = 0; i < 4; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            localStorage.setItem(SYNC_CODE_KEY, code);
+        }
+        return code;
+    }
+
+    let syncCode = getOrInitSyncCode();
+    let syncTimer = null;
+
+    let state = {
+        mastered: {},
+        mistakes: {},
+        bestStreak: 0,
+        todayDate: new Date().toDateString(),
+        todayCount: 0,
+        calendar: {},
+        maxDayStreak: 0,
+        updatedAt: 0
+    };
+
+    let viewYear = new Date().getFullYear();
+    let viewMonth = new Date().getMonth();
+
+    let currentMode = 'all';
+    let sessionWords = [];
+    let sessionResults = [];
+    let currentIndex = 0;
+    let currentStreak = 0;
+    let isPenaltyMode = false;
+    let hadErrorOnCurrentWord = false;
+    let isTransitioning = false;
+    let selectedVoice = null;
+    let currentHtmlAudio = null;
+
+    const NON_PLURAL_S_WORDS = new Set([
+        'bus', 'class', 'glass', 'grass', 'dress', 'stress', 'press', 'success', 'process', 'access',
+        'address', 'congress', 'progress', 'mattress', 'waitress', 'actress', 'princess', 'hostess',
+        'business', 'fitness', 'illness', 'darkness', 'weakness', 'awareness', 'baldness', 'drowsiness',
+        'happiness', 'kindness', 'loneliness', 'sadness', 'sickness', 'witness', 'unless', 'useless',
+        'careless', 'wireless', 'homeless', 'hopeless', 'endless', 'harmless', 'helpless', 'priceless',
+        'plus', 'virus', 'campus', 'status', 'focus', 'bonus', 'census', 'circus', 'genius', 'radius',
+        'surplus', 'syllabus', 'apparatus', 'prospectus', 'gas', 'canvas', 'atlas', 'bias', 'christmas',
+        'texas', 'paris', 'tennis', 'crisis', 'basis', 'thesis', 'analysis', 'diagnosis', 'emphasis',
+        'hypothesis', 'oasis', 'synthesis', 'paralysis', 'physics', 'mathematics', 'statistics', 'economics',
+        'politics', 'athletics', 'gymnastics', 'linguistics', 'acoustics', 'electronics', 'genetics',
+        'psycholinguistics', 'news', 'series', 'species', 'means', 'headquarters', 'crossroads',
+        'whereabouts', 'lens', 'chaos', 'cosmos', 'ethos', 'pathos', 'thermos', 'asbestos', 'rhinoceros',
+        'diabetes', 'rabies', 'measles', 'mumps', 'shingles', 'rickets', 'billiards', 'darts', 'checkers',
+        'aerobics', 'ethics', 'mechanics', 'optics', 'tactics', 'topics', 'tropics', 'various',
+        'serious', 'previous', 'obvious', 'nervous', 'famous', 'dangerous', 'generous', 'curious',
+        'enormous', 'numerous', 'precious', 'conscious', 'religious', 'ambitious', 'cautious', 'infectious',
+        'nutritious', 'suspicious', 'delicious', 'anxious', 'unanimous', 'ambiguous', 'continuous',
+        'indigenous', 'spontaneous', 'simultaneous', 'tremendous', 'hazardous', 'jealous', 'ridiculous',
+        'miraculous', 'fabulous', 'poisonous', 'mountainous', 'prosperous', 'rigorous', 'vigorous',
+        'humorous', 'glamorous', 'adventurous', 'courteous', 'gorgeous', 'outrageous', 'advantageous',
+        'mysterious', 'furious', 'luxurious', 'victorious', 'glorious', 'industrious', 'notorious',
+        'tedious', 'studious', 'contagious', 'prestigious', 'superstitious', 'unconscious', 'subconscious',
+        'mass', 'loss', 'boss', 'cross', 'gross', 'moss', 'toss', 'floss', 'gloss', 'pass', 'brass',
+        'compass', 'trespass', 'embarrass', 'harass', 'kiss', 'miss', 'bliss', 'swiss', 'abyss', 'dismiss',
+        'discuss', 'fuss', 'truss', 'always', 'perhaps', 'towards', 'besides', 'nowadays', 'sometimes',
+        'outdoors', 'indoors', 'upstairs', 'downstairs', 'overseas', 'backwards', 'forwards', 'afterwards',
+        'onwards', 'upwards', 'downwards', 'sideways', 'lengthways', 'clockwise', 'otherwise', 'likewise',
+        'celcius', 'celsius', 'forbes', 'athens', 'brussels', 'naples', 'wales', 'charles', 'james', 'thomas'
+    ]);
+
+    function isPluralWord(wordObj) {
+        const w = wordObj.word.toLowerCase().trim();
+        const h = wordObj.hint;
+        if (h.includes('复数')) return true;
+        if (NON_PLURAL_S_WORDS.has(w)) return false;
+        if (w.endsWith('ss') || w.endsWith('us') || w.endsWith('is') || w.endsWith('os') || w.endsWith('ics')) return false;
+        if (w.endsWith('s') && w.length > 3) return true;
+        return false;
+    }
+
+    function initApp() {
+        loadState();
+        document.getElementById('syncCodeInput').value = syncCode;
+        document.getElementById('syncStatusShort').innerText = `已开启 (${syncCode})`;
+
+        initPageSelectors();
+        initVoiceEngine();
+        updateDashboard();
+
+        pullFromCloud(true);
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                pullFromCloud(true);
+            }
+        });
+
+        const inputEl = document.getElementById('spellInput');
+        inputEl.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                playCurrentAudio(0.9);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSubmit();
+            }
+        });
+
+        inputEl.addEventListener('input', function() {
+            if (isPenaltyMode && document.getElementById('blindRetypeToggle').checked) {
+                const tiles = document.getElementById('diffTilesContainer');
+                if (tiles && inputEl.value.length > 0) {
+                    tiles.style.filter = 'blur(8px)';
+                    tiles.style.opacity = '0.25';
+                } else if (tiles) {
+                    tiles.style.filter = 'none';
+                    tiles.style.opacity = '1';
+                }
+            }
+        });
+    }
+
+    // ==================== 云端同步核心模块 ====================
+    function getTopicName() {
+        const clean = (syncCode || 'DEFAULT').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+        return `ielts807_sync_v2_${clean}`;
+    }
+
+    function packCloudPayload() {
+        const mIndices = [];
+        for (const w of Object.keys(state.mastered)) {
+            if (WORD_TO_IDX[w] !== undefined) mIndices.push(WORD_TO_IDX[w]);
+        }
+        const eMap = {};
+        for (const [w, cnt] of Object.entries(state.mistakes)) {
+            if (WORD_TO_IDX[w] !== undefined) eMap[WORD_TO_IDX[w]] = cnt;
+        }
+        return {
+            v: 2,
+            t: Date.now(),
+            m: mIndices,
+            e: eMap,
+            c: state.calendar || {},
+            bs: state.bestStreak || 0,
+            ms: state.maxDayStreak || 0
+        };
+    }
+
+    function mergeCloudPayload(payload) {
+        if (!payload || payload.v !== 2) return false;
+        let changed = false;
+
+        if (Array.isArray(payload.m)) {
+            payload.m.forEach(idx => {
+                const wObj = fullWordList[idx];
+                if (wObj) {
+                    const key = wObj.word.toLowerCase();
+                    if (!state.mastered[key]) {
+                        state.mastered[key] = payload.t || Date.now();
+                        changed = true;
+                    }
+                }
+            });
+        }
+
+        if (payload.e && typeof payload.e === 'object') {
+            for (const [idxStr, cnt] of Object.entries(payload.e)) {
+                const wObj = fullWordList[parseInt(idxStr, 10)];
+                if (wObj) {
+                    const key = wObj.word.toLowerCase();
+                    if (!state.mastered[key]) {
+                        const oldCnt = state.mistakes[key] || 0;
+                        if (cnt > oldCnt) {
+                            state.mistakes[key] = cnt;
+                            changed = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (payload.c && typeof payload.c === 'object') {
+            if (!state.calendar) state.calendar = {};
+            for (const [dateKey, rec] of Object.entries(payload.c)) {
+                const localRec = state.calendar[dateKey] || { count: 0, perfect: 0, rounds: 0 };
+                const newCount = Math.max(localRec.count || 0, rec.count || 0);
+                const newPerfect = Math.max(localRec.perfect || 0, rec.perfect || 0);
+                const newRounds = Math.max(localRec.rounds || 0, rec.rounds || 0);
+                if (newCount > (localRec.count || 0) || newRounds > (localRec.rounds || 0)) {
+                    state.calendar[dateKey] = { count: newCount, perfect: newPerfect, rounds: newRounds };
+                    changed = true;
+                }
+            }
+        }
+
+        const todayKey = getLocalDateKey();
+        if (state.calendar && state.calendar[todayKey]) {
+            state.todayCount = Math.max(state.todayCount || 0, state.calendar[todayKey].count || 0);
+        }
+        if ((payload.bs || 0) > (state.bestStreak || 0)) {
+            state.bestStreak = payload.bs;
+            changed = true;
+        }
+        if ((payload.ms || 0) > (state.maxDayStreak || 0)) {
+            state.maxDayStreak = payload.ms;
+            changed = true;
+        }
+
+        if (changed) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            updateDashboard();
+        }
+        return changed;
+    }
+
+    async function pushToCloud(silent = true) {
+        const topic = getTopicName();
+        const payloadStr = JSON.stringify(packCloudPayload());
+        const statusEl = document.getElementById('syncStatusShort');
+        const logEl = document.getElementById('syncModalLog');
+
+        try {
+            statusEl.innerText = `同步中 (${syncCode})...`;
+            await fetch(`https://ntfy.sh/${topic}`, {
+                method: 'POST',
+                headers: { 'Cache': 'yes', 'Title': 'IELTS807Sync' },
+                body: payloadStr
+            });
+            statusEl.innerText = `已云同步 (${syncCode})`;
+            if (!silent && logEl) {
+                logEl.innerText = `✅ 已成功同步至云端 (${new Date().toLocaleTimeString()})！`;
+            }
+        } catch (err) {
+            statusEl.innerText = `本地已存 (${syncCode})`;
+            if (!silent && logEl) {
+                logEl.innerText = `⚠️ 网络暂不可达，进度已安全保存在本机`;
+            }
+        }
+    }
+
+    async function pullFromCloud(silent = true) {
+        const topic = getTopicName();
+        const statusEl = document.getElementById('syncStatusShort');
+        const logEl = document.getElementById('syncModalLog');
+
+        try {
+            const resp = await fetch(`https://ntfy.sh/${topic}/json?poll=1&since=all`);
+            if (!resp.ok) return;
+            const text = await resp.text();
+            if (!text.trim()) {
+                if (Object.keys(state.mastered).length > 0 || Object.keys(state.calendar || {}).length > 0) {
+                    pushToCloud(true);
+                }
+                return;
+            }
+            const lines = text.trim().split('\n');
+            for (let i = lines.length - 1; i >= 0; i--) {
+                try {
+                    const msgObj = JSON.parse(lines[i]);
+                    if (msgObj && msgObj.message) {
+                        const payload = JSON.parse(msgObj.message);
+                        mergeCloudPayload(payload);
+                        break;
+                    }
+                } catch (e) {}
+            }
+            statusEl.innerText = `已云同步 (${syncCode})`;
+            if (!silent && logEl) {
+                logEl.innerText = `✅ 云端拉取并合并完成！当前掌握 ${Object.keys(state.mastered).length} 词`;
+            }
+        } catch (err) {
+            statusEl.innerText = `离线模式 (${syncCode})`;
+        }
+    }
+
+    function scheduleCloudPush() {
+        if (syncTimer) clearTimeout(syncTimer);
+        syncTimer = setTimeout(() => {
+            pushToCloud(true);
+        }, 1200);
+    }
+
+    function openSyncModal() {
+        document.getElementById('syncCodeInput').value = syncCode;
+        document.getElementById('syncModalLog').innerText = '';
+        const qrImg = document.getElementById('dynamicQrImg');
+        const qrTip = document.getElementById('qrTipText');
+        if (window.location.protocol.startsWith('http')) {
+            const shareUrl = window.location.origin + window.location.pathname;
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shareUrl)}`;
+            qrImg.style.display = 'inline-block';
+            qrTip.innerText = `📱 手机相机扫码直接打开本网站`;
+        } else {
+            qrImg.style.display = 'none';
+            qrTip.innerText = `💡 将项目部署到 GitHub Pages 后，此处会自动生成手机扫码二维码`;
+        }
+        document.getElementById('syncModal').style.display = 'flex';
+    }
+
+    function closeSyncModal() {
+        document.getElementById('syncModal').style.display = 'none';
+    }
+
+    async function saveSyncCodeAndSync() {
+        const val = document.getElementById('syncCodeInput').value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+        if (!val || val.length < 3) {
+            alert('请输入至少 3 位字母或数字作为同步码');
+            return;
+        }
+        syncCode = val;
+        localStorage.setItem(SYNC_CODE_KEY, syncCode);
+        document.getElementById('syncModalLog').innerText = '🔄 正在与云端双向合并数据...';
+        await pullFromCloud(false);
+        await pushToCloud(false);
+    }
+
+    // ==================== 本地存储与打卡日历逻辑 ====================
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                state = Object.assign(state, parsed);
+                if (!state.calendar) state.calendar = {};
+                if (state.todayDate !== new Date().toDateString()) {
+                    state.todayDate = new Date().toDateString();
+                    state.todayCount = 0;
+                }
+                const todayKey = getLocalDateKey();
+                if (state.todayCount > 0 && !state.calendar[todayKey]) {
+                    state.calendar[todayKey] = { count: state.todayCount, perfect: state.todayCount, rounds: 0 };
+                } else if (state.calendar[todayKey]) {
+                    state.todayCount = Math.max(state.todayCount, state.calendar[todayKey].count || 0);
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    function recordDailyActivity(isPerfectWord, isRoundComplete = false) {
+        const todayKey = getLocalDateKey();
+        if (!state.calendar) state.calendar = {};
+        if (!state.calendar[todayKey]) {
+            state.calendar[todayKey] = { count: 0, perfect: 0, rounds: 0 };
+        }
+        if (isRoundComplete) {
+            state.calendar[todayKey].rounds = (state.calendar[todayKey].rounds || 0) + 1;
+        } else {
+            state.calendar[todayKey].count = (state.calendar[todayKey].count || 0) + 1;
+            if (isPerfectWord) {
+                state.calendar[todayKey].perfect = (state.calendar[todayKey].perfect || 0) + 1;
+            }
+            state.todayCount = state.calendar[todayKey].count;
+        }
+    }
+
+    function computeCalendarStreaks() {
+        const cal = state.calendar || {};
+        const checkedDates = Object.keys(cal).filter(k => cal[k] && cal[k].count > 0).sort();
+        const totalDays = checkedDates.length;
+
+        if (totalDays === 0) {
+            return { currentStreak: 0, maxStreak: state.maxDayStreak || 0, totalDays: 0 };
+        }
+
+        let maxRun = 1;
+        let curRun = 1;
+        for (let i = 1; i < checkedDates.length; i++) {
+            const prev = new Date(checkedDates[i - 1] + 'T00:00:00');
+            const curr = new Date(checkedDates[i] + 'T00:00:00');
+            const diffDays = Math.round((curr - prev) / 86400000);
+            if (diffDays === 1) {
+                curRun++;
+                if (curRun > maxRun) maxRun = curRun;
+            } else if (diffDays > 1) {
+                curRun = 1;
+            }
+        }
+        if (maxRun > (state.maxDayStreak || 0)) {
+            state.maxDayStreak = maxRun;
+        }
+
+        const todayKey = getLocalDateKey();
+        const yesterdayObj = new Date();
+        yesterdayObj.setDate(yesterdayObj.getDate() - 1);
+        const yesterdayKey = getLocalDateKey(yesterdayObj);
+
+        let checkCursor = null;
+        if (cal[todayKey] && cal[todayKey].count > 0) {
+            checkCursor = new Date();
+        } else if (cal[yesterdayKey] && cal[yesterdayKey].count > 0) {
+            checkCursor = yesterdayObj;
+        }
+
+        let activeStreak = 0;
+        if (checkCursor) {
+            while (true) {
+                const k = getLocalDateKey(checkCursor);
+                if (cal[k] && cal[k].count > 0) {
+                    activeStreak++;
+                    checkCursor.setDate(checkCursor.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return {
+            currentStreak: activeStreak,
+            maxStreak: Math.max(state.maxDayStreak || 0, maxRun, activeStreak),
+            totalDays
+        };
+    }
+
+    function renderCalendar() {
+        const label = document.getElementById('calendarMonthLabel');
+        label.innerText = `${viewYear}年${String(viewMonth + 1).padStart(2, '0')}月`;
+
+        const grid = document.getElementById('calendarGrid');
+        grid.innerHTML = '';
+
+        const firstDay = new Date(viewYear, viewMonth, 1);
+        const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+        let startOffset = (firstDay.getDay() + 6) % 7;
+        for (let i = 0; i < startOffset; i++) {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.className = 'cal-day empty';
+            grid.appendChild(emptyDiv);
+        }
+
+        const todayKey = getLocalDateKey();
+        const cal = state.calendar || {};
+
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateKey = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            const record = cal[dateKey];
+            const count = record ? (record.count || 0) : 0;
+
+            const cell = document.createElement('div');
+            cell.className = 'cal-day';
+            if (dateKey === todayKey) cell.classList.add('is-today');
+
+            if (count >= 20) {
+                cell.classList.add('checked-goal');
+                cell.innerHTML = `<span class="cal-day-num">${d}🔥</span><span class="cal-day-sub">${count}词</span>`;
+            } else if (count > 0) {
+                cell.classList.add('checked-light');
+                cell.innerHTML = `<span class="cal-day-num">${d}✓</span><span class="cal-day-sub">${count}词</span>`;
+            } else {
+                cell.innerHTML = `<span class="cal-day-num">${d}</span>`;
+            }
+
+            cell.style.cursor = 'pointer';
+            cell.onclick = () => {
+                const detailEl = document.getElementById('selectedDayDetail');
+                if (count > 0) {
+                    detailEl.innerHTML = `📅 <b>${dateKey}</b>：共特训 <b>${count}</b> 词（一次秒杀 <b>${record.perfect || 0}</b> 词，完成 <b>${record.rounds || 0}</b> 局）`;
+                } else {
+                    detailEl.innerHTML = `📅 <b>${dateKey}</b>：当日暂无打卡记录`;
+                }
+            };
+
+            grid.appendChild(cell);
+        }
+
+        const todayRec = cal[todayKey];
+        const todayCnt = todayRec ? (todayRec.count || 0) : 0;
+        const badgeEl = document.getElementById('todayCheckinBadge');
+        if (todayCnt >= 20) {
+            badgeEl.className = 'today-status-tag checked';
+            badgeEl.innerText = `🔥 今日已满额打卡 (${todayCnt}词)`;
+        } else if (todayCnt > 0) {
+            badgeEl.className = 'today-status-tag checked';
+            badgeEl.innerText = `✓ 今日已打卡 (${todayCnt}/20词)`;
+        } else {
+            badgeEl.className = 'today-status-tag unchecked';
+            badgeEl.innerText = `⏳ 今日待打卡 (刷满20词点亮金标)`;
+        }
+    }
+
+    function changeCalendarMonth(delta) {
+        viewMonth += delta;
+        if (viewMonth < 0) {
+            viewMonth = 11;
+            viewYear--;
+        } else if (viewMonth > 11) {
+            viewMonth = 0;
+            viewYear++;
+        }
+        renderCalendar();
+    }
+
+    function toggleCalendarPanel() {
+        const sec = document.getElementById('calendarSection');
+        sec.style.display = (sec.style.display === 'none') ? 'block' : 'none';
+    }
+
+    function saveState() {
+        state.updatedAt = Date.now();
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {
+            console.error(e);
+        }
+        updateDashboard();
+        scheduleCloudPush();
+    }
+
+    function initPageSelectors() {
+        const sSel = document.getElementById('startPageSelect');
+        const eSel = document.getElementById('endPageSelect');
+        sSel.innerHTML = '';
+        eSel.innerHTML = '';
+        for (let p = 1; p <= 18; p++) {
+            sSel.innerHTML += `<option value="${p}">${p}</option>`;
+            eSel.innerHTML += `<option value="${p}" ${p === 6 ? 'selected' : ''}>${p}</option>`;
+        }
+        updateCustomCount();
+    }
+
+    function updateCustomCount() {
+        let s = parseInt(document.getElementById('startPageSelect').value, 10);
+        let e = parseInt(document.getElementById('endPageSelect').value, 10);
+        if (s > e) {
+            document.getElementById('endPageSelect').value = s;
+            e = s;
+        }
+        const remain = fullWordList.filter(w => w.page >= s && w.page <= e && !state.mastered[w.word.toLowerCase()]).length;
+        document.getElementById('customRemainCount').innerText = remain;
+    }
+
+    function initVoiceEngine() {
+        function pickVoice() {
+            const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+            if (!voices || voices.length === 0) return;
+            selectedVoice = voices.find(v => v.lang === 'en-AU' && v.name.includes('Natural'))
+                         || voices.find(v => v.lang === 'en-AU')
+                         || voices.find(v => v.lang && v.lang.toLowerCase().includes('en-au'))
+                         || voices.find(v => v.lang === 'en-GB')
+                         || voices.find(v => v.lang && v.lang.startsWith('en'));
+
+            const statusEl = document.getElementById('voiceStatusText');
+            if (selectedVoice) {
+                const isAU = selectedVoice.lang.toLowerCase().includes('au');
+                statusEl.innerText = isAU
+                    ? `🦘 已就绪澳洲语音: ${selectedVoice.name}`
+                    : `🔊 已就绪语音: ${selectedVoice.name}`;
+            }
+        }
+        if ('speechSynthesis' in window) {
+            pickVoice();
+            window.speechSynthesis.onvoiceschanged = pickVoice;
+        }
+    }
+
+    function updateDashboard() {
+        const totalWords = fullWordList.length;
+        const masteredTotal = fullWordList.filter(w => state.mastered[w.word.toLowerCase()]).length;
+        const totalPct = ((masteredTotal / totalWords) * 100).toFixed(1);
+
+        const page6Words = fullWordList.filter(w => w.page <= 6);
+        const masteredPage6 = page6Words.filter(w => state.mastered[w.word.toLowerCase()]).length;
+        const page6Pct = ((masteredPage6 / page6Words.length) * 100).toFixed(1);
+
+        const mistakeKeys = Object.keys(state.mistakes);
+
+        document.getElementById('totalProgressText').innerText = `${masteredTotal} / ${totalWords} (${totalPct}%)`;
+        document.getElementById('totalProgressBar').style.width = `${totalPct}%`;
+
+        document.getElementById('page6ProgressText').innerText = `${masteredPage6} / ${page6Words.length} (${page6Pct}%)`;
+        document.getElementById('page6ProgressBar').style.width = `${page6Pct}%`;
+
+        document.getElementById('todayCount').innerText = state.todayCount;
+        document.getElementById('bestStreak').innerText = state.bestStreak;
+        document.getElementById('mistakeCount').innerText = mistakeKeys.length;
+
+        const streakInfo = computeCalendarStreaks();
+        document.getElementById('currentDayStreak').innerText = streakInfo.currentStreak;
+        document.getElementById('maxDayStreak').innerText = streakInfo.maxStreak;
+        document.getElementById('totalCheckinDays').innerText = streakInfo.totalDays;
+        renderCalendar();
+
+        document.getElementById('tag-all').innerText = `剩余 ${totalWords - masteredTotal} 词`;
+        document.getElementById('tag-page6').innerText = `剩余 ${page6Words.length - masteredPage6} 词`;
+        document.getElementById('tag-mistakes').innerText = `${mistakeKeys.length} 词待复仇`;
+        updateCustomCount();
+
+        const rankEl = document.getElementById('rankBadge');
+        if (masteredTotal >= 1600) rankEl.innerText = '👑 Lv.6 雅思807战神';
+        else if (masteredTotal >= 1000) rankEl.innerText = '💎 Lv.5 听写宗师';
+        else if (masteredTotal >= 500) rankEl.innerText = '🔥 Lv.4 屠鸭先锋';
+        else if (masteredTotal >= 200) rankEl.innerText = '⚔️ Lv.3 肌肉记忆成型';
+        else if (masteredTotal >= 40) rankEl.innerText = '🌱 Lv.2 脱盲冲刺手';
+        else rankEl.innerText = '🦘 Lv.1 听音觉醒者';
+    }
+
+    function selectMode(mode) {
+        currentMode = mode;
+        ['all', 'page6', 'mistakes', 'custom'].forEach(m => {
+            document.getElementById('mode-' + m).classList.toggle('active', m === mode);
+        });
+        document.getElementById('customPageBar').style.display = (mode === 'custom') ? 'flex' : 'none';
+    }
+
+    function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function startSession() {
+        let pool = [];
+        let modeTitle = '';
+
+        if (currentMode === 'all') {
+            modeTitle = '🎲 全库 1820 词随机突击';
+            pool = fullWordList.filter(w => !state.mastered[w.word.toLowerCase()]);
+            if (pool.length === 0) pool = [...fullWordList];
+        } else if (currentMode === 'page6') {
+            modeTitle = '📘 前 6 页（高频区）专项恶补';
+            pool = fullWordList.filter(w => w.page <= 6 && !state.mastered[w.word.toLowerCase()]);
+            if (pool.length === 0) pool = fullWordList.filter(w => w.page <= 6);
+        } else if (currentMode === 'mistakes') {
+            modeTitle = '💀 魔鬼错题本复仇';
+            const mSet = new Set(Object.keys(state.mistakes));
+            pool = fullWordList.filter(w => mSet.has(w.word.toLowerCase()));
+            if (pool.length === 0) {
+                alert('🎉 你的错题本目前是空的！先去【前 6 页专项恶补】或【全库随机突击】刷一局吧！');
+                return;
+            }
+        } else if (currentMode === 'custom') {
+            const s = parseInt(document.getElementById('startPageSelect').value, 10);
+            const e = parseInt(document.getElementById('endPageSelect').value, 10);
+            modeTitle = `📑 第 ${s}~${e} 页专项特训`;
+            pool = fullWordList.filter(w => w.page >= s && w.page <= e && !state.mastered[w.word.toLowerCase()]);
+            if (pool.length === 0) pool = fullWordList.filter(w => w.page >= s && w.page <= e);
+        }
+
+        sessionWords = shuffle(pool).slice(0, 20);
+        launchSessionWithWords(sessionWords, modeTitle);
+    }
+
+    function startSessionWithMistakes() {
+        const failedWords = sessionWords.filter((_, idx) => sessionResults[idx] === 'fixed');
+        if (failedWords.length === 0) return;
+        launchSessionWithWords(shuffle(failedWords), '💀 本局错词立即加练');
+    }
+
+    function launchSessionWithWords(wordsArray, modeTitle) {
+        sessionWords = wordsArray;
+        sessionResults = new Array(sessionWords.length).fill('pending');
+        currentIndex = 0;
+        isPenaltyMode = false;
+        hadErrorOnCurrentWord = false;
+
+        document.getElementById('calendarSection').style.display = 'none';
+        document.getElementById('modeTitleBadge').innerText = modeTitle;
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('summaryScreen').style.display = 'none';
+        document.getElementById('trainingScreen').style.display = 'block';
+
+        renderQuestion();
+        playCurrentAudio(0.9);
+    }
+
+    function renderCapsules() {
+        const grid = document.getElementById('capsulesGrid');
+        grid.style.gridTemplateColumns = `repeat(${sessionWords.length}, 1fr)`;
+        grid.innerHTML = '';
+        for (let i = 0; i < sessionWords.length; i++) {
+            const div = document.createElement('div');
+            div.className = 'capsule';
+            if (i === currentIndex) div.classList.add('current');
+            else if (sessionResults[i] === 'perfect') div.classList.add('done-perfect');
+            else if (sessionResults[i] === 'fixed') div.classList.add('done-fixed');
+            grid.appendChild(div);
+        }
+    }
+
+    function renderQuestion() {
+        const currentObj = sessionWords[currentIndex];
+        isPenaltyMode = false;
+        hadErrorOnCurrentWord = false;
+        isTransitioning = false;
+
+        document.getElementById('sessionStepText').innerText = `${currentIndex + 1} / ${sessionWords.length}`;
+        document.getElementById('comboPill').innerText = `🔥 连击 x${currentStreak}`;
+        renderCapsules();
+
+        const tagsEl = document.getElementById('wordMetaTags');
+        let tagsHtml = `<span class="meta-tag">📄 第 ${currentObj.page} 页</span>`;
+
+        if (document.getElementById('pluralHintToggle').checked && isPluralWord(currentObj)) {
+            tagsHtml += `<span class="meta-tag plural-tag">⚠️ 注意复数后缀 (-s)</span>`;
+        }
+        const mistakeTimes = state.mistakes[currentObj.word.toLowerCase()];
+        if (mistakeTimes) {
+            tagsHtml += `<span class="meta-tag mistake-tag">💀 曾错 ${mistakeTimes} 次</span>`;
+        }
+        tagsEl.innerHTML = tagsHtml;
+
+        document.getElementById('chineseHintText').innerText = currentObj.hint;
+
+        const maskEl = document.getElementById('wordMaskDots');
+        if (document.getElementById('lengthHintToggle').checked) {
+            const w = currentObj.word;
+            const masked = w.split('').map(ch => (ch === ' ' || ch === '-' || ch === "'") ? ch : '_').join(' ');
+            maskEl.innerText = `${ masked }  (${w.replace(/[\s\-']/g, '').length} 字母)`;
+        } else {
+            maskEl.innerText = '';
+        }
+
+        const inputEl = document.getElementById('spellInput');
+        inputEl.value = '';
+        inputEl.className = 'spell-input';
+        inputEl.placeholder = '听音盲写单词...';
+        inputEl.focus();
+
+        const fb = document.getElementById('feedbackBox');
+        fb.className = 'feedback-box';
+        fb.innerHTML = '';
+
+        document.getElementById('submitBtn').innerText = '✅ 提交检验 (Enter)';
+    }
+
+    function stopAllAudio() {
+        if ('speechSynthesis' in window) {
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+        }
+        if (currentHtmlAudio) {
+            try {
+                currentHtmlAudio.pause();
+                currentHtmlAudio.currentTime = 0;
+            } catch (e) {}
+            currentHtmlAudio = null;
+        }
+    }
+
+    function playOnlineDictAudio(customWord) {
+        const w = customWord || (sessionWords[currentIndex] && sessionWords[currentIndex].word);
+        if (!w) return;
+        stopAllAudio();
+        currentHtmlAudio = new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=1`);
+        currentHtmlAudio.play().catch(() => {});
+        document.getElementById('spellInput').focus();
+    }
+
+    function playWordAudio(wordText, rate = 0.88) {
+        stopAllAudio();
+        if ('speechSynthesis' in window) {
+            try {
+                const utter = new SpeechSynthesisUtterance(wordText);
+                utter.lang = 'en-AU';
+                if (selectedVoice) utter.voice = selectedVoice;
+                utter.rate = rate;
+                utter.onerror = () => playOnlineDictAudio(wordText);
+                window.speechSynthesis.speak(utter);
+            } catch (e) {
+                playOnlineDictAudio(wordText);
+            }
+        } else {
+            playOnlineDictAudio(wordText);
+        }
+    }
+
+    function playCurrentAudio(rate = 0.88) {
+        if (!sessionWords[currentIndex]) return;
+        playWordAudio(sessionWords[currentIndex].word, rate);
+        document.getElementById('spellInput').focus();
+    }
+
+    function buildCharDiffHtml(userInput, targetWord) {
+        let tilesHtml = '<div class="diff-tiles" id="diffTilesContainer" style="transition: all 0.25s ease;">';
+        for (let i = 0; i < targetWord.length; i++) {
+            const targetChar = targetWord[i];
+            const userChar = userInput[i] || '';
+            const isMatch = userChar.toLowerCase() === targetChar.toLowerCase();
+            tilesHtml += `<span class="char-tile ${isMatch ? '' : 'char-wrong'}">${targetChar}</span>`;
+        }
+        tilesHtml += '</div>';
+        return tilesHtml;
+    }
+
+    function handleSubmit() {
+        if (isTransitioning) return;
+
+        const inputEl = document.getElementById('spellInput');
+        const userVal = inputEl.value.trim().replace(/\s+/g, ' ');
+        const currentObj = sessionWords[currentIndex];
+        const targetWord = currentObj.word.trim();
+        const fb = document.getElementById('feedbackBox');
+
+        if (!userVal) {
+            playCurrentAudio(0.88);
+            return;
+        }
+
+        if (userVal.toLowerCase() === targetWord.toLowerCase()) {
+            isTransitioning = true;
+            stopAllAudio();
+            inputEl.className = 'spell-input input-success';
+
+            if (!hadErrorOnCurrentWord) {
+                sessionResults[currentIndex] = 'perfect';
+                state.mastered[targetWord.toLowerCase()] = Date.now();
+                delete state.mistakes[targetWord.toLowerCase()];
+                currentStreak++;
+                if (currentStreak > state.bestStreak) state.bestStreak = currentStreak;
+                recordDailyActivity(true, false);
+                saveState();
+
+                fb.className = 'feedback-box show-success';
+                fb.innerHTML = `<div style="color: #34d399; font-weight: 800; font-size: 16px;">✅ 一击必中！<b>${targetWord}</b> 已加入掌握词库！</div>`;
+
+                setTimeout(() => {
+                    advanceNextWord();
+                }, 350);
+            } else {
+                sessionResults[currentIndex] = 'fixed';
+                recordDailyActivity(false, false);
+                saveState();
+
+                fb.className = 'feedback-box show-success';
+                fb.innerHTML = `<div style="color: #fbbf24; font-weight: 800; font-size: 16px;">💪 肌肉记忆罚写通过！<b>${targetWord}</b> 已收入错题本重点追踪</div>`;
+
+                setTimeout(() => {
+                    advanceNextWord();
+                }, 480);
+            }
+        } else {
+            hadErrorOnCurrentWord = true;
+            isPenaltyMode = true;
+            currentStreak = 0;
+            document.getElementById('comboPill').innerText = `🔥 连击 x0`;
+
+            const key = targetWord.toLowerCase();
+            state.mistakes[key] = (state.mistakes[key] || 0) + 1;
+            delete state.mastered[key];
+            saveState();
+
+            const uLower = userVal.toLowerCase();
+            const tLower = targetWord.toLowerCase();
+            const isMissingPluralOnly = (
+                tLower === uLower + 's' ||
+                tLower === uLower + 'es' ||
+                (uLower.endsWith('y') && tLower === uLower.slice(0, -1) + 'ies')
+            );
+
+            const errorBanner = isMissingPluralOnly
+                ? `🚨 魔鬼警告：你漏掉了复数后缀！雅思听力漏写复数直接 0 分！`
+                : `❌ 拼写错误！注意下方标红的字母位置，边听发音边重敲一遍！`;
+
+            const diffTiles = buildCharDiffHtml(userVal, targetWord);
+
+            fb.className = 'feedback-box show-error';
+            fb.innerHTML = `
+                <div class="error-headline">${errorBanner}</div>
+                <div class="user-wrong-attempt">你的拼写: <del>${userVal}</del></div>
+                ${diffTiles}
+                <div class="retype-instruction">
+                    ⚡ 魔鬼纠错锁死：请立即照着正确拼写重新敲对一遍才能进入下一题！
+                </div>
+            `;
+
+            inputEl.className = 'spell-input input-error';
+            inputEl.value = '';
+            inputEl.placeholder = '请重新敲入正确拼写过关...';
+            document.getElementById('submitBtn').innerText = '💪 提交罚写过关 (Enter)';
+
+            playWordAudio(targetWord, 0.82);
+            inputEl.focus();
+        }
+    }
+
+    function advanceNextWord() {
+        currentIndex++;
+        if (currentIndex >= sessionWords.length) {
+            isTransitioning = false;
+            stopAllAudio();
+            recordDailyActivity(false, true);
+            saveState();
+            pushToCloud(true);
+            showSessionSummary();
+        } else {
+            renderQuestion();
+            playCurrentAudio(0.9);
+        }
+    }
+
+    function showSessionSummary() {
+        document.getElementById('trainingScreen').style.display = 'none';
+        document.getElementById('calendarSection').style.display = 'block';
+        const sumEl = document.getElementById('summaryScreen');
+        sumEl.style.display = 'block';
+
+        const total = sessionWords.length;
+        const perfectCount = sessionResults.filter(r => r === 'perfect').length;
+        const fixedWords = sessionWords.filter((_, i) => sessionResults[i] === 'fixed');
+        const acc = Math.round((perfectCount / total) * 100);
+
+        const streakInfo = computeCalendarStreaks();
+        document.getElementById('summaryCheckinBanner').innerText =
+            `☁️ 云端打卡已同步！连续打卡 ${streakInfo.currentStreak} 天（最高 ${streakInfo.maxStreak} 天 · 今日已刷 ${state.todayCount} 词）`;
+
+        document.getElementById('summaryAccuracy').innerText = `${acc}%`;
+        document.getElementById('summaryHeadline').innerText =
+            acc === 100 ? '🏆 完美通关！本局全部一次盲写正确！' :
+            acc >= 80 ? '🎉 战果辉煌！你的听音拼写正在飞速成型！' :
+            '💪 特训完成！拼错的词已经砸进肌肉记忆！';
+
+        document.getElementById('summarySubtext').innerText =
+            `本局共 ${total} 词：一次盲写秒杀 ${perfectCount} 词（已归档消灭），魔鬼纠错攻克 ${fixedWords.length} 词。`;
+
+        const mistakeBox = document.getElementById('summaryMistakesContainer');
+        const mistakeList = document.getElementById('summaryMistakeList');
+        const retryBtn = document.getElementById('retrySessionMistakesBtn');
+
+        if (fixedWords.length > 0) {
+            mistakeBox.style.display = 'block';
+            retryBtn.style.display = 'inline-flex';
+            mistakeList.innerHTML = fixedWords.map(w => `
+                <div class="mistake-item">
+                    <div>
+                        <b>${w.word}</b>
+                        <span style="color: var(--text-sub); margin-left: 10px;">${w.hint} (第${w.page}页)</span>
+                    </div>
+                    <button class="btn btn-audio-slow" style="padding: 4px 10px; font-size: 12px;"
+                            onclick="playWordAudio('${w.word.replace(/'/g, "\\'")}', 0.85)">
+                        🔊 听音
+                    </button>
+                </div>
+            `).join('');
+        } else {
+            mistakeBox.style.display = 'none';
+            retryBtn.style.display = 'none';
+        }
+    }
+
+    function returnToHome() {
+        stopAllAudio();
+        document.getElementById('trainingScreen').style.display = 'none';
+        document.getElementById('summaryScreen').style.display = 'none';
+        document.getElementById('calendarSection').style.display = 'block';
+        document.getElementById('startScreen').style.display = 'block';
+        updateDashboard();
+    }
+
+    function exportProgress() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
+        const a = document.createElement('a');
+        a.setAttribute("href", dataStr);
+        a.setAttribute("download", `雅思听力1820词进度_${new Date().toISOString().slice(0,10)}.json`);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
+    function importProgress() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                try {
+                    const imported = JSON.parse(ev.target.result);
+                    if (imported && typeof imported.mastered === 'object') {
+                        state = Object.assign(state, imported);
+                        saveState();
+                        pushToCloud(false);
+                        alert('✅ 学习进度、打卡日历与错题本导入并同步云端成功！');
+                    }
+                } catch (err) {
+                    alert('导入文件格式有误');
+                }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
+
+    function resetProgress() {
+        if (confirm('确定要清空本机所有已掌握进度、打卡日历和错题本记录吗？此操作不可撤销。')) {
+            localStorage.removeItem(STORAGE_KEY);
+            state = {
+                mastered: {},
+                mistakes: {},
+                bestStreak: 0,
+                todayDate: new Date().toDateString(),
+                todayCount: 0,
+                calendar: {},
+                maxDayStreak: 0
+            };
+            updateDashboard();
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>
