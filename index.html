@@ -1293,12 +1293,29 @@
         return `${y}-${m}-${d}`;
     }
 
-    // 若本地未设置过同步码，为每个新设备随机生成独立6位码（避免公开到GitHub后多人串号）
+    const GITHUB_PAGES_URL = 'https://saul154575.github.io/ielts-listening-1820-words/';
+
+    // 支持通过扫码 URL 参数 ?sync=XXX 自动绑定同步码；本地 file:// 默认使用 ZHB807，公开网页新访客生成随机独立码
     function getOrInitSyncCode() {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlSync = urlParams.get('sync');
+            if (urlSync && urlSync.trim().length >= 3) {
+                const cleanUrlSync = urlSync.trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+                localStorage.setItem(SYNC_CODE_KEY, cleanUrlSync);
+                return cleanUrlSync;
+            }
+        } catch (e) {}
+
         let code = localStorage.getItem(SYNC_CODE_KEY);
+        // 如果是本地桌面打开 (file://) 且之前被随机分配了 KY 开头的码，自动恢复为专属 ZHB807
+        if (window.location.protocol === 'file:' && (!code || code.startsWith('KY'))) {
+            code = 'ZHB807';
+            localStorage.setItem(SYNC_CODE_KEY, code);
+            return code;
+        }
         if (!code) {
             const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            code = ' KY';
             code = 'KY';
             for (let i = 0; i < 4; i++) {
                 code += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -1579,20 +1596,22 @@
         }, 1200);
     }
 
+    function updateModalQrCode() {
+        const qrImg = document.getElementById('dynamicQrImg');
+        const qrTip = document.getElementById('qrTipText');
+        const baseUrl = window.location.protocol.startsWith('http')
+            ? (window.location.origin + window.location.pathname)
+            : GITHUB_PAGES_URL;
+        const shareUrl = `${baseUrl}?sync=${encodeURIComponent(syncCode)}`;
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(shareUrl)}`;
+        qrImg.style.display = 'inline-block';
+        qrTip.innerHTML = `📱 手机相机扫码直接打开在线版，并<b>自动绑定同步码 ${syncCode}</b><br><span style="font-size:10.5px;color:#64748b;">${shareUrl}</span>`;
+    }
+
     function openSyncModal() {
         document.getElementById('syncCodeInput').value = syncCode;
         document.getElementById('syncModalLog').innerText = '';
-        const qrImg = document.getElementById('dynamicQrImg');
-        const qrTip = document.getElementById('qrTipText');
-        if (window.location.protocol.startsWith('http')) {
-            const shareUrl = window.location.origin + window.location.pathname;
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shareUrl)}`;
-            qrImg.style.display = 'inline-block';
-            qrTip.innerText = `📱 手机相机扫码直接打开本网站`;
-        } else {
-            qrImg.style.display = 'none';
-            qrTip.innerText = `💡 将项目部署到 GitHub Pages 后，此处会自动生成手机扫码二维码`;
-        }
+        updateModalQrCode();
         document.getElementById('syncModal').style.display = 'flex';
     }
 
@@ -1608,6 +1627,7 @@
         }
         syncCode = val;
         localStorage.setItem(SYNC_CODE_KEY, syncCode);
+        updateModalQrCode();
         document.getElementById('syncModalLog').innerText = '🔄 正在与云端双向合并数据...';
         await pullFromCloud(false);
         await pushToCloud(false);
