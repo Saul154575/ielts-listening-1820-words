@@ -1308,8 +1308,8 @@
         } catch (e) {}
 
         let code = localStorage.getItem(SYNC_CODE_KEY);
-        // 如果是本地桌面打开 (file://) 且之前被随机分配了 KY 开头的码，自动恢复为专属 ZHB807
-        if (window.location.protocol === 'file:' && (!code || code.startsWith('KY'))) {
+        // 仅在本机 (zenghongb) 本地打开 (file://) 时自动恢复专属 ZHB807；其他人从 GitHub 下载到本地打开则生成独立 KY 随机码防串号
+        if (window.location.protocol === 'file:' && window.location.href.toLowerCase().includes('zenghongb') && (!code || code.startsWith('KY'))) {
             code = 'ZHB807';
             localStorage.setItem(SYNC_CODE_KEY, code);
             return code;
