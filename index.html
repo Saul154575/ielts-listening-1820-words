@@ -1408,6 +1408,18 @@
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') {
                 pullFromCloud(true);
+            } else if (document.visibilityState === 'hidden' && syncTimer) {
+                clearTimeout(syncTimer);
+                syncTimer = null;
+                pushToCloud(true);
+            }
+        });
+
+        window.addEventListener('pagehide', () => {
+            if (syncTimer) {
+                clearTimeout(syncTimer);
+                syncTimer = null;
+                pushToCloud(true);
             }
         });
 
@@ -1436,7 +1448,24 @@
         });
     }
 
-    // ==================== 云端同步核心模块 ====================
+    // ==================== 云端同步核心模块（KVDB永久云库 + ntfy实时通道双引擎） ====================
+    const KVDB_BUCKET = 'EeiPq8pNfjc1JYWYsek9zM';
+
+    // ZHB807 基准进度种子（防极端断网或新设备首次冷启动丢失历史打卡）
+    const ZHB807_BASELINE_PAYLOAD = {
+        v: 2,
+        t: 1792795197600,
+        m: [16, 366, 69, 92, 66, 85, 91, 53, 503, 1424, 22, 68, 35, 5],
+        e: {"2":1,"9":4,"10":1,"12":1,"14":1,"20":3,"23":1,"27":1,"28":10,"29":2,"36":1,"38":1,"39":1,"40":1,"41":1,"42":2,"45":2,"48":3,"51":2,"52":1,"54":1,"55":6,"56":1,"58":1,"59":2,"63":4,"65":1,"67":1,"71":2,"75":6,"77":1,"79":1,"80":3,"83":7,"84":1,"87":1,"88":2,"90":1,"93":1,"95":1,"97":1,"111":4,"135":1,"145":1,"152":1,"153":1,"155":1,"197":1,"204":1,"222":1,"240":1,"247":1,"304":1,"317":4,"327":1,"331":1,"334":2,"373":2,"389":2,"391":2,"397":1,"410":1,"420":1,"455":1,"479":1,"480":1,"496":5,"498":1,"509":1,"543":2,"544":2,"553":2,"584":1,"585":1,"589":2,"634":5,"674":2,"681":2,"683":2,"711":1,"810":1,"853":1,"967":2,"988":1,"1018":1,"1077":1,"1102":3,"1132":1,"1150":1,"1231":1,"1277":1,"1751":1},
+        c: {
+            "2026-10-17": { count: 76, perfect: 28, rounds: 2 },
+            "2026-10-18": { count: 30, perfect: 4, rounds: 1 },
+            "2026-10-23": { count: 20, perfect: 3, rounds: 1 }
+        },
+        bs: 1,
+        ms: 2
+    };
+
     function getTopicName() {
         const clean = (syncCode || 'DEFAULT').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
         return `ielts807_sync_v2_${clean}`;
@@ -1449,7 +1478,9 @@
         }
         const eMap = {};
         for (const [w, cnt] of Object.entries(state.mistakes)) {
-            if (WORD_TO_IDX[w] !== undefined) eMap[WORD_TO_IDX[w]] = cnt;
+            if (!state.mastered[w] && WORD_TO_IDX[w] !== undefined) {
+                eMap[WORD_TO_IDX[w]] = cnt;
+            }
         }
         return {
             v: 2,
@@ -1460,6 +1491,33 @@
             bs: state.bestStreak || 0,
             ms: state.maxDayStreak || 0
         };
+    }
+
+    function isLocalAheadOfCloud(localP, cloudP) {
+        if (!cloudP || cloudP.v !== 2) {
+            return (localP.m.length > 0 || Object.keys(localP.c).length > 0 || Object.keys(localP.e).length > 0);
+        }
+        const cloudMSet = new Set(Array.isArray(cloudP.m) ? cloudP.m : []);
+        for (const idx of localP.m) {
+            if (!cloudMSet.has(idx)) return true;
+        }
+        const cloudE = cloudP.e || {};
+        for (const [idxStr, cnt] of Object.entries(localP.e)) {
+            if ((cloudE[idxStr] || 0) < cnt) return true;
+        }
+        for (const idxStr of Object.keys(cloudE)) {
+            if (localP.e[idxStr] === undefined) return true;
+        }
+        const cloudC = cloudP.c || {};
+        for (const [dateKey, rec] of Object.entries(localP.c)) {
+            const cRec = cloudC[dateKey];
+            if (!cRec) return true;
+            if ((rec.count || 0) > (cRec.count || 0) || (rec.perfect || 0) > (cRec.perfect || 0) || (rec.rounds || 0) > (cRec.rounds || 0)) {
+                return true;
+            }
+        }
+        if ((localP.bs || 0) > (cloudP.bs || 0) || (localP.ms || 0) > (cloudP.ms || 0)) return true;
+        return false;
     }
 
     function mergeCloudPayload(payload) {
@@ -1473,6 +1531,10 @@
                     const key = wObj.word.toLowerCase();
                     if (!state.mastered[key]) {
                         state.mastered[key] = payload.t || Date.now();
+                        changed = true;
+                    }
+                    if (state.mistakes[key]) {
+                        delete state.mistakes[key];
                         changed = true;
                     }
                 }
@@ -1502,7 +1564,7 @@
                 const newCount = Math.max(localRec.count || 0, rec.count || 0);
                 const newPerfect = Math.max(localRec.perfect || 0, rec.perfect || 0);
                 const newRounds = Math.max(localRec.rounds || 0, rec.rounds || 0);
-                if (newCount > (localRec.count || 0) || newRounds > (localRec.rounds || 0)) {
+                if (newCount > (localRec.count || 0) || newPerfect > (localRec.perfect || 0) || newRounds > (localRec.rounds || 0)) {
                     state.calendar[dateKey] = { count: newCount, perfect: newPerfect, rounds: newRounds };
                     changed = true;
                 }
@@ -1511,7 +1573,11 @@
 
         const todayKey = getLocalDateKey();
         if (state.calendar && state.calendar[todayKey]) {
-            state.todayCount = Math.max(state.todayCount || 0, state.calendar[todayKey].count || 0);
+            const calToday = state.calendar[todayKey].count || 0;
+            if (calToday > (state.todayCount || 0)) {
+                state.todayCount = calToday;
+                changed = true;
+            }
         }
         if ((payload.bs || 0) > (state.bestStreak || 0)) {
             state.bestStreak = payload.bs;
@@ -1537,14 +1603,23 @@
 
         try {
             statusEl.innerText = `同步中 (${syncCode})...`;
-            await fetch(`https://ntfy.sh/${topic}`, {
+            // 使用 CORS 简单请求 (text/plain)，彻底消除 file:// 本地协议下的 OPTIONS 预检拦截
+            const reqInit = {
                 method: 'POST',
-                headers: { 'Cache': 'yes', 'Title': 'IELTS807Sync' },
-                body: payloadStr
-            });
+                headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                body: payloadStr,
+                keepalive: true
+            };
+            const results = await Promise.allSettled([
+                fetch(`https://kvdb.io/${KVDB_BUCKET}/${topic}`, reqInit),
+                fetch(`https://ntfy.sh/${topic}`, reqInit)
+            ]);
+            const anyOk = results.some(r => r.status === 'fulfilled' && r.value && r.value.ok);
+            if (!anyOk) throw new Error('Cloud endpoints unreachable');
+
             statusEl.innerText = `已云同步 (${syncCode})`;
             if (!silent && logEl) {
-                logEl.innerText = `✅ 已成功同步至云端 (${new Date().toLocaleTimeString()})！`;
+                logEl.innerText = `✅ 已成功同步至永久云端 (${new Date().toLocaleTimeString()})！掌握 ${Object.keys(state.mastered).length} 词`;
             }
         } catch (err) {
             statusEl.innerText = `本地已存 (${syncCode})`;
@@ -1559,30 +1634,69 @@
         const statusEl = document.getElementById('syncStatusShort');
         const logEl = document.getElementById('syncModalLog');
 
+        if ((syncCode || '').toUpperCase() === 'ZHB807') {
+            mergeCloudPayload(ZHB807_BASELINE_PAYLOAD);
+        }
+
+        let kvPayload = null;
+        let latestNtfyPayload = null;
+        let anyNetworkOk = false;
+
         try {
-            const resp = await fetch(`https://ntfy.sh/${topic}/json?poll=1&since=all`);
-            if (!resp.ok) return;
-            const text = await resp.text();
-            if (!text.trim()) {
-                if (Object.keys(state.mastered).length > 0 || Object.keys(state.calendar || {}).length > 0) {
-                    pushToCloud(true);
-                }
-                return;
-            }
-            const lines = text.trim().split('\n');
-            for (let i = lines.length - 1; i >= 0; i--) {
+            const [kvRes, ntfyRes] = await Promise.allSettled([
+                fetch(`https://kvdb.io/${KVDB_BUCKET}/${topic}?_t=${Date.now()}`, { cache: 'no-store' }),
+                fetch(`https://ntfy.sh/${topic}/json?poll=1&since=all&_t=${Date.now()}`, { cache: 'no-store' })
+            ]);
+
+            if (kvRes.status === 'fulfilled' && kvRes.value.ok) {
+                anyNetworkOk = true;
                 try {
-                    const msgObj = JSON.parse(lines[i]);
-                    if (msgObj && msgObj.message) {
-                        const payload = JSON.parse(msgObj.message);
-                        mergeCloudPayload(payload);
-                        break;
+                    const kvText = await kvRes.value.text();
+                    if (kvText && kvText.trim()) {
+                        kvPayload = JSON.parse(kvText.trim());
+                        mergeCloudPayload(kvPayload);
+                    }
+                } catch (e) {}
+            } else if (kvRes.status === 'fulfilled' && kvRes.value.status === 404) {
+                anyNetworkOk = true;
+            }
+
+            if (ntfyRes.status === 'fulfilled' && ntfyRes.value.ok) {
+                anyNetworkOk = true;
+                try {
+                    const text = await ntfyRes.value.text();
+                    if (text && text.trim()) {
+                        const lines = text.trim().split('\n');
+                        // 遍历合并全部历史消息（防止某台旧设备刚打开时的旧快照遮蔽之前的完整进度）
+                        for (let i = 0; i < lines.length; i++) {
+                            try {
+                                const msgObj = JSON.parse(lines[i]);
+                                if (msgObj && msgObj.message) {
+                                    const payload = JSON.parse(msgObj.message);
+                                    mergeCloudPayload(payload);
+                                    latestNtfyPayload = payload;
+                                }
+                            } catch (e) {}
+                        }
                     }
                 } catch (e) {}
             }
-            statusEl.innerText = `已云同步 (${syncCode})`;
+
+            if (!anyNetworkOk) {
+                statusEl.innerText = `离线模式 (${syncCode})`;
+                return;
+            }
+
+            // 关键修复：双向对账！如果本地合并后的进度比任一云端通道更新/更多，立即自动反向推送上云
+            const mergedLocal = packCloudPayload();
+            if (isLocalAheadOfCloud(mergedLocal, kvPayload) || isLocalAheadOfCloud(mergedLocal, latestNtfyPayload)) {
+                await pushToCloud(true);
+            } else {
+                statusEl.innerText = `已云同步 (${syncCode})`;
+            }
+
             if (!silent && logEl) {
-                logEl.innerText = `✅ 云端拉取并合并完成！当前掌握 ${Object.keys(state.mastered).length} 词`;
+                logEl.innerText = `✅ 云端双向同步完成！当前掌握 ${Object.keys(state.mastered).length} 词，错题本 ${Object.keys(state.mistakes).length} 词`;
             }
         } catch (err) {
             statusEl.innerText = `离线模式 (${syncCode})`;
