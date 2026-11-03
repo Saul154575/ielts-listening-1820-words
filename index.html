@@ -154,7 +154,7 @@
         /* 多进度条区域 */
         .progress-group {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
         }
 
@@ -1035,6 +1035,258 @@
         .link-btn:hover {
             color: #94a3b8;
         }
+
+        /* ==================== 大作文模板默写特训舱样式 ==================== */
+        .writing-card {
+            margin-top: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.45);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 28px rgba(139, 92, 246, 0.1);
+        }
+
+        .bar-fill-writing {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899, #f43f5e);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tpl-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        @media (max-width: 640px) {
+            .tpl-tabs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tpl-tab-btn {
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px;
+            color: var(--text-main);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .tpl-tab-btn:hover {
+            border-color: #a78bfa;
+        }
+
+        .tpl-tab-btn.active {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.16);
+            box-shadow: 0 0 0 1px #8b5cf6;
+        }
+
+        .tpl-tab-btn h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tpl-tab-btn p {
+            font-size: 11.5px;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
+
+        .para-select-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        @media (max-width: 560px) {
+            .para-select-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .para-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1.5px solid var(--card-border);
+            border-radius: 10px;
+            padding: 11px 13px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .para-card:hover {
+            border-color: #c084fc;
+        }
+
+        .para-card.active {
+            border-color: #a855f7;
+            background: rgba(168, 85, 247, 0.14);
+        }
+
+        .para-card-full {
+            grid-column: 1 / -1;
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.14), rgba(236, 72, 153, 0.14));
+        }
+
+        .para-done-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            font-family: monospace;
+        }
+
+        .para-done-badge.mastered {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .difficulty-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .diff-pill {
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: #cbd5e1;
+            transition: all 0.18s;
+        }
+
+        .diff-pill.active {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            border-color: #c084fc;
+            color: #fff;
+        }
+
+        /* 段落内嵌式占位框默写区 */
+        .tpl-para-workspace {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            line-height: 2.35;
+            font-size: 15.5px;
+        }
+
+        .tpl-para-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
+
+        .tpl-ph-box {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.16);
+            border: 1.5px dashed #fbbf24;
+            color: #fde68a;
+            padding: 2px 10px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 700;
+            margin: 4px 4px;
+            line-height: 1.5;
+            vertical-align: middle;
+            user-select: none;
+        }
+
+        .tpl-static-punct {
+            font-weight: 800;
+            color: #e2e8f0;
+            margin-right: 4px;
+            font-size: 16px;
+        }
+
+        .tpl-slot-wrapper {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            margin: 4px 3px;
+            max-width: 100%;
+        }
+
+        .tpl-slot-hint {
+            font-size: 11.5px;
+            color: #94a3b8;
+            line-height: 1.25;
+            margin-bottom: 3px;
+            padding-left: 2px;
+        }
+
+        .tpl-slot-input {
+            background: #0f172a;
+            border: 2px solid #475569;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 15px;
+            padding: 6px 10px;
+            outline: none;
+            transition: all 0.2s;
+            max-width: 100%;
+        }
+
+        .tpl-slot-input:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.25);
+        }
+
+        .tpl-slot-input.slot-correct {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.12);
+            color: #6ee7b7;
+        }
+
+        .tpl-slot-input.slot-wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.12);
+        }
+
+        .tpl-slot-diff {
+            display: none;
+            font-size: 12.5px;
+            line-height: 1.45;
+            margin-top: 4px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            background: rgba(239, 68, 68, 0.16);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #fecaca;
+            font-family: monospace;
+        }
+
     </style>
 </head>
 <body>
@@ -1092,6 +1344,16 @@
                 </div>
                 <div class="bar-track">
                     <div class="bar-fill-hf" id="hfTopProgressBar"></div>
+                </div>
+            </div>
+
+            <div class="progress-box" style="border-color: rgba(139, 92, 246, 0.35);">
+                <div class="progress-label-row">
+                    <span style="color: #c4b5fd;">✍️ 大作文 3 套万能模板默写进度</span>
+                    <span id="writingTopProgressText">0 / 12 段 (0%)</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill-writing" id="writingTopProgressBar"></div>
                 </div>
             </div>
         </div>
@@ -1492,6 +1754,124 @@
             </div>
         </div>
     </div>
+
+    <!-- 独立模块：雅思大作文 6.0 万能模板（CAE骨骼+周计划肉体）机考默写特训舱 -->
+    <div class="main-card writing-card" id="writingMainCard">
+        <div id="writingCardHeader">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <h2 style="font-size: 18px; font-weight: 800; background: linear-gradient(90deg, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        ✍️ 雅思大作文保 6.0 万能模板 · 机考分段/全文默写特训舱
+                    </h2>
+                    <span class="rank-badge" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">机考肌肉记忆</span>
+                </div>
+                <div style="font-size: 12.5px; color: var(--text-sub);">
+                    🏆 已默写通关段落: <b style="color: #c4b5fd;" id="writingMasteredCountText">0 / 12</b> 段
+                </div>
+            </div>
+
+            <div class="hf-banner" style="background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.12)); border-color: rgba(139, 92, 246, 0.35); color: #e9d5ff;">
+                💡 <b>机考 6.0 默写机制说明</b>：完美复刻 PDF 第四部分「CAE先进骨骼 + 周计划丰满肉体」3套终极模板（自带约 175~180 词固定高分套话）。<b>黄色虚线框 <code style="color:#fde68a;">[中文占位说明]</code> 已固定保留在段落中无需默写</b>，你只需自由选择单段或全文，把前后的黑体英文骨架默写出来即可！
+            </div>
+        </div>
+
+        <!-- 1. 模板与段落选择待机界面 -->
+        <div id="writingStartScreen">
+            <div style="font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+                第一步：选择要默写的模板（3套分开）
+            </div>
+            <div class="tpl-tabs">
+                <div class="tpl-tab-btn active" id="tpl-tab-A" onclick="selectWritingTemplate('A')">
+                    <h4>
+                        <span>🅰️ 模板 A：双正面一边倒</span>
+                        <span class="para-done-badge" id="tpl-badge-A">0/4 段</span>
+                    </h4>
+                    <p>同意与否 / 利弊分析 (Agree or Disagree / Outweigh)</p>
+                </div>
+                <div class="tpl-tab-btn" id="tpl-tab-B" onclick="selectWritingTemplate('B')">
+                    <h4>
+                        <span>🅱️ 模板 B：一正一反双边</span>
+                        <span class="para-done-badge" id="tpl-badge-B">0/4 段</span>
+                    </h4>
+                    <p>双边讨论题 (Discuss both views and give your opinion)</p>
+                </div>
+                <div class="tpl-tab-btn" id="tpl-tab-C" onclick="selectWritingTemplate('C')">
+                    <h4>
+                        <span>🅲 模板 C：逆向因果报告</span>
+                        <span class="para-done-badge" id="tpl-badge-C">0/4 段</span>
+                    </h4>
+                    <p>现象报告类：原因 + 解决方案 (Why + Solutions)</p>
+                </div>
+            </div>
+
+            <div style="font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+                第二步：自由选择要默写的段落（支持单段攻克 或 整篇连默）
+            </div>
+            <div class="para-select-grid" id="paraSelectGrid"></div>
+
+            <div style="font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+                第三步：选择辅助记忆难度（背不下来可先用「跟打/首字母」过渡到「全盲默写」）
+            </div>
+            <div class="difficulty-bar">
+                <div class="diff-pill" id="wdiff-trace" onclick="selectWritingDifficulty('trace')">
+                    🌱 1. 英文原句跟打（看着背）
+                </div>
+                <div class="diff-pill active" id="wdiff-hint" onclick="selectWritingDifficulty('hint')">
+                    🧭 2. 首字母 + 中文提示（半盲）
+                </div>
+                <div class="diff-pill" id="wdiff-blind" onclick="selectWritingDifficulty('blind')">
+                    🔥 3. 考场纯盲写（仅留中文占位框）
+                </div>
+            </div>
+
+            <button class="btn" style="width: 100%; padding: 16px; font-size: 17px; background: linear-gradient(135deg, #8b5cf6, #ec4899); color: #fff; box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);" onclick="startWritingPractice()">
+                ⌨️ 进入机考模板默写界面
+            </button>
+        </div>
+
+        <!-- 2. 模板默写专注训练界面 -->
+        <div id="writingPracticeScreen" style="display: none;">
+            <div class="session-top-bar" style="margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div>
+                    <span id="writingActiveTitle" style="color: #e9d5ff; font-weight: 800; font-size: 15px;">🅰️ 模板 A · OP 开头段</span>
+                    <span id="writingActiveSub" style="color: var(--text-sub); font-size: 12px; margin-left: 8px;"></span>
+                </div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <button class="btn btn-audio-slow" style="padding: 5px 10px; font-size: 12px;" onclick="switchInSessionDifficulty('trace')" id="inSessBtn-trace">🌱 原句跟打</button>
+                    <button class="btn btn-audio-slow" style="padding: 5px 10px; font-size: 12px;" onclick="switchInSessionDifficulty('hint')" id="inSessBtn-hint">🧭 首字母提示</button>
+                    <button class="btn btn-audio-slow" style="padding: 5px 10px; font-size: 12px;" onclick="switchInSessionDifficulty('blind')" id="inSessBtn-blind">🔥 考场全盲</button>
+                </div>
+            </div>
+
+            <!-- 快速切换本模板内的段落按钮条 -->
+            <div id="inSessionParaNav" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;"></div>
+
+            <!-- 段落占位框默写工作区 -->
+            <div id="writingWorkspaceContainer"></div>
+
+            <!-- 批改反馈面板 -->
+            <div class="feedback-box" id="writingFeedbackBox" style="margin-bottom: 14px;"></div>
+
+            <div class="action-row" style="flex-wrap: wrap;">
+                <button class="btn btn-submit" id="writingCheckBtn" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="checkWritingTemplate()">
+                    ✅ 提交批改本段默写 (Enter)
+                </button>
+                <button class="btn btn-audio-slow" type="button" onclick="fillCurrentSlotHint()" title="实在想不起当前光标所在这句时，点此偷看/填入标准句">
+                    💡 提示当前空
+                </button>
+                <button class="btn btn-audio-slow" type="button" onclick="speakWritingParagraph()" title="用澳洲口音朗读整段固定模板句，边听边记">
+                    🔊 朗读本段模板
+                </button>
+                <button class="btn btn-quit" onclick="returnWritingToHome()">
+                    返回主页
+                </button>
+            </div>
+
+            <div class="shortcut-tip">
+                机考快捷键：<span class="kbd">Tab</span> 跳过黄色中文占位框进入下一空 &nbsp;|&nbsp; <span class="kbd">Enter</span> 提交检验或跳至下一空
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- 手机端使用 & 云端同步设置弹窗 -->
@@ -1597,6 +1977,7 @@
         mistakes: {},
         hfMastered: {},
         hfMistakes: {},
+        writingMastered: {},
         bestStreak: 0,
         todayDate: new Date().toDateString(),
         todayCount: 0,
@@ -1676,6 +2057,7 @@
 
         initPageSelectors();
         initHfGroupSelectors();
+        initWritingTrainer();
         initVoiceEngine();
         updateDashboard();
 
@@ -1907,6 +2289,7 @@
         }
         if (!state.hfMastered) state.hfMastered = {};
         if (!state.hfMistakes) state.hfMistakes = {};
+                if (!state.writingMastered) state.writingMastered = {};
         if (Array.isArray(payload.hfm)) {
             payload.hfm.forEach(idx => {
                 const wObj = hfWordList[idx];
@@ -2112,6 +2495,7 @@
                 if (!state.calendar) state.calendar = {};
                 if (!state.hfMastered) state.hfMastered = {};
                 if (!state.hfMistakes) state.hfMistakes = {};
+                if (!state.writingMastered) state.writingMastered = {};
                 if (state.todayDate !== new Date().toDateString()) {
                     state.todayDate = new Date().toDateString();
                     state.todayCount = 0;
@@ -2380,6 +2764,7 @@
         // 更新《雅思听力高频词》独立进度条与测试框统计
         if (!state.hfMastered) state.hfMastered = {};
         if (!state.hfMistakes) state.hfMistakes = {};
+                if (!state.writingMastered) state.writingMastered = {};
         const hfTotal = hfWordList.length;
         const hfMasteredCount = hfWordList.filter(w => state.hfMastered[w.word.toLowerCase()]).length;
         const hfPct = ((hfMasteredCount / hfTotal) * 100).toFixed(1);
@@ -2408,6 +2793,18 @@
         document.getElementById('hf-tag-nov').innerText = `剩余 ${hfNovWords.length - hfNovMastered} 词`;
         document.getElementById('hf-tag-mistakes').innerText = `${hfMistakeKeys.length} 词待复仇`;
         updateHfCustomCount();
+
+        if (!state.writingMastered) state.writingMastered = {};
+        const totalTplParas = 12;
+        const doneTplParas = Object.keys(state.writingMastered).filter(k => state.writingMastered[k]).length;
+        const tplPct = Math.round((doneTplParas / totalTplParas) * 100);
+        const wTopText = document.getElementById('writingTopProgressText');
+        const wTopBar = document.getElementById('writingTopProgressBar');
+        const wCardCnt = document.getElementById('writingMasteredCountText');
+        if (wTopText) wTopText.innerText = `${doneTplParas} / ${totalTplParas} 段 (${tplPct}%)`;
+        if (wTopBar) wTopBar.style.width = `${tplPct}%`;
+        if (wCardCnt) wCardCnt.innerText = `${doneTplParas} / ${totalTplParas}`;
+        if (typeof renderWritingSelector === 'function') renderWritingSelector();
 
         const rankEl = document.getElementById('rankBadge');
         if (masteredTotal >= 1600) rankEl.innerText = '👑 Lv.6 雅思807战神';
@@ -2482,6 +2879,7 @@
 
         document.getElementById('dashboardCard').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'none';
+        document.getElementById('writingMainCard').style.display = 'none';
         document.getElementById('mainCard1820').style.display = 'block';
         document.getElementById('calendarSection').style.display = 'none';
         document.getElementById('modeTitleBadge').innerText = modeTitle;
@@ -2771,6 +3169,7 @@
         document.getElementById('dashboardCard').style.display = 'block';
         document.getElementById('mainCard1820').style.display = 'block';
         document.getElementById('hfMainCard').style.display = 'block';
+        document.getElementById('writingMainCard').style.display = 'block';
         document.getElementById('hfCardHeader').style.display = 'block';
         document.getElementById('hfMainCard').style.marginTop = '20px';
         document.getElementById('trainingScreen').style.display = 'none';
@@ -2824,6 +3223,7 @@
                 mistakes: {},
                 hfMastered: {},
                 hfMistakes: {},
+        writingMastered: {},
                 bestStreak: 0,
                 todayDate: new Date().toDateString(),
                 todayCount: 0,
@@ -2933,8 +3333,10 @@
 
         document.getElementById('dashboardCard').style.display = 'none';
         document.getElementById('mainCard1820').style.display = 'none';
+        document.getElementById('writingMainCard').style.display = 'none';
         document.getElementById('hfCardHeader').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'block';
+        document.getElementById('writingMainCard').style.display = 'block';
         document.getElementById('hfMainCard').style.marginTop = '0';
         document.getElementById('hfModeTitleBadge').innerText = modeTitle;
         document.getElementById('hfStartScreen').style.display = 'none';
@@ -3202,11 +3604,414 @@
         document.getElementById('dashboardCard').style.display = 'block';
         document.getElementById('mainCard1820').style.display = 'block';
         document.getElementById('hfMainCard').style.display = 'block';
+        document.getElementById('writingMainCard').style.display = 'block';
         document.getElementById('hfCardHeader').style.display = 'block';
         document.getElementById('hfMainCard').style.marginTop = '20px';
         document.getElementById('hfTrainingScreen').style.display = 'none';
         document.getElementById('hfSummaryScreen').style.display = 'none';
         document.getElementById('hfStartScreen').style.display = 'block';
+        updateDashboard();
+    }
+
+
+    // ==================== 雅思大作文 6.0 万能模板机考默写系统 ====================
+    const WRITING_TEMPLATES = {"A": {"id": "A", "name": "模板 A：【同意与否 / 利弊分析（一边倒）】", "sub": "适用题型：Agree or Disagree / Outweigh / Good or Bad thing（自带固定词数：约 175 词）", "paragraphs": [{"key": "OP", "title": "OP 开头段", "wordsCount": "约 55 词", "tokens": [{"type": "input", "text": "The past several decades have witnessed the dramatic development of", "cn": "过去几十年见证了……的剧烈发展"}, {"type": "ph", "text": "[填入题目核心现象名词]"}, {"type": "static", "text": "."}, {"type": "input", "text": "It cannot be denied that", "cn": "不可否认的是……"}, {"type": "ph", "text": "[用简单句写1个反方小缺点, 如: this trend may bring some small problems]"}, {"type": "static", "text": "."}, {"type": "input", "text": "However, as far as I am concerned, when we consider", "cn": "然而就我而言，当我们考虑到……"}, {"type": "ph", "text": "[正面分论点1名词, 如: technological upgrade]"}, {"type": "input", "text": "and", "cn": "以及"}, {"type": "ph", "text": "[正面分论点2名词, 如: economic growth]"}, {"type": "static", "text": ","}, {"type": "input", "text": "I can only agree that the merits outweigh the demerits, and the reasons are given below.", "cn": "我完全同意利大于弊，理由如下。"}]}, {"key": "B1", "title": "Body 1 正面 CAE (分论点 1)", "wordsCount": "约 85 词", "tokens": [{"type": "input", "text": "First and foremost, the primary reason is that", "cn": "首先，最主要的原因是……"}, {"type": "ph", "text": "[对象, 如: society]"}, {"type": "input", "text": "can obtain a better", "cn": "能够获得更好的……"}, {"type": "ph", "text": "[分论点1好结果]"}, {"type": "input", "text": "through", "cn": "通过……"}, {"type": "ph", "text": "[核心动作V-ing]"}, {"type": "static", "text": "."}, {"type": "input", "text": "To elaborate, it is not unusual that", "cn": "具体来说，司空见惯的是……"}, {"type": "ph", "text": "[对象]"}, {"type": "input", "text": "usually lack", "cn": "通常缺乏……"}, {"type": "ph", "text": "[缺失的条件/痛点名词]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Thus, by", "cn": "因此，通过……"}, {"type": "ph", "text": "[动作V-ing]"}, {"type": "static", "text": ","}, {"type": "ph", "text": "[用保命简单句写出过程, 如: companies can get more money to improve their skills]"}, {"type": "static", "text": "."}, {"type": "input", "text": "For example,", "cn": "例如，"}, {"type": "ph", "text": "[用1句大白话主谓宾造个身边例子]"}, {"type": "static", "text": "."}, {"type": "input", "text": "As a result, it is obvious that", "cn": "结果显而易见的是，"}, {"type": "ph", "text": "[动作V-ing]"}, {"type": "input", "text": "does good to", "cn": "对……有益"}, {"type": "ph", "text": "[受益对象]"}, {"type": "input", "text": ", achieving", "cn": "，从而实现……"}, {"type": "ph", "text": "[扣回分论点1好结果]"}, {"type": "static", "text": "."}]}, {"key": "B2", "title": "Body 2 正面 CAE (分论点 2)", "wordsCount": "约 85 词", "tokens": [{"type": "input", "text": "Furthermore, another benefit that must be taken into consideration is that", "cn": "此外，另一个必须考虑的好处是……"}, {"type": "ph", "text": "[对象, 如: a country]"}, {"type": "input", "text": "can achieve better", "cn": "能够实现更好的……"}, {"type": "ph", "text": "[分论点2好结果]"}, {"type": "input", "text": "by", "cn": "通过……"}, {"type": "ph", "text": "[核心动作V-ing]"}, {"type": "static", "text": "."}, {"type": "input", "text": "To be more specific, in contemporary society,", "cn": "更具体地说，在当代社会，"}, {"type": "ph", "text": "[用保命简单句写目前痛点, 如: many businesses face fierce competition and lack market support]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Thus, if people", "cn": "因此，如果人们……"}, {"type": "ph", "text": "[核心动作原形]"}, {"type": "input", "text": ", this action has a great influence on", "cn": "，这一行为对……有很大影响"}, {"type": "ph", "text": "[影响对象]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Actually,", "cn": "事实上，"}, {"type": "ph", "text": "[用保命简单句补充1句好影响, 如: it creates more jobs for local people]"}, {"type": "static", "text": "."}, {"type": "input", "text": "As a result,", "cn": "因此，"}, {"type": "ph", "text": "[结果主语]"}, {"type": "input", "text": "has become an indispensable part of our lives, promoting", "cn": "已成为我们生活中不可或缺的一部分，促进了……"}, {"type": "ph", "text": "[扣回分论点2好结果]"}, {"type": "static", "text": "."}]}, {"key": "ED", "title": "ED 结尾段", "wordsCount": "约 40 词", "tokens": [{"type": "input", "text": "Based on the above discussion and analysis, we can see that", "cn": "基于上述讨论与分析，我们可以看到……"}, {"type": "ph", "text": "[核心动作V-ing]"}, {"type": "input", "text": "plays a significant role in modern life. Therefore, I firmly commit to the notion that this trend is a positive development, and it shall be strongly encouraged to promote", "cn": "在现代生活中扮演着重要角色。因此我坚信这一趋势是积极的发展，应当大力鼓励以促进……"}, {"type": "ph", "text": "[分论点1]"}, {"type": "input", "text": "and", "cn": "和"}, {"type": "ph", "text": "[分论点2]"}, {"type": "static", "text": "."}]}]}, "B": {"id": "B", "name": "模板 B：【双边讨论题 (Discuss Both Views)】", "sub": "适用题型：Discuss both these views and give your own opinion（自带固定词数：约 180 词）", "paragraphs": [{"key": "OP", "title": "OP 开头段", "wordsCount": "约 55 词", "tokens": [{"type": "input", "text": "In our time and age, much debate has taken place about whether", "cn": "在我们这个时代，人们就……展开了广泛争论"}, {"type": "ph", "text": "[抄写题目争论的核心句子]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Some people hold the opinion that", "cn": "一些人认为……"}, {"type": "ph", "text": "[抄写反方观点句子]"}, {"type": "static", "text": "."}, {"type": "input", "text": "However, there are also a sizable percentage of people who firmly contend that", "cn": "然而，也有相当大比例的人坚定认为……"}, {"type": "ph", "text": "[抄写正方观点句子]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Before giving my opinion, I think it is important to look at the issue on both sides.", "cn": "在给出我的观点之前，我认为全面审视双方观点很重要。"}]}, {"key": "B1", "title": "Body 1 负面 CAE (讨论反方顾虑)", "wordsCount": "约 80 词", "tokens": [{"type": "input", "text": "On the one hand, those who argue against this trend give their reasons as follows. First,", "cn": "一方面，反对这一趋势的人给出如下理由。首先，"}, {"type": "ph", "text": "[对象]"}, {"type": "input", "text": "may be troubled by", "cn": "可能会受到……的困扰"}, {"type": "ph", "text": "[坏结果名词]"}, {"type": "input", "text": "if they", "cn": "如果他们……"}, {"type": "ph", "text": "[不良动作]"}, {"type": "static", "text": "."}, {"type": "input", "text": "To elaborate, it is obvious that", "cn": "具体而言，显而易见的是……"}, {"type": "ph", "text": "[对象]"}, {"type": "input", "text": "are easily influenced by", "cn": "很容易受到……的影响"}, {"type": "ph", "text": "[不良诱因名词]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Thus,", "cn": "因此，"}, {"type": "ph", "text": "[不良动作V-ing]"}, {"type": "input", "text": "will pose a great threat to", "cn": "将会对……造成极大威胁"}, {"type": "ph", "text": "[受害对象]"}, {"type": "static", "text": "."}, {"type": "input", "text": "For example,", "cn": "例如，"}, {"type": "ph", "text": "[用1句简单主谓宾写个负面例子]"}, {"type": "static", "text": "."}, {"type": "input", "text": "As a result, this practice does harm to", "cn": "结果，这种做法对……有害"}, {"type": "ph", "text": "[对象]"}, {"type": "input", "text": ", and", "cn": "，并且……"}, {"type": "ph", "text": "[用1句简单句写出最终坏结果]"}, {"type": "static", "text": "."}]}, {"key": "B2", "title": "Body 2 正面 CAE (讨论正方+自己)", "wordsCount": "约 85 词", "tokens": [{"type": "input", "text": "However, on the other hand, we cannot ignore the benefits of", "cn": "然而另一方面，我们不能忽视……的好处"}, {"type": "ph", "text": "[正方核心名词]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Second,", "cn": "其次，"}, {"type": "ph", "text": "[对象]"}, {"type": "input", "text": "can obtain a better", "cn": "能够获得更好的……"}, {"type": "ph", "text": "[好结果名词]"}, {"type": "input", "text": "through", "cn": "通过……"}, {"type": "ph", "text": "[正方核心动作V-ing]"}, {"type": "static", "text": "."}, {"type": "input", "text": "To be more specific, in daily life,", "cn": "更具体地说，在日常生活中，"}, {"type": "ph", "text": "[对象]"}, {"type": "input", "text": "usually lack", "cn": "通常缺乏……"}, {"type": "ph", "text": "[缺失的机会/条件]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Thus, by", "cn": "因此，通过……"}, {"type": "ph", "text": "[正方动作V-ing]"}, {"type": "static", "text": ","}, {"type": "ph", "text": "[用1句简单主谓宾写出正向过程]"}, {"type": "static", "text": "."}, {"type": "input", "text": "As a result,", "cn": "结果，"}, {"type": "ph", "text": "[正方动作V-ing]"}, {"type": "input", "text": "is in the best interests of", "cn": "最符合……的利益"}, {"type": "ph", "text": "[受益群体]"}, {"type": "input", "text": ", achieving", "cn": "，从而实现……"}, {"type": "ph", "text": "[扣回正方好结果]"}, {"type": "static", "text": "."}]}, {"key": "ED", "title": "ED 结尾段", "wordsCount": "约 40 词", "tokens": [{"type": "input", "text": "From what has been mentioned above, we may see that there is some truth in both arguments. However, as far as I am concerned, I completely stand on the latter opinion that", "cn": "综上所述，双方观点都有一定道理。然而就我而言，我完全支持后一种观点，即……"}, {"type": "ph", "text": "[重申正方核心简单句]"}, {"type": "input", "text": ", and we should make full use of its advantages and minimise its disadvantages.", "cn": "，我们应当充分利用其优势并尽量减少其弊端。"}]}]}, "C": {"id": "C", "name": "模板 C：【现象报告类 (Why + Solutions)】", "sub": "适用题型：What are the reasons? How can we solve this problem?（自带固定词数：约 180 词）", "paragraphs": [{"key": "OP", "title": "OP 开头段", "wordsCount": "约 50 词", "tokens": [{"type": "input", "text": "In recent years, there is a widespread concern that", "cn": "近年来，人们普遍关注……"}, {"type": "ph", "text": "[抄写或微调题目给出的问题现象句子]"}, {"type": "input", "text": ", which is most likely caused by a combination of personal and social factors. Regarding these facts, I think there are some effective ways to deal with the problem.", "cn": "，这很可能是由个人和社会因素共同导致的。针对这些事实，我认为有一些有效的方法可以解决该问题。"}]}, {"key": "B1", "title": "Body 1 原因段 (逆向 CAE: 内外因)", "wordsCount": "约 85 词", "tokens": [{"type": "input", "text": "First of all, from the individual perspective,", "cn": "首先，从个人角度来看，"}, {"type": "ph", "text": "[用保命简单句写个人/家庭原因C, 如: people are too busy with their daily work]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Thus, they", "cn": "因此，他们……"}, {"type": "ph", "text": "[导致的疏忽动作A, 如: ignore the need to do sth.]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Furthermore, in terms of social factors,", "cn": "此外，就社会因素而言，"}, {"type": "ph", "text": "[社会原因名词, 如: modern technology]"}, {"type": "input", "text": "is also the root cause of this issue. To elaborate,", "cn": "也是这一问题的根源。具体来说，"}, {"type": "ph", "text": "[用简单句写社会环境影响, 如: the internet provides too much cheap entertainment]"}, {"type": "static", "text": "."}, {"type": "input", "text": "As a result, that is the reason why", "cn": "结果，这就是为什么……"}, {"type": "ph", "text": "[直接照抄题干的问题现象句子E]"}, {"type": "static", "text": "."}]}, {"key": "B2", "title": "Body 2 方案段 (正面 CAE: 措施)", "wordsCount": "约 85 词", "tokens": [{"type": "input", "text": "However, it is time the authorities and individuals took proper measures to solve this problem. To elaborate, people usually lack", "cn": "然而，到了政府和个人采取适当措施解决这一问题的时候了。具体来说，人们通常缺乏……"}, {"type": "ph", "text": "[缺失的引导/设施名词, 如: professional guidance and public facilities]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Thus, to begin with, in order to", "cn": "因此，首先，为了……"}, {"type": "ph", "text": "[解决目标]"}, {"type": "input", "text": ", the government should spare no effort to", "cn": "，政府应当不遗余力去……"}, {"type": "ph", "text": "[政府措施动词原形, 如: provide free courses]"}, {"type": "static", "text": "."}, {"type": "input", "text": "Meanwhile, individuals are suggested to get into the habit of", "cn": "与此同时，建议个人养成……的习惯"}, {"type": "ph", "text": "[个人措施V-ing]"}, {"type": "static", "text": "."}, {"type": "input", "text": "As a result, by doing this, we can successfully address this problem and achieve a better society.", "cn": "结果，通过这样做，我们就能成功解决这一问题并实现更美好的社会。"}]}, {"key": "ED", "title": "ED 结尾段", "wordsCount": "约 40 词", "tokens": [{"type": "input", "text": "In conclusion, there are many factors which cause this trouble, and something should be done as soon as possible. I believe the effective combination of the solutions mentioned above will", "cn": "总之，造成这一问题的原因有很多，必须尽快采取行动。我相信上述解决方案的有效结合将会……"}, {"type": "ph", "text": "[用简单句写好结果, 如: help people live a healthier life]"}, {"type": "static", "text": "."}]}]}};
+
+    let currentTplId = 'A';
+    let currentParaKey = 'OP'; // 'OP', 'B1', 'B2', 'ED', or 'ALL'
+    let currentWritingDiff = 'hint'; // 'trace', 'hint', 'blind'
+    let lastFocusedSlotInput = null;
+
+    function initWritingTrainer() {
+        renderWritingSelector();
+    }
+
+    function selectWritingTemplate(tplId) {
+        currentTplId = tplId;
+        ['A', 'B', 'C'].forEach(id => {
+            const btn = document.getElementById('tpl-tab-' + id);
+            if (btn) btn.classList.toggle('active', id === tplId);
+        });
+        renderWritingSelector();
+    }
+
+    function selectWritingParagraph(paraKey) {
+        currentParaKey = paraKey;
+        renderWritingSelector();
+    }
+
+    function selectWritingDifficulty(diff) {
+        currentWritingDiff = diff;
+        ['trace', 'hint', 'blind'].forEach(d => {
+            const el = document.getElementById('wdiff-' + d);
+            if (el) el.classList.toggle('active', d === diff);
+        });
+    }
+
+    function renderWritingSelector() {
+        if (!state.writingMastered) state.writingMastered = {};
+        ['A', 'B', 'C'].forEach(id => {
+            const tpl = WRITING_TEMPLATES[id];
+            const doneCnt = tpl.paragraphs.filter(p => state.writingMastered[`${id}_${p.key}`]).length;
+            const badge = document.getElementById('tpl-badge-' + id);
+            if (badge) {
+                badge.innerText = `${doneCnt}/4 段`;
+                badge.classList.toggle('mastered', doneCnt === 4);
+            }
+        });
+
+        const grid = document.getElementById('paraSelectGrid');
+        if (!grid) return;
+        const tpl = WRITING_TEMPLATES[currentTplId];
+        let htmlStr = '';
+
+        tpl.paragraphs.forEach((p, idx) => {
+            const mKey = `${currentTplId}_${p.key}`;
+            const isDone = !!state.writingMastered[mKey];
+            const isActive = (currentParaKey === p.key);
+            const slotCount = p.tokens.filter(t => t.type === 'input').length;
+            htmlStr += `
+                <div class="para-card ${isActive ? 'active' : ''}" onclick="selectWritingParagraph('${p.key}')">
+                    <div>
+                        <div style="font-weight: 800; font-size: 14px; color: #f8fafc;">
+                            ${idx + 1}️⃣ ${p.title}
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-sub); margin-top: 2px;">
+                            ${p.wordsCount} · 含 ${slotCount} 处固定骨架句
+                        </div>
+                    </div>
+                    <span class="para-done-badge ${isDone ? 'mastered' : ''}">
+                        ${isDone ? '✅ 已通关' : '待默写'}
+                    </span>
+                </div>
+            `;
+        });
+
+        const allDone = tpl.paragraphs.every(p => state.writingMastered[`${currentTplId}_${p.key}`]);
+        htmlStr += `
+            <div class="para-card para-card-full ${currentParaKey === 'ALL' ? 'active' : ''}" onclick="selectWritingParagraph('ALL')">
+                <div>
+                    <div style="font-weight: 800; font-size: 14.5px; color: #f472b6;">
+                        🔥 全文四段连默（OP + Body 1 + Body 2 + ED 完整考场实战）
+                    </div>
+                    <div style="font-size: 12px; color: #cbd5e1; margin-top: 2px;">
+                        一次性连贯默写当前模板全篇 4 个段落，保留全部中文占位框，彻底砸进机考肌肉记忆！
+                    </div>
+                </div>
+                <span class="para-done-badge ${allDone ? 'mastered' : ''}">
+                    ${allDone ? '🏆 全篇通关' : '全篇挑战'}
+                </span>
+            </div>
+        `;
+
+        grid.innerHTML = htmlStr;
+    }
+
+    function buildFirstLetterMask(sentence) {
+        return sentence.split(/\s+/).map(word => {
+            const clean = word.replace(/[^a-zA-Z]/g, '');
+            const punct = word.replace(/[a-zA-Z]/g, '');
+            if (clean.length <= 1) return word;
+            return clean[0] + '_'.repeat(Math.min(clean.length - 1, 6)) + punct;
+        }).join(' ');
+    }
+
+    function startWritingPractice() {
+        stopAllAudio();
+        document.getElementById('dashboardCard').style.display = 'none';
+        document.getElementById('mainCard1820').style.display = 'none';
+        document.getElementById('hfMainCard').style.display = 'none';
+        document.getElementById('writingCardHeader').style.display = 'none';
+        document.getElementById('writingMainCard').style.display = 'block';
+        document.getElementById('writingMainCard').style.marginTop = '0';
+
+        document.getElementById('writingStartScreen').style.display = 'none';
+        document.getElementById('writingPracticeScreen').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        renderWritingWorkspace();
+    }
+
+    function switchInSessionDifficulty(diff) {
+        // Preserve current typed values when switching difficulty hint mode
+        const savedVals = {};
+        document.querySelectorAll('.tpl-slot-input').forEach(inp => {
+            savedVals[inp.dataset.slotId] = inp.value;
+        });
+        currentWritingDiff = diff;
+        selectWritingDifficulty(diff);
+        renderWritingWorkspace(savedVals);
+    }
+
+    function switchInSessionParagraph(paraKey) {
+        currentParaKey = paraKey;
+        renderWritingWorkspace();
+    }
+
+    function renderWritingWorkspace(savedVals = null) {
+        const tpl = WRITING_TEMPLATES[currentTplId];
+        const parasToRender = currentParaKey === 'ALL'
+            ? tpl.paragraphs
+            : tpl.paragraphs.filter(p => p.key === currentParaKey);
+
+        const titleLabel = currentParaKey === 'ALL'
+            ? `${tpl.name} · 全文四段连默`
+            : `${tpl.name} · ${parasToRender[0].title}`;
+
+        document.getElementById('writingActiveTitle').innerText = titleLabel;
+        document.getElementById('writingActiveSub').innerText = tpl.sub;
+
+        ['trace', 'hint', 'blind'].forEach(d => {
+            const btn = document.getElementById('inSessBtn-' + d);
+            if (btn) {
+                btn.style.borderColor = (d === currentWritingDiff) ? '#c084fc' : 'var(--card-border)';
+                btn.style.background = (d === currentWritingDiff) ? 'rgba(139, 92, 246, 0.25)' : 'rgba(255, 255, 255, 0.08)';
+                btn.style.color = (d === currentWritingDiff) ? '#fff' : '#cbd5e1';
+            }
+        });
+
+        // Render top paragraph quick-switcher
+        const navEl = document.getElementById('inSessionParaNav');
+        let navHtml = '';
+        tpl.paragraphs.forEach(p => {
+            const isDone = !!(state.writingMastered && state.writingMastered[`${currentTplId}_${p.key}`]);
+            const active = (currentParaKey === p.key);
+            navHtml += `
+                <button type="button" class="btn btn-audio-slow"
+                        style="padding: 5px 11px; font-size: 12px; ${active ? 'border-color:#a855f7;background:rgba(168,85,247,0.22);color:#fff;' : ''}"
+                        onclick="switchInSessionParagraph('${p.key}')">
+                    ${isDone ? '✅ ' : ''}${p.title}
+                </button>
+            `;
+        });
+        navHtml += `
+            <button type="button" class="btn btn-audio-slow"
+                    style="padding: 5px 11px; font-size: 12px; ${currentParaKey === 'ALL' ? 'border-color:#ec4899;background:rgba(236,72,153,0.22);color:#fff;' : ''}"
+                    onclick="switchInSessionParagraph('ALL')">
+                🔥 全文四段连默
+            </button>
+        `;
+        navEl.innerHTML = navHtml;
+
+        const container = document.getElementById('writingWorkspaceContainer');
+        let wsHtml = '';
+        let slotCounter = 0;
+
+        parasToRender.forEach(p => {
+            wsHtml += `
+                <div class="tpl-para-workspace">
+                    <div class="tpl-para-header">
+                        <span style="font-weight: 800; color: #c4b5fd; font-size: 14px;">📌 ${p.title} (${p.wordsCount})</span>
+                        <span style="font-size: 12px; color: var(--text-sub);">黄色框为考场审题填空位（无需默写），请默写其余固定英文句</span>
+                    </div>
+                    <div>
+            `;
+
+            p.tokens.forEach(tok => {
+                if (tok.type === 'ph') {
+                    wsHtml += `<span class="tpl-ph-box">${tok.text}</span>`;
+                } else if (tok.type === 'static') {
+                    wsHtml += `<span class="tpl-static-punct">${tok.text}</span>`;
+                } else if (tok.type === 'input') {
+                    const slotId = `${p.key}_${slotCounter++}`;
+                    const targetText = tok.text;
+                    const wordCnt = targetText.trim().split(/\s+/).length;
+                    const widthCh = Math.max(Math.min(targetText.length + 4, 68), 14);
+
+                    let topHintHtml = '';
+                    let placeholderText = '';
+                    if (currentWritingDiff === 'trace') {
+                        topHintHtml = `<div class="tpl-slot-hint" style="color: #a78bfa;">📖 原句跟打: <b>${targetText}</b> (${tok.cn})</div>`;
+                        placeholderText = targetText;
+                    } else if (currentWritingDiff === 'hint') {
+                        const firstLetterStr = buildFirstLetterMask(targetText);
+                        topHintHtml = `<div class="tpl-slot-hint">💡 ${tok.cn} · <span style="font-family:monospace;color:#cbd5e1;">${firstLetterStr}</span> (${wordCnt}词)</div>`;
+                        placeholderText = `默写 ${wordCnt} 个词...`;
+                    } else {
+                        topHintHtml = `<div class="tpl-slot-hint">🎯 盲写 (${wordCnt}词 · ${tok.cn})</div>`;
+                        placeholderText = `在此盲写固定模板句 (${wordCnt}词)...`;
+                    }
+
+                    const val = (savedVals && savedVals[slotId] !== undefined) ? savedVals[slotId].replace(/"/g, '&quot;') : '';
+
+                    wsHtml += `
+                        <span class="tpl-slot-wrapper" style="width: ${targetText.length > 42 ? '100%' : 'auto'};">
+                            ${topHintHtml}
+                            <input type="text" class="tpl-slot-input"
+                                   id="slot_${slotId}"
+                                   data-slot-id="${slotId}"
+                                   data-target="${targetText.replace(/"/g, '&quot;')}"
+                                   value="${val}"
+                                   placeholder="${placeholderText.replace(/"/g, '&quot;')}"
+                                   style="width: ${targetText.length > 42 ? '100%' : widthCh + 'ch'};"
+                                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <div class="tpl-slot-diff" id="diff_${slotId}"></div>
+                        </span>
+                    `;
+                }
+            });
+
+            wsHtml += `
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = wsHtml;
+
+        const fb = document.getElementById('writingFeedbackBox');
+        fb.className = 'feedback-box';
+        fb.innerHTML = '';
+
+        const allInputs = Array.from(document.querySelectorAll('.tpl-slot-input'));
+        allInputs.forEach((inp, idx) => {
+            inp.addEventListener('focus', () => {
+                lastFocusedSlotInput = inp;
+            });
+            inp.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (idx < allInputs.length - 1 && !e.ctrlKey) {
+                        allInputs[idx + 1].focus();
+                    } else {
+                        checkWritingTemplate();
+                    }
+                }
+            });
+        });
+
+        if (allInputs.length > 0) {
+            allInputs[0].focus();
+            lastFocusedSlotInput = allInputs[0];
+        }
+    }
+
+    function normalizeSentenceForCompare(str) {
+        return (str || '')
+            .toLowerCase()
+            .replace(/[.,!?;:'"()\[\]]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    function buildWordDiffHtml(userStr, targetStr) {
+        const targetWords = targetStr.trim().split(/\s+/);
+        const userWords = (userStr || '').trim().split(/\s+/).filter(Boolean);
+        const normUserWords = userWords.map(w => w.toLowerCase().replace(/[.,!?;:]/g, ''));
+
+        let html = '<div>标准原句：';
+        targetWords.forEach((tw, i) => {
+            const cleanTw = tw.toLowerCase().replace(/[.,!?;:]/g, '');
+            const uw = normUserWords[i] || '';
+            const matched = (cleanTw === uw);
+            if (matched) {
+                html += `<span style="color:#6ee7b7;font-weight:700;">${tw}</span> `;
+            } else {
+                html += `<span style="background:#ef4444;color:#fff;padding:1px 5px;border-radius:4px;font-weight:800;">${tw}</span> `;
+            }
+        });
+        html += '</div>';
+        return html;
+    }
+
+    function checkWritingTemplate() {
+        const allInputs = Array.from(document.querySelectorAll('.tpl-slot-input'));
+        if (allInputs.length === 0) return;
+
+        let correctCount = 0;
+        let firstWrongInput = null;
+
+        allInputs.forEach(inp => {
+            const target = inp.dataset.target || '';
+            const userVal = inp.value || '';
+            const slotId = inp.dataset.slotId;
+            const diffEl = document.getElementById('diff_' + slotId);
+
+            if (normalizeSentenceForCompare(userVal) === normalizeSentenceForCompare(target)) {
+                inp.className = 'tpl-slot-input slot-correct';
+                // Automatically format to standard capitalization & punctuation on match
+                inp.value = target;
+                if (diffEl) {
+                    diffEl.style.display = 'none';
+                    diffEl.innerHTML = '';
+                }
+                correctCount++;
+            } else {
+                inp.className = 'tpl-slot-input slot-wrong';
+                if (!firstWrongInput) firstWrongInput = inp;
+                if (diffEl) {
+                    diffEl.style.display = 'block';
+                    diffEl.innerHTML = buildWordDiffHtml(userVal, target);
+                }
+            }
+        });
+
+        const fb = document.getElementById('writingFeedbackBox');
+        if (correctCount === allInputs.length) {
+            if (!state.writingMastered) state.writingMastered = {};
+            const tpl = WRITING_TEMPLATES[currentTplId];
+            if (currentParaKey === 'ALL') {
+                tpl.paragraphs.forEach(p => {
+                    state.writingMastered[`${currentTplId}_${p.key}`] = Date.now();
+                });
+            } else {
+                state.writingMastered[`${currentTplId}_${currentParaKey}`] = Date.now();
+            }
+            recordDailyActivity(true, true);
+            saveState();
+
+            fb.className = 'feedback-box show-success';
+            fb.innerHTML = `
+                <div style="color: #34d399; font-weight: 800; font-size: 16px;">
+                    🏆 太强了！本部分共 ${allInputs.length} 处固定模板骨架全部默写正确！已点亮通关金标！
+                </div>
+                <div style="font-size: 13px; color: #cbd5e1; margin-top: 6px;">
+                    建议：如果刚才用的是「跟打」或「首字母提示」，可以点右上角切到 <b>🔥 考场全盲</b> 再盲打一遍巩固！
+                </div>
+            `;
+        } else {
+            fb.className = 'feedback-box show-error';
+            fb.innerHTML = `
+                <div class="error-headline">
+                    ⚡ 已完成批改：答对 ${correctCount} / ${allInputs.length} 空。下方红框已为你逐词标出漏词/拼写差异，请直接修改红框后再次按 Enter 提交！
+                </div>
+            `;
+            if (firstWrongInput) firstWrongInput.focus();
+        }
+    }
+
+    function fillCurrentSlotHint() {
+        const allInputs = Array.from(document.querySelectorAll('.tpl-slot-input'));
+        const targetInp = lastFocusedSlotInput || allInputs.find(i => !i.classList.contains('slot-correct')) || allInputs[0];
+        if (!targetInp) return;
+        const slotId = targetInp.dataset.slotId;
+        const diffEl = document.getElementById('diff_' + slotId);
+        if (diffEl) {
+            diffEl.style.display = 'block';
+            diffEl.innerHTML = `💡 本空标准原句：<b style="color:#fde68a;">${targetInp.dataset.target}</b>`;
+        }
+        targetInp.focus();
+    }
+
+    function speakWritingParagraph() {
+        const allInputs = Array.from(document.querySelectorAll('.tpl-slot-input'));
+        const fullText = allInputs.map(i => i.dataset.target).join('. ');
+        playWordAudio(fullText, 0.88);
+    }
+
+    function returnWritingToHome() {
+        stopAllAudio();
+        document.getElementById('dashboardCard').style.display = 'block';
+        document.getElementById('mainCard1820').style.display = 'block';
+        document.getElementById('hfMainCard').style.display = 'block';
+        document.getElementById('hfCardHeader').style.display = 'block';
+        document.getElementById('hfMainCard').style.marginTop = '20px';
+        document.getElementById('writingMainCard').style.display = 'block';
+        document.getElementById('writingCardHeader').style.display = 'block';
+        document.getElementById('writingMainCard').style.marginTop = '20px';
+
+        document.getElementById('writingPracticeScreen').style.display = 'none';
+        document.getElementById('writingStartScreen').style.display = 'block';
         updateDashboard();
     }
 
