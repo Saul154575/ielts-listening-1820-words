@@ -1041,7 +1041,7 @@
 
 <div class="app-wrapper">
     <!-- 顶部全局激励与双进度条看板 -->
-    <div class="dashboard-card">
+    <div class="dashboard-card" id="dashboardCard">
         <div class="header-row">
             <div class="brand-title">
                 <h1>🦘 雅思听力 1、4 部分填空基础词汇（1820词）</h1>
@@ -1126,7 +1126,7 @@
     </div>
 
     <!-- 主容器 -->
-    <div class="main-card">
+    <div class="main-card" id="mainCard1820">
         <!-- 1. 待机开始界面 -->
         <div id="startScreen">
             <div style="text-align: left; margin-bottom: 14px;">
@@ -1298,7 +1298,7 @@
     <!-- 独立测试框：雅思听力高频词（401词）专项特训舱 -->
     <div class="main-card hf-card" id="hfMainCard">
         <!-- 高频词专属独立进度条面板 -->
-        <div style="margin-bottom: 16px;">
+        <div id="hfCardHeader" style="margin-bottom: 16px;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
                 <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                     <h2 style="font-size: 18px; font-weight: 800; background: linear-gradient(90deg, #fbbf24, #f87171); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
@@ -2480,11 +2480,15 @@
         isPenaltyMode = false;
         hadErrorOnCurrentWord = false;
 
+        document.getElementById('dashboardCard').style.display = 'none';
+        document.getElementById('hfMainCard').style.display = 'none';
+        document.getElementById('mainCard1820').style.display = 'block';
         document.getElementById('calendarSection').style.display = 'none';
         document.getElementById('modeTitleBadge').innerText = modeTitle;
         document.getElementById('startScreen').style.display = 'none';
         document.getElementById('summaryScreen').style.display = 'none';
         document.getElementById('trainingScreen').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
         renderQuestion();
         playCurrentAudio(0.9);
@@ -2716,7 +2720,6 @@
 
     function showSessionSummary() {
         document.getElementById('trainingScreen').style.display = 'none';
-        document.getElementById('calendarSection').style.display = 'block';
         const sumEl = document.getElementById('summaryScreen');
         sumEl.style.display = 'block';
 
@@ -2765,6 +2768,11 @@
 
     function returnToHome() {
         stopAllAudio();
+        document.getElementById('dashboardCard').style.display = 'block';
+        document.getElementById('mainCard1820').style.display = 'block';
+        document.getElementById('hfMainCard').style.display = 'block';
+        document.getElementById('hfCardHeader').style.display = 'block';
+        document.getElementById('hfMainCard').style.marginTop = '20px';
         document.getElementById('trainingScreen').style.display = 'none';
         document.getElementById('summaryScreen').style.display = 'none';
         document.getElementById('calendarSection').style.display = 'block';
@@ -2923,10 +2931,16 @@
         hfIsPenaltyMode = false;
         hfHadErrorOnCurrentWord = false;
 
+        document.getElementById('dashboardCard').style.display = 'none';
+        document.getElementById('mainCard1820').style.display = 'none';
+        document.getElementById('hfCardHeader').style.display = 'none';
+        document.getElementById('hfMainCard').style.display = 'block';
+        document.getElementById('hfMainCard').style.marginTop = '0';
         document.getElementById('hfModeTitleBadge').innerText = modeTitle;
         document.getElementById('hfStartScreen').style.display = 'none';
         document.getElementById('hfSummaryScreen').style.display = 'none';
         document.getElementById('hfTrainingScreen').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
         renderHfQuestion();
         playHfCurrentAudio(0.9);
@@ -3185,6 +3199,11 @@
 
     function returnHfToHome() {
         stopAllAudio();
+        document.getElementById('dashboardCard').style.display = 'block';
+        document.getElementById('mainCard1820').style.display = 'block';
+        document.getElementById('hfMainCard').style.display = 'block';
+        document.getElementById('hfCardHeader').style.display = 'block';
+        document.getElementById('hfMainCard').style.marginTop = '20px';
         document.getElementById('hfTrainingScreen').style.display = 'none';
         document.getElementById('hfSummaryScreen').style.display = 'none';
         document.getElementById('hfStartScreen').style.display = 'block';
