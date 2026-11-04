@@ -7,7 +7,27 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="雅思听力1820词">
     <title>雅思听力 1、4 部分填空基础词汇（1820词）· 听音盲写特训</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <style>
+        body[data-active-mode="1820"] #dashboardCard,
+        body[data-active-mode="1820"] #hfMainCard,
+        body[data-active-mode="1820"] #writingMainCard {
+            display: none !important;
+        }
+        body[data-active-mode="hf"] #dashboardCard,
+        body[data-active-mode="hf"] #mainCard1820,
+        body[data-active-mode="hf"] #hfCardHeader,
+        body[data-active-mode="hf"] #writingMainCard {
+            display: none !important;
+        }
+        body[data-active-mode="writing"] #dashboardCard,
+        body[data-active-mode="writing"] #mainCard1820,
+        body[data-active-mode="writing"] #hfMainCard,
+        body[data-active-mode="writing"] #writingCardHeader {
+            display: none !important;
+        }
         :root {
             --bg: #0f172a;
             --card-bg: #1e293b;
@@ -2877,6 +2897,7 @@
         isPenaltyMode = false;
         hadErrorOnCurrentWord = false;
 
+        document.body.dataset.activeMode = '1820';
         document.getElementById('dashboardCard').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'none';
         document.getElementById('writingMainCard').style.display = 'none';
@@ -3166,6 +3187,7 @@
 
     function returnToHome() {
         stopAllAudio();
+        delete document.body.dataset.activeMode;
         document.getElementById('dashboardCard').style.display = 'block';
         document.getElementById('mainCard1820').style.display = 'block';
         document.getElementById('hfMainCard').style.display = 'block';
@@ -3333,6 +3355,7 @@
         hfIsPenaltyMode = false;
         hfHadErrorOnCurrentWord = false;
 
+        document.body.dataset.activeMode = 'hf';
         document.getElementById('dashboardCard').style.display = 'none';
         document.getElementById('mainCard1820').style.display = 'none';
         document.getElementById('writingMainCard').style.display = 'none';
@@ -3602,6 +3625,7 @@
 
     function returnHfToHome() {
         stopAllAudio();
+        delete document.body.dataset.activeMode;
         document.getElementById('dashboardCard').style.display = 'block';
         document.getElementById('mainCard1820').style.display = 'block';
         document.getElementById('hfMainCard').style.display = 'block';
@@ -3721,6 +3745,7 @@
 
     function startWritingPractice() {
         stopAllAudio();
+        document.body.dataset.activeMode = 'writing';
         document.getElementById('dashboardCard').style.display = 'none';
         document.getElementById('mainCard1820').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'none';
@@ -4004,6 +4029,7 @@
 
     function returnWritingToHome() {
         stopAllAudio();
+        delete document.body.dataset.activeMode;
         document.getElementById('dashboardCard').style.display = 'block';
         document.getElementById('mainCard1820').style.display = 'block';
         document.getElementById('hfMainCard').style.display = 'block';
