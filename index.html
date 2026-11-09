@@ -13,19 +13,29 @@
     <style>
         body[data-active-mode="1820"] #dashboardCard,
         body[data-active-mode="1820"] #hfMainCard,
-        body[data-active-mode="1820"] #writingMainCard {
+        body[data-active-mode="1820"] #writingMainCard,
+        body[data-active-mode="1820"] #task1MainCard {
             display: none !important;
         }
         body[data-active-mode="hf"] #dashboardCard,
         body[data-active-mode="hf"] #mainCard1820,
         body[data-active-mode="hf"] #hfCardHeader,
-        body[data-active-mode="hf"] #writingMainCard {
+        body[data-active-mode="hf"] #writingMainCard,
+        body[data-active-mode="hf"] #task1MainCard {
             display: none !important;
         }
         body[data-active-mode="writing"] #dashboardCard,
         body[data-active-mode="writing"] #mainCard1820,
         body[data-active-mode="writing"] #hfMainCard,
-        body[data-active-mode="writing"] #writingCardHeader {
+        body[data-active-mode="writing"] #writingCardHeader,
+        body[data-active-mode="writing"] #task1MainCard {
+            display: none !important;
+        }
+        body[data-active-mode="task1"] #dashboardCard,
+        body[data-active-mode="task1"] #mainCard1820,
+        body[data-active-mode="task1"] #hfMainCard,
+        body[data-active-mode="task1"] #writingMainCard,
+        body[data-active-mode="task1"] #task1CardHeader {
             display: none !important;
         }
         :root {
@@ -1056,11 +1066,17 @@
             color: #94a3b8;
         }
 
-        /* ==================== 大作文模板默写特训舱样式 ==================== */
+        /* ==================== 大作文 & G类小作文模板默写特训舱样式 ==================== */
         .writing-card {
             margin-top: 20px;
             border: 1px solid rgba(139, 92, 246, 0.45);
             box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 28px rgba(139, 92, 246, 0.1);
+        }
+
+        .task1-card {
+            margin-top: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 28px rgba(16, 185, 129, 0.1);
         }
 
         .bar-fill-writing {
@@ -1069,6 +1085,57 @@
             border-radius: 999px;
             width: 0%;
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bar-fill-task1 {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #06b6d4, #3b82f6);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .t1-tab-btn.active {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.16);
+            box-shadow: 0 0 0 1px #10b981;
+        }
+
+        .t1-para-card.active {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.14);
+        }
+
+        .t1-diff-pill.active {
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            border-color: #34d399;
+            color: #fff;
+        }
+
+        .cheat-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .cheat-table th, .cheat-table td {
+            border: 1px solid #334155;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .cheat-table th {
+            background: rgba(15, 23, 42, 0.9);
+            color: #6ee7b7;
+            font-weight: 800;
+        }
+
+        .cheat-table td {
+            background: rgba(15, 23, 42, 0.55);
+            color: #e2e8f0;
         }
 
         .tpl-tabs {
@@ -1374,6 +1441,16 @@
                 </div>
                 <div class="bar-track">
                     <div class="bar-fill-writing" id="writingTopProgressBar"></div>
+                </div>
+            </div>
+
+            <div class="progress-box" style="border-color: rgba(16, 185, 129, 0.38); grid-column: 1 / -1;">
+                <div class="progress-label-row">
+                    <span style="color: #6ee7b7;">✉️ G类小作文 (Task 1) 2 套万能模板默写进度（正式信 5 段 + 朋友信 5 段）</span>
+                    <span id="task1TopProgressText">0 / 10 段 (0%)</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill-task1" id="task1TopProgressBar"></div>
                 </div>
             </div>
         </div>
@@ -1892,6 +1969,195 @@
             </div>
         </div>
     </div>
+
+    <!-- 独立模块：雅思G类小作文 (Task 1) 保 6.0+ 丰满版CAE万能模板 机考默写特训舱 -->
+    <div class="main-card task1-card" id="task1MainCard">
+        <div id="task1CardHeader">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <h2 style="font-size: 18px; font-weight: 800; background: linear-gradient(90deg, #34d399, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        ✉️ 雅思G类小作文 (Task 1) 丰满版CAE万能模板 · 机考分段/全文默写特训舱
+                    </h2>
+                    <span class="rank-badge" style="background: linear-gradient(135deg, #10b981, #06b6d4);">CAE骨骼+丰满肉体</span>
+                </div>
+                <div style="font-size: 12.5px; color: var(--text-sub);">
+                    🏆 已默写通关段落: <b style="color: #6ee7b7;" id="task1MasteredCountText">0 / 10</b> 段
+                </div>
+            </div>
+
+            <div class="hf-banner" style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.14), rgba(6, 182, 212, 0.12)); border-color: rgba(16, 185, 129, 0.38); color: #d1fae5;">
+                💡 <b>保 6.0+ 核心提分原理</b>：G类小作文要求至少 150 词（建议 170–190 词）。本手册将 <b>CAE（前提 Condition → 行动/冲突 Action → 结果 Effect）</b>严密逻辑直接焊死在高分书信固定套话（黑体字）中。仅靠默写黑体字外壳即可稳拿约 <b>120~125 词</b>，考场上只需用“主谓宾 / 主系表”三大保命简单句填入 45 个基础词，即可零语法错误直通 6.0–6.5 分！<b>黄色虚线框 <code style="color:#fde68a;">[中文占位说明]</code> 已固定保留无需默写</b>，你只需把前后的黑体英文骨架默写出来！
+            </div>
+
+            <!-- 手册精华折叠面板：五段式铁律 + 1分钟速查词库 + 218词满分实战演练范文 -->
+            <div style="margin-bottom: 14px;">
+                <button type="button" class="btn btn-audio-slow" style="width: 100%; justify-content: space-between; padding: 10px 14px; font-size: 13px; border-color: rgba(16, 185, 129, 0.4); color: #a7f3d0; background: rgba(15, 23, 42, 0.65);" onclick="toggleTask1HandbookDrawer()">
+                    <span>📖 点击展开/收起手册附录：【全局五段式考场铁律】+【1分钟速查词库】+【218词满分填空实战范文】</span>
+                    <span id="task1DrawerArrow">▾ 展开速查</span>
+                </button>
+                <div id="task1HandbookDrawer" style="display: none; margin-top: 10px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 12px; padding: 16px; font-size: 13.5px; line-height: 1.65;">
+                    <div style="margin-bottom: 14px;">
+                        <h4 style="color: #34d399; font-size: 14.5px; margin-bottom: 6px;">一、全局五段式架构与 15 分钟考场铁律</h4>
+                        <p style="color: #cbd5e1; font-size: 13px; margin-bottom: 6px;">无论遇到什么书信题目，题干都会给出 <b>3 个小黑点（Bullet Points）</b>。考场上必须严格拆成以下 <b>5 个独立自然段</b>，绝不允许把两个小黑点合并在一段写：</p>
+                        <ul style="padding-left: 18px; color: #e2e8f0; font-size: 13px;">
+                            <li><b>第 1 段（OP 开头段）</b>：称呼 + 直接表明写信目的（约 25 词）。</li>
+                            <li><b>第 2 段（对应第 1 个小黑点）</b>：用<b>正向/中性 CAE</b> 交代事情背景、时间地点与起因（约 45 词）。</li>
+                            <li><b>第 3 段（对应第 2 个小黑点）</b>：用<b>负面/细节 CAE</b> 详细描述核心问题、具体安排或对生活的影响（约 55 词）。</li>
+                            <li><b>第 4 段（对应第 3 个小黑点）</b>：用<b>方案/诉求 CAE</b> 提出明确要求、解决方案或下一步建议（约 45 词）。</li>
+                            <li><b>第 5 段（ED 结尾段）</b>：万能客套致谢 + 期待回复 + 落款签名（约 25 词）。</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 14px;">
+                        <h4 style="color: #38bdf8; font-size: 14.5px; margin-bottom: 6px;">五、小作文考场 1 分钟速查词库（直接填入第 1 段 & 第 4 段空格 · 点击可听发音）</h4>
+                        <div style="overflow-x: auto;">
+                            <table class="cheat-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 22%;">常见信件类型</th>
+                                        <th style="width: 34%;">第 1 段动作填空 (to officially ______)</th>
+                                        <th style="width: 44%;">第 4 段常用诉求短语 (it is advisable that you ______)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>投诉与报修信</b></td>
+                                        <td><b>complain about</b> (投诉) / <b>report</b> (报告) <button type="button" class="link-btn" onclick="playWordAudio('complain about, or report', 0.88)">🔊</button></td>
+                                        <td>send a worker to fix the heater / replace the broken item / give me a full refund <button type="button" class="link-btn" onclick="playWordAudio('send a worker to fix the heater, replace the broken item, or give me a full refund', 0.88)">🔊</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>遗失物品求助信</b></td>
+                                        <td><b>report the loss of</b> (报告遗失...) <button type="button" class="link-btn" onclick="playWordAudio('report the loss of', 0.88)">🔊</button></td>
+                                        <td>check the lost property office / call my mobile phone if you find my bag <button type="button" class="link-btn" onclick="playWordAudio('check the lost property office, or call my mobile phone if you find my bag', 0.88)">🔊</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>工作申请 / 请假信</b></td>
+                                        <td><b>apply for</b> (申请) / <b>request a leave from</b> (请假) <button type="button" class="link-btn" onclick="playWordAudio('apply for, or request a leave from', 0.88)">🔊</button></td>
+                                        <td>give me an interview opportunity / approve my request for a three-day leave <button type="button" class="link-btn" onclick="playWordAudio('give me an interview opportunity, or approve my request for a three-day leave', 0.88)">🔊</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>建议与反馈信</b></td>
+                                        <td><b>make some suggestions regarding</b> (就...提建议) <button type="button" class="link-btn" onclick="playWordAudio('make some suggestions regarding', 0.88)">🔊</button></td>
+                                        <td>extend the opening hours of the library / build more parking spaces for citizens <button type="button" class="link-btn" onclick="playWordAudio('extend the opening hours of the library, or build more parking spaces for citizens', 0.88)">🔊</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+                            <h4 style="color: #fde68a; font-size: 14.5px;">四、考场满分实战演练：用“三大保命简单句”填空示范（全文 218 词 · 稳拿 6.5 分）</h4>
+                            <button type="button" class="btn btn-audio-slow" style="padding: 4px 10px; font-size: 12px;" onclick="speakTask1SampleEssay()">🔊 朗读 218 词满分范文</button>
+                        </div>
+                        <p style="font-size: 12.5px; color: #cbd5e1; margin-bottom: 8px;">
+                            <b>真题题目</b>：你在网上买了一件外套，收到后发现有质量问题。给网店经理写一封投诉信：1. 说明你买了什么、何时买的；2. 解释衣服有什么问题及对你的不良影响；3. 要求经理如何处理。<br>
+                            <span style="color: #6ee7b7;">👇 观察下方范文：仅填入带下划线黄字的 <b>42 个初中基础词</b>（全为主谓宾/主系表短句），黑体模板外壳自动将全文膨胀至 <b>218 词</b>！</span>
+                        </p>
+                        <div style="background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 12px 14px; font-family: Georgia, serif; font-size: 14px; line-height: 1.75; color: #f8fafc;">
+                            <p style="margin-bottom: 8px;"><b>Dear Sir or Madam,</b></p>
+                            <p style="margin-bottom: 8px;"><b>I am writing this letter to officially</b> <u style="color:#fde68a;">complain about</u> <b>the issue regarding</b> <u style="color:#fde68a;">a black jacket I bought online</u><b>, which has recently drawn my attention.</b></p>
+                            <p style="margin-bottom: 8px;"><b>First and foremost, I would like to provide some relevant details about the background. To elaborate,</b> <u style="color:#fde68a;">I bought this jacket on your website last Monday, and the order number is 12345</u><b>. Thus, at the beginning,</b> <u style="color:#fde68a;">I paid 100 dollars for fast delivery</u><b>. As a result, I did not expect that any trouble would happen later.</b></p>
+                            <p style="margin-bottom: 8px;"><b>However, the main problem that must be taken into consideration is that</b> <u style="color:#fde68a;">the jacket has a big hole on the back, and the size is too small</u><b>. To be more specific, in my daily life,</b> <u style="color:#fde68a;">I need to wear this jacket for my friend's wedding this Saturday</u><b>. Thus, this unexpected situation has a great negative influence on my normal routine. For example,</b> <u style="color:#fde68a;">I do not have any other formal clothes in my house now</u><b>. As a result, my work and daily life are seriously affected by this issue.</b></p>
+                            <p style="margin-bottom: 8px;"><b>Regarding these facts, I think there are some effective ways to deal with this matter. To begin with, since this situation leaves much to be desired, I am compelled to ask for your assistance. Thus, it is advisable that you</b> <u style="color:#fde68a;">send me a new jacket before Friday</u> <b>or</b> <u style="color:#fde68a;">give me a full refund immediately</u><b>. As a result, this trouble can be solved as soon as possible.</b></p>
+                            <p style="margin-bottom: 8px;"><b>Thank you very much for your time and consideration in this matter. I look forward to hearing from you at your earliest convenience.</b></p>
+                            <p><b>Yours faithfully,<br>Hongbin Zeng</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. G类小作文模板与段落选择待机界面 -->
+        <div id="task1StartScreen">
+            <div style="font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+                第一步：选择要默写的小作文模板（2套分开：正式信件 70% + 朋友信件 30%）
+            </div>
+            <div class="tpl-tabs">
+                <div class="tpl-tab-btn t1-tab-btn active" id="t1-tab-F" onclick="selectTask1Template('F')">
+                    <h4>
+                        <span>📩 模板一：正式信件 (Formal Letter)</span>
+                        <span class="para-done-badge" id="t1-badge-F">0/5 段</span>
+                    </h4>
+                    <p>占考场 70% 以上：投诉/报修/遗失物品/工作申请/课程咨询（自带外壳约 125 词）</p>
+                </div>
+                <div class="tpl-tab-btn t1-tab-btn" id="t1-tab-I" onclick="selectTask1Template('I')">
+                    <h4>
+                        <span>🤝 模板二：朋友信件 (Informal Letter)</span>
+                        <span class="para-done-badge" id="t1-badge-I">0/5 段</span>
+                    </h4>
+                    <p>占考场 30%：邀请/道歉/感谢/推荐工作或景点/向朋友借东西（自带外壳约 120 词）</p>
+                </div>
+            </div>
+
+            <div style="font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+                第二步：自由选择要默写的段落（严格五段式：支持单段攻克 或 全文五段连默）
+            </div>
+            <div class="para-select-grid" id="t1ParaSelectGrid"></div>
+
+            <div style="font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+                第三步：选择辅助记忆难度（背不下来可先用「跟打/首字母」过渡到「全盲默写」）
+            </div>
+            <div class="difficulty-bar">
+                <div class="diff-pill t1-diff-pill" id="t1diff-trace" onclick="selectTask1Difficulty('trace')">
+                    🌱 1. 英文原句跟打（看着背）
+                </div>
+                <div class="diff-pill t1-diff-pill active" id="t1diff-hint" onclick="selectTask1Difficulty('hint')">
+                    🧭 2. 首字母 + 中文提示（半盲）
+                </div>
+                <div class="diff-pill t1-diff-pill" id="t1diff-blind" onclick="selectTask1Difficulty('blind')">
+                    🔥 3. 考场纯盲写（仅留中文占位框）
+                </div>
+            </div>
+
+            <button class="btn" style="width: 100%; padding: 16px; font-size: 17px; background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);" onclick="startTask1Practice()">
+                ⌨️ 进入 G类小作文 (Task 1) 机考模板默写界面
+            </button>
+        </div>
+
+        <!-- 2. G类小作文模板默写专注训练界面 -->
+        <div id="task1PracticeScreen" style="display: none;">
+            <div class="session-top-bar" style="margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div>
+                    <span id="task1ActiveTitle" style="color: #6ee7b7; font-weight: 800; font-size: 15px;">📩 模板一：正式信件 · OP 开头段</span>
+                    <span id="task1ActiveSub" style="color: var(--text-sub); font-size: 12px; margin-left: 8px;"></span>
+                </div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <button class="btn btn-audio-slow" style="padding: 5px 10px; font-size: 12px;" onclick="switchInSessionTask1Difficulty('trace')" id="inSessT1Btn-trace">🌱 原句跟打</button>
+                    <button class="btn btn-audio-slow" style="padding: 5px 10px; font-size: 12px;" onclick="switchInSessionTask1Difficulty('hint')" id="inSessT1Btn-hint">🧭 首字母提示</button>
+                    <button class="btn btn-audio-slow" style="padding: 5px 10px; font-size: 12px;" onclick="switchInSessionTask1Difficulty('blind')" id="inSessT1Btn-blind">🔥 考场全盲</button>
+                </div>
+            </div>
+
+            <!-- 快速切换本模板内的段落按钮条 -->
+            <div id="inSessionT1ParaNav" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;"></div>
+
+            <!-- 段落占位框默写工作区 -->
+            <div id="task1WorkspaceContainer"></div>
+
+            <!-- 批改反馈面板 -->
+            <div class="feedback-box" id="task1FeedbackBox" style="margin-bottom: 14px;"></div>
+
+            <div class="action-row" style="flex-wrap: wrap;">
+                <button class="btn btn-submit" id="task1CheckBtn" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="checkTask1Template()">
+                    ✅ 提交批改本段默写 (Enter)
+                </button>
+                <button class="btn btn-audio-slow" type="button" onclick="fillCurrentTask1SlotHint()" title="实在想不起当前光标所在这句时，点此偷看/填入标准句">
+                    💡 提示当前空
+                </button>
+                <button class="btn btn-audio-slow" type="button" onclick="speakTask1Paragraph()" title="用澳洲口音朗读整段固定模板句，边听边记">
+                    🔊 朗读本段模板
+                </button>
+                <button class="btn btn-quit" onclick="returnTask1ToHome()">
+                    返回主页
+                </button>
+            </div>
+
+            <div class="shortcut-tip">
+                机考快捷键：<span class="kbd">Tab</span> 跳过黄色中文占位框进入下一空 &nbsp;|&nbsp; <span class="kbd">Enter</span> 提交检验或跳至下一空
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- 手机端使用 & 云端同步设置弹窗 -->
@@ -1998,6 +2264,7 @@
         hfMastered: {},
         hfMistakes: {},
         writingMastered: {},
+        task1Mastered: {},
         bestStreak: 0,
         todayDate: new Date().toDateString(),
         todayCount: 0,
@@ -2078,6 +2345,7 @@
         initPageSelectors();
         initHfGroupSelectors();
         initWritingTrainer();
+        initTask1Trainer();
         initVoiceEngine();
         updateDashboard();
 
@@ -2203,6 +2471,8 @@
             e: eMap,
             hfm: hfmIndices,
             hfe: hfeMap,
+            wm: Object.keys(state.writingMastered || {}).filter(k => state.writingMastered[k]),
+            t1m: Object.keys(state.task1Mastered || {}).filter(k => state.task1Mastered[k]),
             c: state.calendar || {},
             bs: state.bestStreak || 0,
             ms: state.maxDayStreak || 0
@@ -2239,6 +2509,14 @@
         const cloudHfE = cloudP.hfe || {};
         for (const [idxStr, cnt] of Object.entries(localP.hfe || {})) {
             if ((cloudHfE[idxStr] || 0) < cnt) return true;
+        }
+        const cloudWmSet = new Set(Array.isArray(cloudP.wm) ? cloudP.wm : []);
+        for (const k of (localP.wm || [])) {
+            if (!cloudWmSet.has(k)) return true;
+        }
+        const cloudT1mSet = new Set(Array.isArray(cloudP.t1m) ? cloudP.t1m : []);
+        for (const k of (localP.t1m || [])) {
+            if (!cloudT1mSet.has(k)) return true;
         }
         if ((localP.bs || 0) > (cloudP.bs || 0) || (localP.ms || 0) > (cloudP.ms || 0)) return true;
         return false;
@@ -2309,7 +2587,24 @@
         }
         if (!state.hfMastered) state.hfMastered = {};
         if (!state.hfMistakes) state.hfMistakes = {};
-                if (!state.writingMastered) state.writingMastered = {};
+        if (!state.writingMastered) state.writingMastered = {};
+        if (!state.task1Mastered) state.task1Mastered = {};
+        if (Array.isArray(payload.wm)) {
+            payload.wm.forEach(k => {
+                if (k && !state.writingMastered[k]) {
+                    state.writingMastered[k] = payload.t || Date.now();
+                    changed = true;
+                }
+            });
+        }
+        if (Array.isArray(payload.t1m)) {
+            payload.t1m.forEach(k => {
+                if (k && !state.task1Mastered[k]) {
+                    state.task1Mastered[k] = payload.t || Date.now();
+                    changed = true;
+                }
+            });
+        }
         if (Array.isArray(payload.hfm)) {
             payload.hfm.forEach(idx => {
                 const wObj = hfWordList[idx];
@@ -2516,6 +2811,7 @@
                 if (!state.hfMastered) state.hfMastered = {};
                 if (!state.hfMistakes) state.hfMistakes = {};
                 if (!state.writingMastered) state.writingMastered = {};
+                if (!state.task1Mastered) state.task1Mastered = {};
                 if (state.todayDate !== new Date().toDateString()) {
                     state.todayDate = new Date().toDateString();
                     state.todayCount = 0;
@@ -2784,7 +3080,8 @@
         // 更新《雅思听力高频词》独立进度条与测试框统计
         if (!state.hfMastered) state.hfMastered = {};
         if (!state.hfMistakes) state.hfMistakes = {};
-                if (!state.writingMastered) state.writingMastered = {};
+        if (!state.writingMastered) state.writingMastered = {};
+        if (!state.task1Mastered) state.task1Mastered = {};
         const hfTotal = hfWordList.length;
         const hfMasteredCount = hfWordList.filter(w => state.hfMastered[w.word.toLowerCase()]).length;
         const hfPct = ((hfMasteredCount / hfTotal) * 100).toFixed(1);
@@ -2825,6 +3122,18 @@
         if (wTopBar) wTopBar.style.width = `${tplPct}%`;
         if (wCardCnt) wCardCnt.innerText = `${doneTplParas} / ${totalTplParas}`;
         if (typeof renderWritingSelector === 'function') renderWritingSelector();
+
+        if (!state.task1Mastered) state.task1Mastered = {};
+        const totalT1Paras = 10;
+        const doneT1Paras = Object.keys(state.task1Mastered).filter(k => state.task1Mastered[k]).length;
+        const t1Pct = Math.round((doneT1Paras / totalT1Paras) * 100);
+        const t1TopText = document.getElementById('task1TopProgressText');
+        const t1TopBar = document.getElementById('task1TopProgressBar');
+        const t1CardCnt = document.getElementById('task1MasteredCountText');
+        if (t1TopText) t1TopText.innerText = `${doneT1Paras} / ${totalT1Paras} 段 (${t1Pct}%)`;
+        if (t1TopBar) t1TopBar.style.width = `${t1Pct}%`;
+        if (t1CardCnt) t1CardCnt.innerText = `${doneT1Paras} / ${totalT1Paras}`;
+        if (typeof renderTask1Selector === 'function') renderTask1Selector();
 
         const rankEl = document.getElementById('rankBadge');
         if (masteredTotal >= 1600) rankEl.innerText = '👑 Lv.6 雅思807战神';
@@ -2901,6 +3210,7 @@
         document.getElementById('dashboardCard').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'none';
         document.getElementById('writingMainCard').style.display = 'none';
+        document.getElementById('task1MainCard').style.display = 'none';
         document.getElementById('mainCard1820').style.display = 'block';
         document.getElementById('calendarSection').style.display = 'none';
         document.getElementById('modeTitleBadge').innerText = modeTitle;
@@ -3196,6 +3506,9 @@
         document.getElementById('writingMainCard').style.display = 'block';
         document.getElementById('writingCardHeader').style.display = 'block';
         document.getElementById('writingMainCard').style.marginTop = '20px';
+        document.getElementById('task1MainCard').style.display = 'block';
+        document.getElementById('task1CardHeader').style.display = 'block';
+        document.getElementById('task1MainCard').style.marginTop = '20px';
         document.getElementById('trainingScreen').style.display = 'none';
         document.getElementById('summaryScreen').style.display = 'none';
         document.getElementById('calendarSection').style.display = 'block';
@@ -3247,7 +3560,8 @@
                 mistakes: {},
                 hfMastered: {},
                 hfMistakes: {},
-        writingMastered: {},
+                writingMastered: {},
+                task1Mastered: {},
                 bestStreak: 0,
                 todayDate: new Date().toDateString(),
                 todayCount: 0,
@@ -3359,6 +3673,7 @@
         document.getElementById('dashboardCard').style.display = 'none';
         document.getElementById('mainCard1820').style.display = 'none';
         document.getElementById('writingMainCard').style.display = 'none';
+        document.getElementById('task1MainCard').style.display = 'none';
         document.getElementById('hfCardHeader').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'block';
         document.getElementById('hfMainCard').style.marginTop = '0';
@@ -3634,6 +3949,9 @@
         document.getElementById('writingMainCard').style.display = 'block';
         document.getElementById('writingCardHeader').style.display = 'block';
         document.getElementById('writingMainCard').style.marginTop = '20px';
+        document.getElementById('task1MainCard').style.display = 'block';
+        document.getElementById('task1CardHeader').style.display = 'block';
+        document.getElementById('task1MainCard').style.marginTop = '20px';
         document.getElementById('hfTrainingScreen').style.display = 'none';
         document.getElementById('hfSummaryScreen').style.display = 'none';
         document.getElementById('hfStartScreen').style.display = 'block';
@@ -3749,6 +4067,7 @@
         document.getElementById('dashboardCard').style.display = 'none';
         document.getElementById('mainCard1820').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'none';
+        document.getElementById('task1MainCard').style.display = 'none';
         document.getElementById('writingCardHeader').style.display = 'none';
         document.getElementById('writingMainCard').style.display = 'block';
         document.getElementById('writingMainCard').style.marginTop = '0';
@@ -3763,7 +4082,7 @@
     function switchInSessionDifficulty(diff) {
         // Preserve current typed values when switching difficulty hint mode
         const savedVals = {};
-        document.querySelectorAll('.tpl-slot-input').forEach(inp => {
+        document.querySelectorAll('#writingWorkspaceContainer .tpl-slot-input').forEach(inp => {
             savedVals[inp.dataset.slotId] = inp.value;
         });
         currentWritingDiff = diff;
@@ -3891,7 +4210,7 @@
         fb.className = 'feedback-box';
         fb.innerHTML = '';
 
-        const allInputs = Array.from(document.querySelectorAll('.tpl-slot-input'));
+        const allInputs = Array.from(document.querySelectorAll('#writingWorkspaceContainer .tpl-slot-input'));
         allInputs.forEach((inp, idx) => {
             inp.addEventListener('focus', () => {
                 lastFocusedSlotInput = inp;
@@ -3943,7 +4262,7 @@
     }
 
     function checkWritingTemplate() {
-        const allInputs = Array.from(document.querySelectorAll('.tpl-slot-input'));
+        const allInputs = Array.from(document.querySelectorAll('#writingWorkspaceContainer .tpl-slot-input'));
         if (allInputs.length === 0) return;
 
         let correctCount = 0;
@@ -4009,7 +4328,7 @@
     }
 
     function fillCurrentSlotHint() {
-        const allInputs = Array.from(document.querySelectorAll('.tpl-slot-input'));
+        const allInputs = Array.from(document.querySelectorAll('#writingWorkspaceContainer .tpl-slot-input'));
         const targetInp = lastFocusedSlotInput || allInputs.find(i => !i.classList.contains('slot-correct')) || allInputs[0];
         if (!targetInp) return;
         const slotId = targetInp.dataset.slotId;
@@ -4022,7 +4341,7 @@
     }
 
     function speakWritingParagraph() {
-        const allInputs = Array.from(document.querySelectorAll('.tpl-slot-input'));
+        const allInputs = Array.from(document.querySelectorAll('#writingWorkspaceContainer .tpl-slot-input'));
         const fullText = allInputs.map(i => i.dataset.target).join('. ');
         playWordAudio(fullText, 0.88);
     }
@@ -4038,9 +4357,557 @@
         document.getElementById('writingMainCard').style.display = 'block';
         document.getElementById('writingCardHeader').style.display = 'block';
         document.getElementById('writingMainCard').style.marginTop = '20px';
+        document.getElementById('task1MainCard').style.display = 'block';
+        document.getElementById('task1CardHeader').style.display = 'block';
+        document.getElementById('task1MainCard').style.marginTop = '20px';
 
         document.getElementById('writingPracticeScreen').style.display = 'none';
         document.getElementById('writingStartScreen').style.display = 'block';
+        updateDashboard();
+    }
+
+    // ==================== 雅思G类小作文 (Task 1) 丰满版CAE万能模板机考默写系统 ====================
+    const TASK1_TEMPLATES = {
+        "F": {
+            "id": "F",
+            "name": "模板一：【正式信件 (Formal Letter — 占考场 70% 以上)】",
+            "sub": "适用场景：投诉信、房东报修信、航司/酒店遗失物品信、工作申请、课程咨询等（自带固定外壳：约 125 词）",
+            "paragraphs": [
+                {
+                    "key": "OP",
+                    "title": "称呼 + OP 开头段 (表明写信目的)",
+                    "wordsCount": "约 25 词",
+                    "tokens": [
+                        {"type": "input", "text": "Dear Sir or Madam,", "cn": "尊敬的先生或女士（正式信件称呼）"},
+                        {"type": "ph", "text": "[若题目给了姓氏如 Mr. Smith，则写 Dear Mr. Smith,]"},
+                        {"type": "input", "text": "I am writing this letter to officially", "cn": "我写这封信是为了正式……"},
+                        {"type": "ph", "text": "[填入写信动作，如：complain about / report / inquire about]"},
+                        {"type": "input", "text": "the issue regarding", "cn": "关于……的问题"},
+                        {"type": "ph", "text": "[填入核心名词，如：a broken heater / my lost suitcase]"},
+                        {"type": "static", "text": ","},
+                        {"type": "input", "text": "which has recently drawn my attention.", "cn": "这最近引起了我的注意。"}
+                    ]
+                },
+                {
+                    "key": "B1",
+                    "title": "主体段 1 (Bullet 1) 交代背景或起因 (中性 CAE)",
+                    "wordsCount": "约 45 词",
+                    "tokens": [
+                        {"type": "input", "text": "First and foremost, I would like to provide some relevant details about the background.", "cn": "首先，我想提供一些关于背景的相关细节。"},
+                        {"type": "input", "text": "To elaborate,", "cn": "具体来说，"},
+                        {"type": "ph", "text": "[C-前提：用简单句写时间/地点/起因，如：I rented this apartment six months ago / I bought a laptop in your store last Monday]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "Thus, at the beginning,", "cn": "因此，起初，"},
+                        {"type": "ph", "text": "[A-行动：用简单句写当时的情况，如：everything worked very well / I paid 100 dollars for fast delivery]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "As a result, I did not expect that any trouble would happen later.", "cn": "因此，我当时没料到之后会发生任何麻烦。"}
+                    ]
+                },
+                {
+                    "key": "B2",
+                    "title": "主体段 2 (Bullet 2) 描述问题与影响 (负面 CAE)",
+                    "wordsCount": "约 55 词",
+                    "tokens": [
+                        {"type": "input", "text": "However, the main problem that must be taken into consideration is that", "cn": "然而，必须考虑的主要问题是……"},
+                        {"type": "ph", "text": "[用简单句写核心问题，如：the machine suddenly stopped working / the roadwork noise is too loud]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "To be more specific, in my daily life,", "cn": "更具体地说，在我的日常生活中，"},
+                        {"type": "ph", "text": "[C-痛点：用简单句写自身处境，如：I need to prepare for an important exam next month]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "Thus, this unexpected situation has a great negative influence on my normal routine. For example,", "cn": "因此，这一意外情况对我的正常作息产生了极大的负面影响。例如，"},
+                        {"type": "ph", "text": "[A-恶化例子：用简单句写具体惨状，如：I cannot sleep well at night and I feel exhausted every day]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "As a result, my work and daily life are seriously affected by this issue.", "cn": "结果，我的工作和日常生活都受到了这一问题的严重影响。"}
+                    ]
+                },
+                {
+                    "key": "B3",
+                    "title": "主体段 3 (Bullet 3) 提出诉求与方案 (方案 CAE)",
+                    "wordsCount": "约 45 词",
+                    "tokens": [
+                        {"type": "input", "text": "Regarding these facts, I think there are some effective ways to deal with this matter.", "cn": "针对这些事实，我认为有一些有效的方法来处理此事。"},
+                        {"type": "input", "text": "To begin with, since this situation leaves much to be desired, I am compelled to ask for your assistance.", "cn": "首先，由于目前状况很不理想，我不得不请求您的协助。"},
+                        {"type": "input", "text": "Thus, it is advisable that you", "cn": "因此，建议您……"},
+                        {"type": "ph", "text": "[A-要求1（动词原形），如：send a technician to fix it before Friday]"},
+                        {"type": "input", "text": "or", "cn": "或者"},
+                        {"type": "ph", "text": "[A-要求2，如：give me a full refund immediately]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "As a result, this trouble can be solved as soon as possible.", "cn": "这样一来，这个麻烦就能尽快得到解决。"}
+                    ]
+                },
+                {
+                    "key": "ED",
+                    "title": "ED 结尾段 + 落款 (客套收尾)",
+                    "wordsCount": "约 25 词",
+                    "tokens": [
+                        {"type": "input", "text": "Thank you very much for your time and consideration in this matter.", "cn": "非常感谢您在此事上付出的时间与考虑。"},
+                        {"type": "input", "text": "I look forward to hearing from you at your earliest convenience.", "cn": "期待您在方便时尽早回复。"},
+                        {"type": "input", "text": "Yours faithfully,", "cn": "您忠实的（不知收信人姓氏时用）"},
+                        {"type": "ph", "text": "[注：若开头写了 Dear Mr. Smith，此处必须改为 Yours sincerely,]"},
+                        {"type": "input", "text": "Hongbin Zeng", "cn": "落款签名（正式信写全名）"}
+                    ]
+                }
+            ]
+        },
+        "I": {
+            "id": "I",
+            "name": "模板二：【朋友信件 (Informal Letter — 占考场 30%)】",
+            "sub": "适用场景：给朋友写邀请信、道歉信、感谢信、推荐工作/旅游景点、向朋友借东西等（自带固定外壳：约 120 词）",
+            "paragraphs": [
+                {
+                    "key": "OP",
+                    "title": "称呼 + OP 开头段 (寒暄 + 写信目的)",
+                    "wordsCount": "约 25 词",
+                    "tokens": [
+                        {"type": "input", "text": "Dear John,", "cn": "亲爱的约翰（Dear + 朋友名字）"},
+                        {"type": "input", "text": "I hope everything is going well with you and your family. I am writing this letter to", "cn": "希望你和你的家人一切都好。我写这封信是为了……"},
+                        {"type": "ph", "text": "[填入写信目的，如：invite you to my party / apologize for missing your dinner / give you some advice on your trip]"},
+                        {"type": "input", "text": "because I have some updates to share with you.", "cn": "因为我有一些近况想和你分享。"}
+                    ]
+                },
+                {
+                    "key": "B1",
+                    "title": "主体段 1 (Bullet 1) 交代起因或背景 (背景 CAE)",
+                    "wordsCount": "约 45 词",
+                    "tokens": [
+                        {"type": "input", "text": "First of all, the main reason why I am telling you this is that", "cn": "首先，我告诉你这件事的主要原因是……"},
+                        {"type": "ph", "text": "[用简单句写核心起因，如：I just finished my final exam / I had an urgent task at my workplace last week]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "To elaborate,", "cn": "具体来说，"},
+                        {"type": "ph", "text": "[C-前提：用简单句补充细节，如：I was extremely busy with my study every day]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "Thus,", "cn": "因此，"},
+                        {"type": "ph", "text": "[A-行动：用简单句写你做的决定，如：I decided to hold a small dinner at home / I had to work overtime on Sunday]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "As a result, I really want to", "cn": "因此，我非常想要……"},
+                        {"type": "ph", "text": "[E-结果，如：celebrate this special moment with you / explain the situation to you]"},
+                        {"type": "static", "text": "."}
+                    ]
+                },
+                {
+                    "key": "B2",
+                    "title": "主体段 2 (Bullet 2) 展开具体安排/细节 (正面 CAE)",
+                    "wordsCount": "约 55 词",
+                    "tokens": [
+                        {"type": "input", "text": "Furthermore, another detail I want to mention is about", "cn": "此外，我想提到的另一个细节是关于……"},
+                        {"type": "ph", "text": "[填入第2个小点的核心名词，如：the schedule of our party / the tourist spots in my city]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "To be more specific, I know that you always like", "cn": "更具体地说，我知道你一向喜欢……"},
+                        {"type": "ph", "text": "[C-前提：写朋友的喜好或需求，如：eating delicious food / visiting quiet beaches]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "Thus, by doing some preparation in advance,", "cn": "因此，通过提前做一些准备，"},
+                        {"type": "ph", "text": "[A-行动：用简单句写具体安排，如：I booked a famous Thai restaurant in Geelong]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "For example,", "cn": "例如，"},
+                        {"type": "ph", "text": "[举例：用简单句写具体内容，如：we can try their green curry and milk tea together]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "As a result, I am sure that it will do good to our mood and bring us a lot of fun.", "cn": "因此，我确信这会对我们的心情有益，并给我们带来许多乐趣。"}
+                    ]
+                },
+                {
+                    "key": "B3",
+                    "title": "主体段 3 (Bullet 3) 下一步建议或行动 (建议 CAE)",
+                    "wordsCount": "约 45 词",
+                    "tokens": [
+                        {"type": "input", "text": "Finally, when it comes to the next step, I have a small suggestion for you.", "cn": "最后，谈到下一步，我有一个小建议给你。"},
+                        {"type": "input", "text": "To elaborate, since the date is around the corner, we need to prepare as soon as possible.", "cn": "具体来说，由于日子快到了，我们需要尽快做好准备。"},
+                        {"type": "input", "text": "Thus, it would be great if you could", "cn": "因此，如果你能……那就太棒了"},
+                        {"type": "ph", "text": "[A-行动：用简单句写希望朋友做的事，如：let me know your arrival time / bring a warm jacket with you]"},
+                        {"type": "static", "text": "."},
+                        {"type": "input", "text": "As a result, we can arrange everything smoothly and enjoy our wonderful time together.", "cn": "这样一来，我们就能顺利安排好一切，共同享受美好时光。"}
+                    ]
+                },
+                {
+                    "key": "ED",
+                    "title": "ED 结尾段 + 落款 (朋友信收尾)",
+                    "wordsCount": "约 25 词",
+                    "tokens": [
+                        {"type": "input", "text": "Please let me know what you think about this plan as soon as possible. I really cannot wait to see you soon!", "cn": "请尽快告诉我你对这个计划的看法。我真的迫不及待想早点见到你！"},
+                        {"type": "input", "text": "Best wishes,", "cn": "最美好的祝愿（朋友信落款套话）"},
+                        {"type": "input", "text": "Hongbin", "cn": "落款签名（朋友信只写名字）"}
+                    ]
+                }
+            ]
+        }
+    };
+
+    let currentT1TplId = 'F';
+    let currentT1ParaKey = 'OP'; // 'OP', 'B1', 'B2', 'B3', 'ED', or 'ALL'
+    let currentT1Diff = 'hint'; // 'trace', 'hint', 'blind'
+    let lastFocusedT1SlotInput = null;
+
+    function initTask1Trainer() {
+        renderTask1Selector();
+    }
+
+    function toggleTask1HandbookDrawer() {
+        const drawer = document.getElementById('task1HandbookDrawer');
+        const arrow = document.getElementById('task1DrawerArrow');
+        if (!drawer) return;
+        const isHidden = (drawer.style.display === 'none');
+        drawer.style.display = isHidden ? 'block' : 'none';
+        if (arrow) arrow.innerText = isHidden ? '▴ 收起附录' : '▾ 展开速查';
+    }
+
+    function speakTask1SampleEssay() {
+        const sampleText = "Dear Sir or Madam, I am writing this letter to officially complain about the issue regarding a black jacket I bought online, which has recently drawn my attention. First and foremost, I would like to provide some relevant details about the background. To elaborate, I bought this jacket on your website last Monday, and the order number is 12345. Thus, at the beginning, I paid 100 dollars for fast delivery. As a result, I did not expect that any trouble would happen later. However, the main problem that must be taken into consideration is that the jacket has a big hole on the back, and the size is too small. To be more specific, in my daily life, I need to wear this jacket for my friend's wedding this Saturday. Thus, this unexpected situation has a great negative influence on my normal routine. For example, I do not have any other formal clothes in my house now. As a result, my work and daily life are seriously affected by this issue. Regarding these facts, I think there are some effective ways to deal with this matter. To begin with, since this situation leaves much to be desired, I am compelled to ask for your assistance. Thus, it is advisable that you send me a new jacket before Friday or give me a full refund immediately. As a result, this trouble can be solved as soon as possible. Thank you very much for your time and consideration in this matter. I look forward to hearing from you at your earliest convenience. Yours faithfully, Hongbin Zeng.";
+        playWordAudio(sampleText, 0.88);
+    }
+
+    function selectTask1Template(tplId) {
+        currentT1TplId = tplId;
+        ['F', 'I'].forEach(id => {
+            const btn = document.getElementById('t1-tab-' + id);
+            if (btn) btn.classList.toggle('active', id === tplId);
+        });
+        renderTask1Selector();
+    }
+
+    function selectTask1Paragraph(paraKey) {
+        currentT1ParaKey = paraKey;
+        renderTask1Selector();
+    }
+
+    function selectTask1Difficulty(diff) {
+        currentT1Diff = diff;
+        ['trace', 'hint', 'blind'].forEach(d => {
+            const el = document.getElementById('t1diff-' + d);
+            if (el) el.classList.toggle('active', d === diff);
+        });
+    }
+
+    function renderTask1Selector() {
+        if (!state.task1Mastered) state.task1Mastered = {};
+        ['F', 'I'].forEach(id => {
+            const tpl = TASK1_TEMPLATES[id];
+            const doneCnt = tpl.paragraphs.filter(p => state.task1Mastered[`${id}_${p.key}`]).length;
+            const badge = document.getElementById('t1-badge-' + id);
+            if (badge) {
+                badge.innerText = `${doneCnt}/5 段`;
+                badge.classList.toggle('mastered', doneCnt === 5);
+            }
+        });
+
+        const grid = document.getElementById('t1ParaSelectGrid');
+        if (!grid) return;
+        const tpl = TASK1_TEMPLATES[currentT1TplId];
+        let htmlStr = '';
+
+        tpl.paragraphs.forEach((p, idx) => {
+            const mKey = `${currentT1TplId}_${p.key}`;
+            const isDone = !!state.task1Mastered[mKey];
+            const isActive = (currentT1ParaKey === p.key);
+            const slotCount = p.tokens.filter(t => t.type === 'input').length;
+            htmlStr += `
+                <div class="para-card t1-para-card ${isActive ? 'active' : ''}" onclick="selectTask1Paragraph('${p.key}')">
+                    <div>
+                        <div style="font-weight: 800; font-size: 14px; color: #f8fafc;">
+                            ${idx + 1}️⃣ ${p.title}
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-sub); margin-top: 2px;">
+                            ${p.wordsCount} · 含 ${slotCount} 处固定骨架句
+                        </div>
+                    </div>
+                    <span class="para-done-badge ${isDone ? 'mastered' : ''}">
+                        ${isDone ? '✅ 已通关' : '待默写'}
+                    </span>
+                </div>
+            `;
+        });
+
+        const allDone = tpl.paragraphs.every(p => state.task1Mastered[`${currentT1TplId}_${p.key}`]);
+        htmlStr += `
+            <div class="para-card t1-para-card para-card-full ${currentT1ParaKey === 'ALL' ? 'active' : ''}"
+                 style="background: linear-gradient(90deg, rgba(16, 185, 129, 0.14), rgba(6, 182, 212, 0.14));"
+                 onclick="selectTask1Paragraph('ALL')">
+                <div>
+                    <div style="font-weight: 800; font-size: 14.5px; color: #34d399;">
+                        🔥 全文五段连默（OP + 主体段 1 + 主体段 2 + 主体段 3 + ED 完整考场实战）
+                    </div>
+                    <div style="font-size: 12px; color: #cbd5e1; margin-top: 2px;">
+                        严格按考场五段式一次性连贯默写整封书信（约 120~125 词固定外壳），保留全部中文占位框！
+                    </div>
+                </div>
+                <span class="para-done-badge ${allDone ? 'mastered' : ''}">
+                    ${allDone ? '🏆 全篇通关' : '全篇挑战'}
+                </span>
+            </div>
+        `;
+
+        grid.innerHTML = htmlStr;
+    }
+
+    function startTask1Practice() {
+        stopAllAudio();
+        document.body.dataset.activeMode = 'task1';
+        document.getElementById('dashboardCard').style.display = 'none';
+        document.getElementById('mainCard1820').style.display = 'none';
+        document.getElementById('hfMainCard').style.display = 'none';
+        document.getElementById('writingMainCard').style.display = 'none';
+        document.getElementById('task1CardHeader').style.display = 'none';
+        document.getElementById('task1MainCard').style.display = 'block';
+        document.getElementById('task1MainCard').style.marginTop = '0';
+
+        document.getElementById('task1StartScreen').style.display = 'none';
+        document.getElementById('task1PracticeScreen').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        renderTask1Workspace();
+    }
+
+    function switchInSessionTask1Difficulty(diff) {
+        const savedVals = {};
+        document.querySelectorAll('#task1WorkspaceContainer .tpl-slot-input').forEach(inp => {
+            savedVals[inp.dataset.slotId] = inp.value;
+        });
+        currentT1Diff = diff;
+        selectTask1Difficulty(diff);
+        renderTask1Workspace(savedVals);
+    }
+
+    function switchInSessionTask1Paragraph(paraKey) {
+        currentT1ParaKey = paraKey;
+        renderTask1Workspace();
+    }
+
+    function renderTask1Workspace(savedVals = null) {
+        const tpl = TASK1_TEMPLATES[currentT1TplId];
+        const parasToRender = currentT1ParaKey === 'ALL'
+            ? tpl.paragraphs
+            : tpl.paragraphs.filter(p => p.key === currentT1ParaKey);
+
+        const titleLabel = currentT1ParaKey === 'ALL'
+            ? `${tpl.name} · 全文五段连默`
+            : `${tpl.name} · ${parasToRender[0].title}`;
+
+        document.getElementById('task1ActiveTitle').innerText = titleLabel;
+        document.getElementById('task1ActiveSub').innerText = tpl.sub;
+
+        ['trace', 'hint', 'blind'].forEach(d => {
+            const btn = document.getElementById('inSessT1Btn-' + d);
+            if (btn) {
+                btn.style.borderColor = (d === currentT1Diff) ? '#34d399' : 'var(--card-border)';
+                btn.style.background = (d === currentT1Diff) ? 'rgba(16, 185, 129, 0.25)' : 'rgba(255, 255, 255, 0.08)';
+                btn.style.color = (d === currentT1Diff) ? '#fff' : '#cbd5e1';
+            }
+        });
+
+        const navEl = document.getElementById('inSessionT1ParaNav');
+        let navHtml = '';
+        tpl.paragraphs.forEach(p => {
+            const isDone = !!(state.task1Mastered && state.task1Mastered[`${currentT1TplId}_${p.key}`]);
+            const active = (currentT1ParaKey === p.key);
+            navHtml += `
+                <button type="button" class="btn btn-audio-slow"
+                        style="padding: 5px 11px; font-size: 12px; ${active ? 'border-color:#10b981;background:rgba(16,185,129,0.22);color:#fff;' : ''}"
+                        onclick="switchInSessionTask1Paragraph('${p.key}')">
+                    ${isDone ? '✅ ' : ''}${p.title}
+                </button>
+            `;
+        });
+        navHtml += `
+            <button type="button" class="btn btn-audio-slow"
+                    style="padding: 5px 11px; font-size: 12px; ${currentT1ParaKey === 'ALL' ? 'border-color:#06b6d4;background:rgba(6,182,212,0.22);color:#fff;' : ''}"
+                    onclick="switchInSessionTask1Paragraph('ALL')">
+                🔥 全文五段连默
+            </button>
+        `;
+        navEl.innerHTML = navHtml;
+
+        const container = document.getElementById('task1WorkspaceContainer');
+        let wsHtml = '';
+        let slotCounter = 0;
+
+        parasToRender.forEach(p => {
+            wsHtml += `
+                <div class="tpl-para-workspace">
+                    <div class="tpl-para-header">
+                        <span style="font-weight: 800; color: #6ee7b7; font-size: 14px;">📌 ${p.title} (${p.wordsCount})</span>
+                        <span style="font-size: 12px; color: var(--text-sub);">黄色框为考场审题简单句填空位（无需默写），请默写其余固定黑体模板句</span>
+                    </div>
+                    <div>
+            `;
+
+            p.tokens.forEach(tok => {
+                if (tok.type === 'ph') {
+                    wsHtml += `<span class="tpl-ph-box">${tok.text}</span>`;
+                } else if (tok.type === 'static') {
+                    wsHtml += `<span class="tpl-static-punct">${tok.text}</span>`;
+                } else if (tok.type === 'input') {
+                    const slotId = `t1_${p.key}_${slotCounter++}`;
+                    const targetText = tok.text;
+                    const wordCnt = targetText.trim().split(/\s+/).length;
+                    const widthCh = Math.max(Math.min(targetText.length + 4, 68), 14);
+
+                    let topHintHtml = '';
+                    let placeholderText = '';
+                    if (currentT1Diff === 'trace') {
+                        topHintHtml = `<div class="tpl-slot-hint" style="color: #6ee7b7;">📖 原句跟打: <b>${targetText}</b> (${tok.cn})</div>`;
+                        placeholderText = targetText;
+                    } else if (currentT1Diff === 'hint') {
+                        const firstLetterStr = buildFirstLetterMask(targetText);
+                        topHintHtml = `<div class="tpl-slot-hint">💡 ${tok.cn} · <span style="font-family:monospace;color:#cbd5e1;">${firstLetterStr}</span> (${wordCnt}词)</div>`;
+                        placeholderText = `默写 ${wordCnt} 个词...`;
+                    } else {
+                        topHintHtml = `<div class="tpl-slot-hint">🎯 盲写 (${wordCnt}词 · ${tok.cn})</div>`;
+                        placeholderText = `在此盲写固定模板句 (${wordCnt}词)...`;
+                    }
+
+                    const val = (savedVals && savedVals[slotId] !== undefined) ? savedVals[slotId].replace(/"/g, '&quot;') : '';
+
+                    wsHtml += `
+                        <span class="tpl-slot-wrapper" style="width: ${targetText.length > 42 ? '100%' : 'auto'};">
+                            ${topHintHtml}
+                            <input type="text" class="tpl-slot-input"
+                                   id="slot_${slotId}"
+                                   data-slot-id="${slotId}"
+                                   data-target="${targetText.replace(/"/g, '&quot;')}"
+                                   value="${val}"
+                                   placeholder="${placeholderText.replace(/"/g, '&quot;')}"
+                                   style="width: ${targetText.length > 42 ? '100%' : widthCh + 'ch'};"
+                                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <div class="tpl-slot-diff" id="diff_${slotId}"></div>
+                        </span>
+                    `;
+                }
+            });
+
+            wsHtml += `
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = wsHtml;
+
+        const fb = document.getElementById('task1FeedbackBox');
+        fb.className = 'feedback-box';
+        fb.innerHTML = '';
+
+        const allInputs = Array.from(document.querySelectorAll('#task1WorkspaceContainer .tpl-slot-input'));
+        allInputs.forEach((inp, idx) => {
+            inp.addEventListener('focus', () => {
+                lastFocusedT1SlotInput = inp;
+            });
+            inp.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (idx < allInputs.length - 1 && !e.ctrlKey) {
+                        allInputs[idx + 1].focus();
+                    } else {
+                        checkTask1Template();
+                    }
+                }
+            });
+        });
+
+        if (allInputs.length > 0) {
+            allInputs[0].focus();
+            lastFocusedT1SlotInput = allInputs[0];
+        }
+    }
+
+    function checkTask1Template() {
+        const allInputs = Array.from(document.querySelectorAll('#task1WorkspaceContainer .tpl-slot-input'));
+        if (allInputs.length === 0) return;
+
+        let correctCount = 0;
+        let firstWrongInput = null;
+
+        allInputs.forEach(inp => {
+            const target = inp.dataset.target || '';
+            const userVal = inp.value || '';
+            const slotId = inp.dataset.slotId;
+            const diffEl = document.getElementById('diff_' + slotId);
+
+            if (normalizeSentenceForCompare(userVal) === normalizeSentenceForCompare(target)) {
+                inp.className = 'tpl-slot-input slot-correct';
+                inp.value = target;
+                if (diffEl) {
+                    diffEl.style.display = 'none';
+                    diffEl.innerHTML = '';
+                }
+                correctCount++;
+            } else {
+                inp.className = 'tpl-slot-input slot-wrong';
+                if (!firstWrongInput) firstWrongInput = inp;
+                if (diffEl) {
+                    diffEl.style.display = 'block';
+                    diffEl.innerHTML = buildWordDiffHtml(userVal, target);
+                }
+            }
+        });
+
+        const fb = document.getElementById('task1FeedbackBox');
+        if (correctCount === allInputs.length) {
+            if (!state.task1Mastered) state.task1Mastered = {};
+            const tpl = TASK1_TEMPLATES[currentT1TplId];
+            if (currentT1ParaKey === 'ALL') {
+                tpl.paragraphs.forEach(p => {
+                    state.task1Mastered[`${currentT1TplId}_${p.key}`] = Date.now();
+                });
+            } else {
+                state.task1Mastered[`${currentT1TplId}_${currentT1ParaKey}`] = Date.now();
+            }
+            recordDailyActivity(true, true);
+            saveState();
+
+            fb.className = 'feedback-box show-success';
+            fb.innerHTML = `
+                <div style="color: #34d399; font-weight: 800; font-size: 16px;">
+                    🏆 太强了！G类小作文该部分共 ${allInputs.length} 处固定 CAE 模板外壳全部默写正确！已点亮通关金标！
+                </div>
+                <div style="font-size: 13px; color: #cbd5e1; margin-top: 6px;">
+                    建议：如果刚才用的是「跟打」或「首字母提示」，可以点右上角切到 <b>🔥 考场全盲</b> 再盲打一遍巩固！
+                </div>
+            `;
+        } else {
+            fb.className = 'feedback-box show-error';
+            fb.innerHTML = `
+                <div class="error-headline">
+                    ⚡ 已完成批改：答对 ${correctCount} / ${allInputs.length} 空。下方红框已为你逐词标出漏词/拼写差异，请直接修改红框后再次按 Enter 提交！
+                </div>
+            `;
+            if (firstWrongInput) firstWrongInput.focus();
+        }
+    }
+
+    function fillCurrentTask1SlotHint() {
+        const allInputs = Array.from(document.querySelectorAll('#task1WorkspaceContainer .tpl-slot-input'));
+        const targetInp = lastFocusedT1SlotInput || allInputs.find(i => !i.classList.contains('slot-correct')) || allInputs[0];
+        if (!targetInp) return;
+        const slotId = targetInp.dataset.slotId;
+        const diffEl = document.getElementById('diff_' + slotId);
+        if (diffEl) {
+            diffEl.style.display = 'block';
+            diffEl.innerHTML = `💡 本空标准原句：<b style="color:#fde68a;">${targetInp.dataset.target}</b>`;
+        }
+        targetInp.focus();
+    }
+
+    function speakTask1Paragraph() {
+        const allInputs = Array.from(document.querySelectorAll('#task1WorkspaceContainer .tpl-slot-input'));
+        const fullText = allInputs.map(i => i.dataset.target).join('. ');
+        playWordAudio(fullText, 0.88);
+    }
+
+    function returnTask1ToHome() {
+        stopAllAudio();
+        delete document.body.dataset.activeMode;
+        document.getElementById('dashboardCard').style.display = 'block';
+        document.getElementById('mainCard1820').style.display = 'block';
+        document.getElementById('hfMainCard').style.display = 'block';
+        document.getElementById('hfCardHeader').style.display = 'block';
+        document.getElementById('hfMainCard').style.marginTop = '20px';
+        document.getElementById('writingMainCard').style.display = 'block';
+        document.getElementById('writingCardHeader').style.display = 'block';
+        document.getElementById('writingMainCard').style.marginTop = '20px';
+        document.getElementById('task1MainCard').style.display = 'block';
+        document.getElementById('task1CardHeader').style.display = 'block';
+        document.getElementById('task1MainCard').style.marginTop = '20px';
+
+        document.getElementById('task1PracticeScreen').style.display = 'none';
+        document.getElementById('task1StartScreen').style.display = 'block';
         updateDashboard();
     }
 
