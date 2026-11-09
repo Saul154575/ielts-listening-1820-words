@@ -14,28 +14,40 @@
         body[data-active-mode="1820"] #dashboardCard,
         body[data-active-mode="1820"] #hfMainCard,
         body[data-active-mode="1820"] #writingMainCard,
-        body[data-active-mode="1820"] #task1MainCard {
+        body[data-active-mode="1820"] #task1MainCard,
+        body[data-active-mode="1820"] #grammarMainCard {
             display: none !important;
         }
         body[data-active-mode="hf"] #dashboardCard,
         body[data-active-mode="hf"] #mainCard1820,
         body[data-active-mode="hf"] #hfCardHeader,
         body[data-active-mode="hf"] #writingMainCard,
-        body[data-active-mode="hf"] #task1MainCard {
+        body[data-active-mode="hf"] #task1MainCard,
+        body[data-active-mode="hf"] #grammarMainCard {
             display: none !important;
         }
         body[data-active-mode="writing"] #dashboardCard,
         body[data-active-mode="writing"] #mainCard1820,
         body[data-active-mode="writing"] #hfMainCard,
         body[data-active-mode="writing"] #writingCardHeader,
-        body[data-active-mode="writing"] #task1MainCard {
+        body[data-active-mode="writing"] #task1MainCard,
+        body[data-active-mode="writing"] #grammarMainCard {
             display: none !important;
         }
         body[data-active-mode="task1"] #dashboardCard,
         body[data-active-mode="task1"] #mainCard1820,
         body[data-active-mode="task1"] #hfMainCard,
         body[data-active-mode="task1"] #writingMainCard,
-        body[data-active-mode="task1"] #task1CardHeader {
+        body[data-active-mode="task1"] #task1CardHeader,
+        body[data-active-mode="task1"] #grammarMainCard {
+            display: none !important;
+        }
+        body[data-active-mode="grammar"] #dashboardCard,
+        body[data-active-mode="grammar"] #mainCard1820,
+        body[data-active-mode="grammar"] #hfMainCard,
+        body[data-active-mode="grammar"] #writingMainCard,
+        body[data-active-mode="grammar"] #task1MainCard,
+        body[data-active-mode="grammar"] #grammarCardHeader {
             display: none !important;
         }
         :root {
@@ -1112,6 +1124,68 @@
             color: #fff;
         }
 
+        .grammar-card {
+            margin-top: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 28px rgba(56, 189, 248, 0.1);
+        }
+
+        .bar-fill-grammar {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #f59e0b);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .g-tab-btn.active {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.16);
+            box-shadow: 0 0 0 1px #38bdf8;
+        }
+
+        .g-para-card.active {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.14);
+        }
+
+        .g-diff-pill.active {
+            background: linear-gradient(135deg, #0284c7, #6366f1);
+            border-color: #38bdf8;
+            color: #fff;
+        }
+
+        .g-sentence-item {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .g-formula-tag {
+            display: inline-block;
+            font-size: 11.5px;
+            font-weight: 800;
+            padding: 2px 9px;
+            border-radius: 6px;
+            background: rgba(56, 189, 248, 0.18);
+            color: #7dd3fc;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            margin-right: 6px;
+        }
+
+        .g-wrong-box {
+            background: rgba(239, 68, 68, 0.13);
+            border-left: 3px solid #ef4444;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #fca5a5;
+            margin: 6px 0;
+        }
+
         .cheat-table {
             width: 100%;
             border-collapse: collapse;
@@ -1444,13 +1518,23 @@
                 </div>
             </div>
 
-            <div class="progress-box" style="border-color: rgba(16, 185, 129, 0.38); grid-column: 1 / -1;">
+            <div class="progress-box" style="border-color: rgba(16, 185, 129, 0.38);">
                 <div class="progress-label-row">
-                    <span style="color: #6ee7b7;">✉️ G类小作文 (Task 1) 2 套万能模板默写进度（正式信 5 段 + 朋友信 5 段）</span>
+                    <span style="color: #6ee7b7;">✉️ G类小作文 2 套模板默写进度</span>
                     <span id="task1TopProgressText">0 / 10 段 (0%)</span>
                 </div>
                 <div class="bar-track">
                     <div class="bar-fill-task1" id="task1TopProgressBar"></div>
+                </div>
+            </div>
+
+            <div class="progress-box" style="border-color: rgba(56, 189, 248, 0.38);">
+                <div class="progress-label-row">
+                    <span style="color: #7dd3fc;">🛡️ 三大保命语法与零失误例句进度</span>
+                    <span id="grammarTopProgressText">0 / 67 句 (0%)</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill-grammar" id="grammarTopProgressBar"></div>
                 </div>
             </div>
         </div>
@@ -1941,7 +2025,16 @@
             </div>
 
             <!-- 快速切换本模板内的段落按钮条 -->
-            <div id="inSessionParaNav" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;"></div>
+            <div id="inSessionParaNav" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+
+            <!-- 联动弹层：大作文黄色占位框可填的【四大话题保底简单句 & 横线接头3规则】 -->
+            <div style="margin-bottom: 14px;">
+                <button type="button" class="btn btn-audio-slow" style="width: 100%; justify-content: space-between; padding: 8px 12px; font-size: 12.5px; border-color: rgba(251, 191, 36, 0.45); color: #fde68a; background: rgba(245, 158, 11, 0.1);" onclick="toggleWritingLinkageDrawer()">
+                    <span>🧰 联动速查：黄色虚线占位框 `[...]` 里该填什么？（展开查看四大常考话题 36 句保底简单句 & 接头3规则）</span>
+                    <span id="writingLinkageArrow">▾ 展开肉体句库</span>
+                </button>
+                <div id="writingLinkageDrawer" style="display: none; margin-top: 8px; background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 10px; padding: 12px 14px; font-size: 12.5px; line-height: 1.6;"></div>
+            </div>
 
             <!-- 段落占位框默写工作区 -->
             <div id="writingWorkspaceContainer"></div>
@@ -2130,7 +2223,16 @@
             </div>
 
             <!-- 快速切换本模板内的段落按钮条 -->
-            <div id="inSessionT1ParaNav" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;"></div>
+            <div id="inSessionT1ParaNav" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+
+            <!-- 联动弹层：小作文黄色占位框可填的【Bullet 1~3 三时态保底短句库】 -->
+            <div style="margin-bottom: 14px;">
+                <button type="button" class="btn btn-audio-slow" style="width: 100%; justify-content: space-between; padding: 8px 12px; font-size: 12.5px; border-color: rgba(251, 191, 36, 0.45); color: #fde68a; background: rgba(245, 158, 11, 0.1);" onclick="toggleTask1LinkageDrawer()">
+                    <span>🧰 联动速查：小作文黄色占位框 `[...]` 里该填什么？（展开查看 Bullet 1 过去式 / Bullet 2 现在时 / Bullet 3 原形 18 句保底库）</span>
+                    <span id="task1LinkageArrow">▾ 展开肉体短句库</span>
+                </button>
+                <div id="task1LinkageDrawer" style="display: none; margin-top: 8px; background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 10px; padding: 12px 14px; font-size: 12.5px; line-height: 1.6;"></div>
+            </div>
 
             <!-- 段落占位框默写工作区 -->
             <div id="task1WorkspaceContainer"></div>
@@ -2155,6 +2257,243 @@
 
             <div class="shortcut-tip">
                 机考快捷键：<span class="kbd">Tab</span> 跳过黄色中文占位框进入下一空 &nbsp;|&nbsp; <span class="kbd">Enter</span> 提交检验或跳至下一空
+            </div>
+        </div>
+    </div>
+
+    <!-- 独立模块：雅思G类写作：三大保命基础语法与零失误例句手册 特训舱 -->
+    <div class="main-card grammar-card" id="grammarMainCard">
+        <div id="grammarCardHeader">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <h2 style="font-size: 18px; font-weight: 800; background: linear-gradient(90deg, #38bdf8, #818cf8, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        🛡️ 雅思G类写作：三大保命基础语法与零失误例句手册 · 肉体填空特训舱
+                    </h2>
+                    <span class="rank-badge" style="background: linear-gradient(135deg, #0284c7, #6366f1);">专填模板黄色占位框</span>
+                </div>
+                <div style="font-size: 12.5px; color: var(--text-sub);">
+                    🏆 已吃透保命句: <b style="color: #7dd3fc;" id="grammarMasteredCountText">0 / 67</b> 句
+                </div>
+            </div>
+
+            <div class="hf-banner" style="background: linear-gradient(90deg, rgba(56, 189, 248, 0.14), rgba(99, 102, 241, 0.12)); border-color: rgba(56, 189, 248, 0.38); color: #e0f2fe;">
+                💡 <b>冲刺 6.0 分核心法则（必读）</b>：复杂句型和高分词汇已经由你的“丰满版 CAE 模板外壳” 100% 替你完成了！你在考场上往模板横线（黄色占位框）里填“肉体”时，<b>严禁自己造长难句，只准从三大底层结构（1号主系表、2号主谓、3号主谓宾 + should方案句）中三选一</b>。只要保证<b>“一句一动词（有 Be 无动，有动无 Be）”</b>，即可稳锁 6.0~6.5 分！
+            </div>
+
+            <!-- 折叠速查表：第一部分 3大底层语法结构 + 第二部分 真实错句手术刀排雷对比表 + 第三部分 横线高危接头公式 -->
+            <div style="margin-bottom: 14px;">
+                <button type="button" class="btn btn-audio-slow" style="width: 100%; justify-content: space-between; padding: 10px 14px; font-size: 13px; border-color: rgba(56, 189, 248, 0.45); color: #bae6fd; background: rgba(15, 23, 42, 0.65);" onclick="toggleGrammarHandbookDrawer()">
+                    <span>📖 点击展开/收起手册第 1~3 部分：【3大底层语法铁律】+【5.0分真实错句手术刀排雷表】+【横线高危接头3规则】</span>
+                    <span id="grammarDrawerArrow">▾ 展开语法红线表</span>
+                </button>
+                <div id="grammarHandbookDrawer" style="display: none; margin-top: 10px; background: rgba(15, 23, 42, 0.88); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 12px; padding: 16px; font-size: 13px; line-height: 1.65;">
+                    <div style="margin-bottom: 16px;">
+                        <h4 style="color: #38bdf8; font-size: 14.5px; margin-bottom: 6px;">第一部分：老师亲授“绝对不可能错”的 3 大底层语法结构</h4>
+                        <p style="color: #cbd5e1; margin-bottom: 6px;">写每一句填空前，先在脑子里花 1 秒钟判断：你想写的是<b>“某事是什么样（无动作）”</b>，还是<b>“某人做了某事（有动作）”</b>？严禁把第 1 种和第 3 种混在一起！</p>
+                        <div style="overflow-x: auto;">
+                            <table class="cheat-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 24%;">结构名称与公式</th>
+                                        <th style="width: 38%;">核心解剖与老师原版例句（点击🔊听音）</th>
+                                        <th style="width: 38%;">考场保命铁律（防扣分红线）</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>1. 主语 + 系动词 + 表语</b><br><span style="color:#94a3b8;font-size:12px;">(说明状态或身份，无具体动作)</span></td>
+                                        <td>
+                                            <b>系动词（唯一动词）</b>：am, is, are (现在) / was, were (过去)<br>
+                                            <b>表语</b>：形容词（怎么样）或名词（是什么）<br>
+                                            • <b>We are</b> happy. • <b>Swimming is</b> good. • <b>I am</b> a teacher.
+                                            <button type="button" class="link-btn" onclick="playWordAudio('We are happy. Swimming is good. I am a teacher.', 0.88)">🔊</button>
+                                        </td>
+                                        <td>
+                                            1. 写了 <b>am/is/are</b>，后面<b>绝对不准再出现 have / spend / eat / make 等动作词</b>！<br>
+                                            2. 若想把动作放句首当主语（如“游泳/做饭”），必须加 <b>-ing</b> 变成动名词（<i>Cooking is difficult.</i>）。
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>2. 主语 + 谓语</b><br><span style="color:#94a3b8;font-size:12px;">(某人自己做动作，不作用在别人身上)</span></td>
+                                        <td>
+                                            <b>谓语（不及物动词）</b>：动作自己就能独立完成，后面不需要接宾语，只接时间或地点。<br>
+                                            • <b>I run</b> every day. • <b>People work</b> very hard.
+                                            <button type="button" class="link-btn" onclick="playWordAudio('I run every day. People work very hard.', 0.88)">🔊</button>
+                                        </td>
+                                        <td>
+                                            既然已经有动作词（run / work / happen），主语和动作词之间<b>绝对不准加 am/is/are</b>！<br>
+                                            （严禁写：<del style="color:#f87171;">I am run</del>）
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>3. 主语 + 谓语 + 宾语</b><br><span style="color:#fde68a;font-size:12px;">(某人做了某事，考场用得最多！)</span></td>
+                                        <td>
+                                            <b>谓语（及物动词）</b>：动作必须触及后面的对象（宾语）。<br>
+                                            • <b>I eat</b> apples. • <b>Many people buy</b> vitamin pills.
+                                            <button type="button" class="link-btn" onclick="playWordAudio('I eat apples. Many people buy vitamin pills.', 0.88)">🔊</button>
+                                        </td>
+                                        <td>
+                                            <b>否定句死规矩</b>：想表达“没有时间/不想做”，必须用助动词 <b>do not + 动词原形</b>！<br>
+                                            • 错：<del style="color:#f87171;">They are no have time.</del><br>
+                                            • 对：<b style="color:#34d399;">They do not have time.</b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <h4 style="color: #f87171; font-size: 14.5px; margin-bottom: 6px;">第二部分：你的真实错句“手术刀”排雷对比表（《维生素药片》大作文 5.0 分雷区 → 6.0+ 零失误）</h4>
+                        <div style="overflow-x: auto;">
+                            <table class="cheat-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 22%;">错因诊断</th>
+                                        <th style="width: 36%;">你的考场原句（5.0分雷区）</th>
+                                        <th style="width: 42%;">三大保命结构修正版（6.0+ 零失误）</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>双动词车祸</b><br>(Be动词+实义动词)</td>
+                                        <td><del style="color:#fca5a5;">Thus, they are no have time to make healthy food.</del><br><span style="color:#94a3b8;font-size:12px;">(把 are 和 have 撞在了一起)</span></td>
+                                        <td><b style="color:#34d399;">Thus, they do not have enough time to cook healthy food.</b> <button type="button" class="link-btn" onclick="playWordAudio('Thus, they do not have enough time to cook healthy food.', 0.88)">🔊</button><br><span style="color:#cbd5e1;font-size:12px;">(标准 3号主谓宾：复数主语 + do not have + 宾语)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>把完整句子当主语</b><br>(一句出现3个动词)</td>
+                                        <td><del style="color:#fca5a5;">...people like eveting are fast is also the root cause.</del><br><span style="color:#94a3b8;font-size:12px;">(like, are, is 三个动词撞车)</span></td>
+                                        <td><b style="color:#34d399;">...a fast-paced lifestyle is also the root cause.</b> (名词作主语)<br>或：<b style="color:#34d399;">...seeking fast results is also the root cause.</b> (V-ing 作主语) <button type="button" class="link-btn" onclick="playWordAudio('A fast-paced lifestyle is also the root cause. Seeking fast results is also the root cause.', 0.88)">🔊</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>介词后接动词原形</b><br>(无视 of 的死规矩)</td>
+                                        <td><del style="color:#fca5a5;">...get into the habit of eat healthy diet.</del><br><del style="color:#fca5a5;">...instead of eat healthy diet.</del></td>
+                                        <td><b style="color:#34d399;">...get into the habit of eating a healthy diet.</b><br><b style="color:#34d399;">...instead of eating a healthy diet.</b> <button type="button" class="link-btn" onclick="playWordAudio('get into the habit of eating a healthy diet. instead of eating a healthy diet.', 0.88)">🔊</button><br><span style="color:#fde68a;font-size:12px;">(铁律：介词 of / by / through / for 后必加 -ing！)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>in order to 后塞句子</b><br>(不定式结构混乱)</td>
+                                        <td><del style="color:#fca5a5;">...in order to people stop spend a lot of money...</del></td>
+                                        <td><b style="color:#34d399;">...in order to help people save money...</b> <button type="button" class="link-btn" onclick="playWordAudio('in order to help people save money', 0.88)">🔊</button><br><span style="color:#fde68a;font-size:12px;">(铁律：in order to 后面必须直接跟动词原形！)</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #fbbf24; font-size: 14.5px; margin-bottom: 6px;">第三部分：模板横线“高危接头处”零失误公式与例句</h4>
+                        <p style="color: #cbd5e1; margin-bottom: 6px;">往模板横线里填词时，先看横线前面最后一个词是什么，严格按以下 3 条规则接头：</p>
+                        <ul style="padding-left: 18px; color: #e2e8f0;">
+                            <li style="margin-bottom: 4px;"><b>规则 A（看到介词 of / by / through / instead of → 第一个词无脑加 -ing）</b>：<br>
+                                • By <b>taking</b> regular exercise, we can stay healthy. &nbsp;• Through <b>buying</b> these products, customers give companies more money.<br>
+                                • Individuals should get into the habit of <b>eating</b> fresh vegetables. &nbsp;• People buy vitamin pills instead of <b>cooking</b> meals at home.
+                            </li>
+                            <li style="margin-bottom: 4px;"><b>规则 B（看到不定式 in order to / spare no effort to / want to → 第一个词必用动词原形）</b>：<br>
+                                • In order to <b>solve</b> this problem, the government should take action. &nbsp;• The government should spare no effort to <b>provide</b> free courses.
+                            </li>
+                            <li><b>规则 C（看到政府/个人建议 → 无脑用 should + 动词原形，永不犯单复数和时态错）</b>：<br>
+                                • The government <b>should pass</b> strict laws. / Individuals <b>should exercise</b> every day.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. 三大保命语法与例句待机选择界面 -->
+        <div id="grammarStartScreen">
+            <div style="font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+                第一步：选择要特训的保命例句模块（共 3 大模块 · 67 句零失误填空库）
+            </div>
+            <div class="tpl-tabs" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="tpl-tab-btn g-tab-btn active" id="g-tab-ERR" onclick="selectGrammarCategory('ERR')">
+                    <h4>
+                        <span>🚑 模块一：错句排雷与接头公式</span>
+                        <span class="para-done-badge" id="g-badge-ERR">0/13 句</span>
+                    </h4>
+                    <p>第二&三部分：5.0分真实错句手术刀修正 + 介词-ing/不定式/should 接头铁律</p>
+                </div>
+                <div class="tpl-tab-btn g-tab-btn" id="g-tab-T2" onclick="selectGrammarCategory('T2')">
+                    <h4>
+                        <span>🧱 模块二：大作文四大话题保底句</span>
+                        <span class="para-done-badge" id="g-badge-T2">0/36 句</span>
+                    </h4>
+                    <p>第四部分：健康/教育/科技/经济 4 大高频话题（1号主系表 + 3号主谓宾 + should方案句）</p>
+                </div>
+                <div class="tpl-tab-btn g-tab-btn" id="g-tab-T1" onclick="selectGrammarCategory('T1')">
+                    <h4>
+                        <span>✉️ 模块三：小作文三时态保底短句</span>
+                        <span class="para-done-badge" id="g-badge-T1">0/18 句</span>
+                    </h4>
+                    <p>第五部分：Bullet 1 过去式 / Bullet 2 现在时或can / Bullet 3 原形（正式信+朋友信）</p>
+                </div>
+            </div>
+
+            <div style="font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+                第二步：选择具体训练分组（点击即可定位该组保底例句）
+            </div>
+            <div class="para-select-grid" id="gGroupSelectGrid"></div>
+
+            <div style="font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+                第三步：选择辅助记忆难度（从「跟打」过渡到「看中文直接盲写 6.0 保命简单句」）
+            </div>
+            <div class="difficulty-bar">
+                <div class="diff-pill g-diff-pill" id="gdiff-trace" onclick="selectGrammarDifficulty('trace')">
+                    🌱 1. 英文原句跟打（熟悉主谓结构）
+                </div>
+                <div class="diff-pill g-diff-pill active" id="gdiff-hint" onclick="selectGrammarDifficulty('hint')">
+                    🧭 2. 首字母 + 句型公式提示（半盲）
+                </div>
+                <div class="diff-pill g-diff-pill" id="gdiff-blind" onclick="selectGrammarDifficulty('blind')">
+                    🔥 3. 考场纯盲写（看中文+公式直接造句）
+                </div>
+            </div>
+
+            <button class="btn" style="width: 100%; padding: 16px; font-size: 17px; background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);" onclick="startGrammarPractice()">
+                🛡️ 进入三大保命语法与零失误例句特训界面
+            </button>
+        </div>
+
+        <!-- 2. 三大保命语法与例句专注训练界面 -->
+        <div id="grammarPracticeScreen" style="display: none;">
+            <div class="session-top-bar" style="margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div>
+                    <span id="grammarActiveTitle" style="color: #7dd3fc; font-weight: 800; font-size: 15px;"></span>
+                    <span id="grammarActiveSub" style="color: var(--text-sub); font-size: 12px; margin-left: 8px;"></span>
+                </div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <button class="btn btn-audio-slow" style="padding: 5px 10px; font-size: 12px;" onclick="switchInSessionGrammarDifficulty('trace')" id="inSessGBtn-trace">🌱 原句跟打</button>
+                    <button class="btn btn-audio-slow" style="padding: 5px 10px; font-size: 12px;" onclick="switchInSessionGrammarDifficulty('hint')" id="inSessGBtn-hint">🧭 首字母提示</button>
+                    <button class="btn btn-audio-slow" style="padding: 5px 10px; font-size: 12px;" onclick="switchInSessionGrammarDifficulty('blind')" id="inSessGBtn-blind">🔥 考场全盲</button>
+                </div>
+            </div>
+
+            <!-- 快速切换分组导航条 -->
+            <div id="inSessionGrammarNav" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;"></div>
+
+            <!-- 句子默写工作区 -->
+            <div id="grammarWorkspaceContainer"></div>
+
+            <!-- 批改反馈面板 -->
+            <div class="feedback-box" id="grammarFeedbackBox" style="margin-bottom: 14px;"></div>
+
+            <div class="action-row" style="flex-wrap: wrap;">
+                <button class="btn btn-submit" id="grammarCheckBtn" style="background: linear-gradient(135deg, #0284c7, #4f46e5);" onclick="checkGrammarSentences()">
+                    ✅ 提交批改本组保命句 (Enter)
+                </button>
+                <button class="btn btn-audio-slow" type="button" onclick="fillCurrentGrammarHint()" title="点此查看当前光标所在句子的标准写法">
+                    💡 提示当前句
+                </button>
+                <button class="btn btn-audio-slow" type="button" onclick="speakGrammarGroup()" title="用澳洲口音连读本组全部保命例句">
+                    🔊 朗读本组例句
+                </button>
+                <button class="btn btn-quit" onclick="returnGrammarToHome()">
+                    返回主页
+                </button>
+            </div>
+
+            <div class="shortcut-tip">
+                机考快捷键：<span class="kbd">Enter</span> 跳至下一句或提交批改 &nbsp;|&nbsp; 点击每句右侧的 🔊 可单独听该句澳洲发音
             </div>
         </div>
     </div>
@@ -2265,6 +2604,7 @@
         hfMistakes: {},
         writingMastered: {},
         task1Mastered: {},
+        grammarMastered: {},
         bestStreak: 0,
         todayDate: new Date().toDateString(),
         todayCount: 0,
@@ -2346,6 +2686,7 @@
         initHfGroupSelectors();
         initWritingTrainer();
         initTask1Trainer();
+        initGrammarTrainer();
         initVoiceEngine();
         updateDashboard();
 
@@ -2473,6 +2814,7 @@
             hfe: hfeMap,
             wm: Object.keys(state.writingMastered || {}).filter(k => state.writingMastered[k]),
             t1m: Object.keys(state.task1Mastered || {}).filter(k => state.task1Mastered[k]),
+            gm: Object.keys(state.grammarMastered || {}).filter(k => state.grammarMastered[k]),
             c: state.calendar || {},
             bs: state.bestStreak || 0,
             ms: state.maxDayStreak || 0
@@ -2517,6 +2859,10 @@
         const cloudT1mSet = new Set(Array.isArray(cloudP.t1m) ? cloudP.t1m : []);
         for (const k of (localP.t1m || [])) {
             if (!cloudT1mSet.has(k)) return true;
+        }
+        const cloudGmSet = new Set(Array.isArray(cloudP.gm) ? cloudP.gm : []);
+        for (const k of (localP.gm || [])) {
+            if (!cloudGmSet.has(k)) return true;
         }
         if ((localP.bs || 0) > (cloudP.bs || 0) || (localP.ms || 0) > (cloudP.ms || 0)) return true;
         return false;
@@ -2589,6 +2935,7 @@
         if (!state.hfMistakes) state.hfMistakes = {};
         if (!state.writingMastered) state.writingMastered = {};
         if (!state.task1Mastered) state.task1Mastered = {};
+        if (!state.grammarMastered) state.grammarMastered = {};
         if (Array.isArray(payload.wm)) {
             payload.wm.forEach(k => {
                 if (k && !state.writingMastered[k]) {
@@ -2601,6 +2948,14 @@
             payload.t1m.forEach(k => {
                 if (k && !state.task1Mastered[k]) {
                     state.task1Mastered[k] = payload.t || Date.now();
+                    changed = true;
+                }
+            });
+        }
+        if (Array.isArray(payload.gm)) {
+            payload.gm.forEach(k => {
+                if (k && !state.grammarMastered[k]) {
+                    state.grammarMastered[k] = payload.t || Date.now();
                     changed = true;
                 }
             });
@@ -2812,6 +3167,7 @@
                 if (!state.hfMistakes) state.hfMistakes = {};
                 if (!state.writingMastered) state.writingMastered = {};
                 if (!state.task1Mastered) state.task1Mastered = {};
+                if (!state.grammarMastered) state.grammarMastered = {};
                 if (state.todayDate !== new Date().toDateString()) {
                     state.todayDate = new Date().toDateString();
                     state.todayCount = 0;
@@ -3135,6 +3491,18 @@
         if (t1CardCnt) t1CardCnt.innerText = `${doneT1Paras} / ${totalT1Paras}`;
         if (typeof renderTask1Selector === 'function') renderTask1Selector();
 
+        if (!state.grammarMastered) state.grammarMastered = {};
+        const totalGItems = 67;
+        const doneGItems = Object.keys(state.grammarMastered).filter(k => state.grammarMastered[k]).length;
+        const gPct = Math.round((doneGItems / totalGItems) * 100);
+        const gTopText = document.getElementById('grammarTopProgressText');
+        const gTopBar = document.getElementById('grammarTopProgressBar');
+        const gCardCnt = document.getElementById('grammarMasteredCountText');
+        if (gTopText) gTopText.innerText = `${doneGItems} / ${totalGItems} 句 (${gPct}%)`;
+        if (gTopBar) gTopBar.style.width = `${gPct}%`;
+        if (gCardCnt) gCardCnt.innerText = `${doneGItems} / ${totalGItems}`;
+        if (typeof renderGrammarSelector === 'function') renderGrammarSelector();
+
         const rankEl = document.getElementById('rankBadge');
         if (masteredTotal >= 1600) rankEl.innerText = '👑 Lv.6 雅思807战神';
         else if (masteredTotal >= 1000) rankEl.innerText = '💎 Lv.5 听写宗师';
@@ -3211,6 +3579,7 @@
         document.getElementById('hfMainCard').style.display = 'none';
         document.getElementById('writingMainCard').style.display = 'none';
         document.getElementById('task1MainCard').style.display = 'none';
+        document.getElementById('grammarMainCard').style.display = 'none';
         document.getElementById('mainCard1820').style.display = 'block';
         document.getElementById('calendarSection').style.display = 'none';
         document.getElementById('modeTitleBadge').innerText = modeTitle;
@@ -3509,6 +3878,9 @@
         document.getElementById('task1MainCard').style.display = 'block';
         document.getElementById('task1CardHeader').style.display = 'block';
         document.getElementById('task1MainCard').style.marginTop = '20px';
+        document.getElementById('grammarMainCard').style.display = 'block';
+        document.getElementById('grammarCardHeader').style.display = 'block';
+        document.getElementById('grammarMainCard').style.marginTop = '20px';
         document.getElementById('trainingScreen').style.display = 'none';
         document.getElementById('summaryScreen').style.display = 'none';
         document.getElementById('calendarSection').style.display = 'block';
@@ -3562,6 +3934,7 @@
                 hfMistakes: {},
                 writingMastered: {},
                 task1Mastered: {},
+                grammarMastered: {},
                 bestStreak: 0,
                 todayDate: new Date().toDateString(),
                 todayCount: 0,
@@ -3674,6 +4047,7 @@
         document.getElementById('mainCard1820').style.display = 'none';
         document.getElementById('writingMainCard').style.display = 'none';
         document.getElementById('task1MainCard').style.display = 'none';
+        document.getElementById('grammarMainCard').style.display = 'none';
         document.getElementById('hfCardHeader').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'block';
         document.getElementById('hfMainCard').style.marginTop = '0';
@@ -3952,6 +4326,9 @@
         document.getElementById('task1MainCard').style.display = 'block';
         document.getElementById('task1CardHeader').style.display = 'block';
         document.getElementById('task1MainCard').style.marginTop = '20px';
+        document.getElementById('grammarMainCard').style.display = 'block';
+        document.getElementById('grammarCardHeader').style.display = 'block';
+        document.getElementById('grammarMainCard').style.marginTop = '20px';
         document.getElementById('hfTrainingScreen').style.display = 'none';
         document.getElementById('hfSummaryScreen').style.display = 'none';
         document.getElementById('hfStartScreen').style.display = 'block';
@@ -4068,6 +4445,7 @@
         document.getElementById('mainCard1820').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'none';
         document.getElementById('task1MainCard').style.display = 'none';
+        document.getElementById('grammarMainCard').style.display = 'none';
         document.getElementById('writingCardHeader').style.display = 'none';
         document.getElementById('writingMainCard').style.display = 'block';
         document.getElementById('writingMainCard').style.marginTop = '0';
@@ -4360,6 +4738,9 @@
         document.getElementById('task1MainCard').style.display = 'block';
         document.getElementById('task1CardHeader').style.display = 'block';
         document.getElementById('task1MainCard').style.marginTop = '20px';
+        document.getElementById('grammarMainCard').style.display = 'block';
+        document.getElementById('grammarCardHeader').style.display = 'block';
+        document.getElementById('grammarMainCard').style.marginTop = '20px';
 
         document.getElementById('writingPracticeScreen').style.display = 'none';
         document.getElementById('writingStartScreen').style.display = 'block';
@@ -4644,6 +5025,7 @@
         document.getElementById('mainCard1820').style.display = 'none';
         document.getElementById('hfMainCard').style.display = 'none';
         document.getElementById('writingMainCard').style.display = 'none';
+        document.getElementById('grammarMainCard').style.display = 'none';
         document.getElementById('task1CardHeader').style.display = 'none';
         document.getElementById('task1MainCard').style.display = 'block';
         document.getElementById('task1MainCard').style.marginTop = '0';
@@ -4905,9 +5287,921 @@
         document.getElementById('task1MainCard').style.display = 'block';
         document.getElementById('task1CardHeader').style.display = 'block';
         document.getElementById('task1MainCard').style.marginTop = '20px';
+        document.getElementById('grammarMainCard').style.display = 'block';
+        document.getElementById('grammarCardHeader').style.display = 'block';
+        document.getElementById('grammarMainCard').style.marginTop = '20px';
 
         document.getElementById('task1PracticeScreen').style.display = 'none';
         document.getElementById('task1StartScreen').style.display = 'block';
+        updateDashboard();
+    }
+
+    // ==================== 雅思G类写作：三大保命基础语法与零失误例句手册 (67句) 特训系统 ====================
+    const GRAMMAR_HANDBOOK_GROUPS = [
+        {
+            id: 'ERR_SURGERY',
+            cat: 'ERR',
+            title: '1️⃣ 第二部分：你的 5.0 分真实错句“手术刀”排雷修正（《维生素药片》大作文 6 句）',
+            sub: '对照你在《维生素药片》真题中的真实 5.0 分病句，用三大保命结构一秒改成 6.0+ 零失误满分句',
+            items: [
+                {
+                    id: 'ERR_1',
+                    en: 'Thus, they do not have enough time to cook healthy food.',
+                    cn: '因此，他们没有足够的时间做健康食物。',
+                    formula: '3号主谓宾 · 否定死规矩: 复数主语 + do not have + 宾语',
+                    wrong: 'Thus, they are no have time to make healthy food. （双动词车祸：把 are 和 have 撞在了一起）'
+                },
+                {
+                    id: 'ERR_2',
+                    en: 'A fast-paced lifestyle is also the root cause.',
+                    cn: '快节奏的生活方式也是根本原因。（名词作主语修正版）',
+                    formula: '1号主系表 · 名词短语作主语 + is + 表语',
+                    wrong: '...people like eveting are fast is also the root cause. （把完整句子当主语：like, are, is 三个动词撞车）'
+                },
+                {
+                    id: 'ERR_3',
+                    en: 'Seeking fast results is also the root cause.',
+                    cn: '追求快速见效也是根本原因。（V-ing 动名词作主语修正版）',
+                    formula: '1号主系表 · 动作放句首当主语必须加 -ing + is + 表语',
+                    wrong: '...people like eveting are fast is also the root cause. （动作作主语严禁用原形）'
+                },
+                {
+                    id: 'ERR_4',
+                    en: 'get into the habit of eating a healthy diet',
+                    cn: '养成吃健康饮食的习惯。',
+                    formula: '接头铁律A：介词 of 后面必须加 -ing (eating)',
+                    wrong: '...get into the habit of eat healthy diet. （介词后直接接动词原形 eat 必扣分）'
+                },
+                {
+                    id: 'ERR_5',
+                    en: 'instead of eating a healthy diet',
+                    cn: '而不是吃健康的饮食。',
+                    formula: '接头铁律A：介词 instead of 后面必须加 -ing (eating)',
+                    wrong: '...instead of eat healthy diet. （无视介词 of 的死规矩）'
+                },
+                {
+                    id: 'ERR_6',
+                    en: 'in order to help people save money',
+                    cn: '为了帮助人们省钱。',
+                    formula: '接头铁律B：不定式 in order to 后面必须直接跟动词原形 (help)',
+                    wrong: '...in order to people stop spend a lot of money... （in order to 后面严禁塞完整句子）'
+                }
+            ]
+        },
+        {
+            id: 'ERR_CONNECT',
+            cat: 'ERR',
+            title: '2️⃣ 第三部分：模板横线“高危接头处”零失误公式与例句（7 句）',
+            sub: '往模板横线里填词时，先看横线前面最后一个词是什么（规则A: 介词+-ing | 规则B: to+原形 | 规则C: should+原形）',
+            items: [
+                {
+                    id: 'ERR_7',
+                    en: 'By taking regular exercise, we can stay healthy.',
+                    cn: '通过规律运动，我们能保持健康。',
+                    formula: '规则A：看到介词 by → 第一个词无脑加 -ing (taking)'
+                },
+                {
+                    id: 'ERR_8',
+                    en: 'Through buying these products, customers give companies more money.',
+                    cn: '通过购买这些产品，顾客给公司更多钱。',
+                    formula: '规则A：看到介词 through → 第一个词无脑加 -ing (buying)'
+                },
+                {
+                    id: 'ERR_9',
+                    en: 'Individuals should get into the habit of eating fresh vegetables.',
+                    cn: '个人应该养成吃新鲜蔬菜的习惯。',
+                    formula: '规则A：看到介词 of → 第一个词无脑加 -ing (eating)'
+                },
+                {
+                    id: 'ERR_10',
+                    en: 'People buy vitamin pills instead of cooking meals at home.',
+                    cn: '人们买维生素药片，而不是在家做饭。',
+                    formula: '规则A：看到介词 instead of → 第一个词无脑加 -ing (cooking)'
+                },
+                {
+                    id: 'ERR_11',
+                    en: 'In order to solve this problem, the government should take action.',
+                    cn: '为了解决这个问题，政府应采取行动。',
+                    formula: '规则B：看到不定式 in order to → 第一个词必用动词原形 (solve)'
+                },
+                {
+                    id: 'ERR_12',
+                    en: 'The government should spare no effort to provide free courses.',
+                    cn: '政府应该不遗余力地提供免费课程。',
+                    formula: '规则B：看到不定式 spare no effort to → 第一个词必用动词原形 (provide)'
+                },
+                {
+                    id: 'ERR_13',
+                    en: 'The government should pass strict laws. Individuals should exercise every day.',
+                    cn: '政府应该通过严格的法律。个人应该每天锻炼。',
+                    formula: '规则C：看到政府/个人建议 → 无脑用 should + 动词原形（永不犯单复数和时态错）'
+                }
+            ]
+        },
+        {
+            id: 'T2_HEALTH',
+            cat: 'T2',
+            title: '1️⃣ 话题一：健康与生活方式类（饮食、运动、医疗、压力、买抗衰老/保健品 · 10 句）',
+            sub: '第四部分大作文保底库：涵盖 1号主系表(4句) + 3号主谓宾(4句) + should方案句(2句)，考场直接照抄填空',
+            items: [
+                {
+                    id: 'T2_H1',
+                    en: 'Swimming is good for our physical and mental health.',
+                    cn: '游泳对身心健康有好处。',
+                    formula: '1号：主系表 (V-ing + is + 形容词)'
+                },
+                {
+                    id: 'T2_H2',
+                    en: 'Cooking healthy meals at home is very difficult and time-consuming.',
+                    cn: '在家做健康餐既难又耗时。',
+                    formula: '1号：主系表 (V-ing + is + 形容词)'
+                },
+                {
+                    id: 'T2_H3',
+                    en: 'A balanced diet is very important in daily life.',
+                    cn: '均衡饮食在日常生活中很重要。',
+                    formula: '1号：主系表 (名词 + is + 形容词)'
+                },
+                {
+                    id: 'T2_H4',
+                    en: 'Fast food is cheap and convenient for busy workers.',
+                    cn: '快餐对忙碌的上班族来说既便宜又方便。',
+                    formula: '1号：主系表 (名词 + is + 形容词)'
+                },
+                {
+                    id: 'T2_H5',
+                    en: 'Modern people work very hard every day.',
+                    cn: '现代人每天工作都很努力。',
+                    formula: '2/3号：复数主语 + 动词原形 (work)'
+                },
+                {
+                    id: 'T2_H6',
+                    en: 'Office workers do not have enough time to cook at home.',
+                    cn: '上班族没有足够时间在家做饭。',
+                    formula: '3号：主谓宾否定 (复数主语 + do not have + 宾语)'
+                },
+                {
+                    id: 'T2_H7',
+                    en: 'Many customers buy vitamin pills to save time.',
+                    cn: '许多顾客买维生素药片来节省时间。',
+                    formula: '3号：主谓宾 (复数主语 + 动词原形 buy + 宾语)'
+                },
+                {
+                    id: 'T2_H8',
+                    en: 'Medical companies need more money to upgrade their machines.',
+                    cn: '医疗公司需要更多钱来升级设备。',
+                    formula: '3号：主谓宾 (复数主语 + 动词原形 need + 宾语)'
+                },
+                {
+                    id: 'T2_H9',
+                    en: 'People should eat more fresh fruit and vegetables every day.',
+                    cn: '人们应该每天多吃新鲜蔬果。',
+                    formula: '方案句：主语 + should + 动词原形 (eat)'
+                },
+                {
+                    id: 'T2_H10',
+                    en: 'Hospitals should offer free health advice to the public.',
+                    cn: '医院应该向公众提供免费健康建议。',
+                    formula: '方案句：主语 + should + 动词原形 (offer)'
+                }
+            ]
+        },
+        {
+            id: 'T2_EDU',
+            cat: 'T2',
+            title: '2️⃣ 话题二：教育、青年与家庭类（学理财、间隔年兼职、大学课程、青少年玩手机 · 9 句）',
+            sub: '第四部分大作文保底库：涵盖 1号主系表(3句) + 3号主谓宾(4句) + should方案句(2句)',
+            items: [
+                {
+                    id: 'T2_ED1',
+                    en: 'Practical experience is very useful for high school graduates.',
+                    cn: '实践经验对高中毕业生非常有用。',
+                    formula: '1号：主系表 (名词 + is + 形容词)'
+                },
+                {
+                    id: 'T2_ED2',
+                    en: 'Finding a good job is not easy for young people today.',
+                    cn: '如今对年轻人来说找好工作不容易。',
+                    formula: '1号：主系表 (V-ing + is not + 形容词)'
+                },
+                {
+                    id: 'T2_ED3',
+                    en: 'Saving money is a good habit for teenagers.',
+                    cn: '存钱对青少年来说是个好习惯。',
+                    formula: '1号：主系表 (V-ing + is + 名词表语)'
+                },
+                {
+                    id: 'T2_ED4',
+                    en: 'High school students lack basic financial knowledge.',
+                    cn: '高中生缺乏基础的理财知识。',
+                    formula: '3号：主谓宾 (复数主语 + 动词原形 lack + 宾语)'
+                },
+                {
+                    id: 'T2_ED5',
+                    en: 'Parents pay for all the daily expenses of their children.',
+                    cn: '父母包办了孩子所有的日常开销。',
+                    formula: '3号：主谓宾 (复数主语 + 动词原形 pay for + 宾语)'
+                },
+                {
+                    id: 'T2_ED6',
+                    en: 'Students learn teamwork and communication skills from part-time jobs.',
+                    cn: '学生从兼职中学到团队与沟通技能。',
+                    formula: '3号：主谓宾 (复数主语 + 动词原形 learn + 宾语)'
+                },
+                {
+                    id: 'T2_ED7',
+                    en: 'Teenagers spend too much time on computer games.',
+                    cn: '青少年在电脑游戏上花太多时间。',
+                    formula: '3号：主谓宾 (复数主语 + 动词原形 spend + 宾语)'
+                },
+                {
+                    id: 'T2_ED8',
+                    en: 'Schools should provide practical courses about money management.',
+                    cn: '学校应提供关于理财的实用课程。',
+                    formula: '方案句：主语 + should + 动词原形 (provide)'
+                },
+                {
+                    id: 'T2_ED9',
+                    en: 'Parents should teach their children how to plan a monthly budget.',
+                    cn: '父母应该教孩子如何规划每月预算。',
+                    formula: '方案句：主语 + should + 动词原形 (teach)'
+                }
+            ]
+        },
+        {
+            id: 'T2_TECH',
+            cat: 'T2',
+            title: '3️⃣ 话题三：科技、职场与现代社会类（互联网、远程办公、智能手机、去画廊/博物馆减少 · 8 句）',
+            sub: '第四部分大作文保底库：涵盖 1号主系表(3句) + 3号主谓宾(3句) + should方案句(2句)',
+            items: [
+                {
+                    id: 'T2_TK1',
+                    en: 'The Internet is very convenient and cheap in modern society.',
+                    cn: '互联网在现代社会非常方便便宜。',
+                    formula: '1号：主系表 (名词 + is + 形容词)'
+                },
+                {
+                    id: 'T2_TK2',
+                    en: 'Working from home is very popular among young employees.',
+                    cn: '居家办公在年轻员工中非常流行。',
+                    formula: '1号：主系表 (V-ing + is + 形容词)'
+                },
+                {
+                    id: 'T2_TK3',
+                    en: 'Using mobile phones too much is harmful to family relationships.',
+                    cn: '过度用手机对家庭关系有害。',
+                    formula: '1号：主系表 (V-ing + is + 形容词)'
+                },
+                {
+                    id: 'T2_TK4',
+                    en: 'The Internet provides a lot of free entertainment at home.',
+                    cn: '互联网在家提供了大量免费娱乐。',
+                    formula: '3号：主谓宾 (单数主语 + provides + 宾语)'
+                },
+                {
+                    id: 'T2_TK5',
+                    en: 'People prefer watching videos on their phones rather than visiting art galleries.',
+                    cn: '人们更喜欢在手机上看视频而不是去画廊。',
+                    formula: '3号：主谓宾 (复数主语 + prefer V-ing rather than V-ing)'
+                },
+                {
+                    id: 'T2_TK6',
+                    en: 'Employees save commuting time and money by working at home.',
+                    cn: '员工通过居家办公节省通勤时间和金钱。',
+                    formula: '3号：主谓宾 (复数主语 + save + 宾语 + by V-ing)'
+                },
+                {
+                    id: 'T2_TK7',
+                    en: 'Art galleries should hold more interesting online and offline events.',
+                    cn: '画廊应该举办更多有趣的线上线下活动。',
+                    formula: '方案句：主语 + should + 动词原形 (hold)'
+                },
+                {
+                    id: 'T2_TK8',
+                    en: 'People should spend more face-to-face time with their families and friends.',
+                    cn: '人们应该花更多面对面时间陪家人朋友。',
+                    formula: '方案句：主语 + should + 动词原形 (spend)'
+                }
+            ]
+        },
+        {
+            id: 'T2_ECON',
+            cat: 'T2',
+            title: '4️⃣ 话题四：经济、政府投资与环境类（发展旅游业、买买买消费、空气污染、公共交通 · 9 句）',
+            sub: '第四部分大作文保底库：涵盖 1号主系表(3句) + 3号主谓宾(4句) + should方案句(2句)',
+            items: [
+                {
+                    id: 'T2_EC1',
+                    en: 'Air pollution is a serious problem in many big cities.',
+                    cn: '空气污染在许多大城市是个严重问题。',
+                    formula: '1号：主系表 (名词 + is + 名词表语)'
+                },
+                {
+                    id: 'T2_EC2',
+                    en: 'Protecting the natural environment is very urgent.',
+                    cn: '保护自然环境非常紧迫。',
+                    formula: '1号：主系表 (V-ing + is + 形容词)'
+                },
+                {
+                    id: 'T2_EC3',
+                    en: 'Public transport is cheap and environmentally friendly.',
+                    cn: '公共交通既便宜又环保。',
+                    formula: '1号：主系表 (名词 + is + 形容词)'
+                },
+                {
+                    id: 'T2_EC4',
+                    en: 'Local businesses face fierce competition and lack market support.',
+                    cn: '当地企业面临激烈竞争且缺乏市场支持。',
+                    formula: '3号：主谓宾 (复数主语 + face ... and lack ...)'
+                },
+                {
+                    id: 'T2_EC5',
+                    en: 'New industries create more job opportunities for local citizens.',
+                    cn: '新产业为当地市民创造更多就业机会。',
+                    formula: '3号：主谓宾 (复数主语 + 动词原形 create + 宾语)'
+                },
+                {
+                    id: 'T2_EC6',
+                    en: 'Foreign tourists bring a lot of money to developing countries.',
+                    cn: '外国游客给发展中国家带来大量收入。',
+                    formula: '3号：主谓宾 (复数主语 + 动词原形 bring + 宾语)'
+                },
+                {
+                    id: 'T2_EC7',
+                    en: 'Too many private cars cause heavy traffic congestion on the roads.',
+                    cn: '太多私家车导致道路严重拥堵。',
+                    formula: '3号：主谓宾 (复数主语 + 动词原形 cause + 宾语)'
+                },
+                {
+                    id: 'T2_EC8',
+                    en: 'The government should invest more tax money in public transport.',
+                    cn: '政府应该在公共交通上投资更多税收。',
+                    formula: '方案句：主语 + should + 动词原形 (invest)'
+                },
+                {
+                    id: 'T2_EC9',
+                    en: 'Authorities should limit misleading advertisements on television.',
+                    cn: '有关部门应该限制电视上的误导性广告。',
+                    formula: '方案句：主语 + should + 动词原形 (limit)'
+                }
+            ]
+        },
+        {
+            id: 'T1_B1',
+            cat: 'T1',
+            title: '1️⃣ 小作文 Bullet 1：过去背景（全用一般过去时 · 正式信 3 句 + 朋友信 3 句）',
+            sub: '第五部分小作文第 2 段（交代起因背景）：只需注意动词全部用过去式（bought / moved / was / finished / had to）',
+            items: [
+                {
+                    id: 'T1_B1_1',
+                    en: 'I bought a black jacket on your website last Monday.',
+                    cn: '【正式信·投诉/报修】我上周一在你们网站买了一件黑色夹克。',
+                    formula: '正式信 Bullet 1 · 主谓宾（过去式 bought）'
+                },
+                {
+                    id: 'T1_B1_2',
+                    en: 'I moved into this apartment six months ago.',
+                    cn: '【正式信·房东报修】我六个月前搬进这间公寓。',
+                    formula: '正式信 Bullet 1 · 主谓（过去式 moved）'
+                },
+                {
+                    id: 'T1_B1_3',
+                    en: 'Everything was in good condition at that time.',
+                    cn: '【正式信·通用背景】当时一切状况都很良好。',
+                    formula: '正式信 Bullet 1 · 主系表（过去式系动词 was）'
+                },
+                {
+                    id: 'T1_B1_4',
+                    en: 'I finished my final exam yesterday.',
+                    cn: '【朋友信·邀请/叙旧】我昨天刚考完期末考试。',
+                    formula: '朋友信 Bullet 1 · 主谓宾（过去式 finished）'
+                },
+                {
+                    id: 'T1_B1_5',
+                    en: 'I was super busy with my part-time job last week.',
+                    cn: '【朋友信·道歉/解释】我上周忙于兼职工作，超级忙。',
+                    formula: '朋友信 Bullet 1 · 主系表（过去式系动词 was）'
+                },
+                {
+                    id: 'T1_B1_6',
+                    en: 'I had to work overtime at the store on Sunday.',
+                    cn: '【朋友信·爽约道歉】我周日不得不在店里加班。',
+                    formula: '朋友信 Bullet 1 · 主谓（过去式 had to work）'
+                }
+            ]
+        },
+        {
+            id: 'T1_B2',
+            cat: 'T1',
+            title: '2️⃣ 小作文 Bullet 2：现在问题或安排（全用现在时或 can · 正式信 3 句 + 朋友信 3 句）',
+            sub: '第五部分小作文第 3 段（描述核心问题或具体安排）：用一般现在时或情态动词 can / cannot',
+            items: [
+                {
+                    id: 'T1_B2_1',
+                    en: 'The heater is completely broken now.',
+                    cn: '【正式信·报修】暖气机现在完全坏了。',
+                    formula: '正式信 Bullet 2 · 主系表（现在时 is broken）'
+                },
+                {
+                    id: 'T1_B2_2',
+                    en: 'The jacket has a big hole on the back.',
+                    cn: '【正式信·投诉】这件夹克后背有个大洞。',
+                    formula: '正式信 Bullet 2 · 主谓宾（单数现在时 has）'
+                },
+                {
+                    id: 'T1_B2_3',
+                    en: 'I cannot take a hot shower or sleep well at night.',
+                    cn: '【正式信·受损惨状】我晚上没法洗热水澡，也睡不好觉。',
+                    formula: '正式信 Bullet 2 · 主谓宾（cannot + 动词原形）'
+                },
+                {
+                    id: 'T1_B2_4',
+                    en: 'I booked a famous Thai restaurant near my house.',
+                    cn: '【朋友信·聚会安排】我订了我家附近一家著名的泰国餐厅。',
+                    formula: '朋友信 Bullet 2 · 主谓宾（已订好餐厅 booked）'
+                },
+                {
+                    id: 'T1_B2_5',
+                    en: 'We can eat lamb curry and play computer games together.',
+                    cn: '【朋友信·活动安排】我们可以一起吃羊肉咖喱、打电脑游戏。',
+                    formula: '朋友信 Bullet 2 · 主谓宾（can + 动词原形 eat / play）'
+                },
+                {
+                    id: 'T1_B2_6',
+                    en: 'The beach in Geelong is very quiet and beautiful.',
+                    cn: '【朋友信·景点推荐】吉朗的海滩非常安静美丽。',
+                    formula: '朋友信 Bullet 2 · 主系表（现在时 is + 形容词）'
+                }
+            ]
+        },
+        {
+            id: 'T1_B3',
+            cat: 'T1',
+            title: '3️⃣ 小作文 Bullet 3：诉求与下一步（接在 advisable that you / if you could 后用原形 · 6 句）',
+            sub: '第五部分小作文第 4 段（提出处理要求或给朋友提醒）：接在模板横线后直接用动词原形开头！',
+            items: [
+                {
+                    id: 'T1_B3_1',
+                    en: 'send a worker to fix the machine this week',
+                    cn: '【正式信·报修诉求】（建议您）本周派一名工人来修理机器。',
+                    formula: '正式信 Bullet 3 · 接在 it is advisable that you 后直接用原形 send'
+                },
+                {
+                    id: 'T1_B3_2',
+                    en: 'replace the broken item with a new one',
+                    cn: '【正式信·换货诉求】（建议您）把损坏的物品换成新的。',
+                    formula: '正式信 Bullet 3 · 接在 it is advisable that you 后直接用原形 replace'
+                },
+                {
+                    id: 'T1_B3_3',
+                    en: 'give me a full refund as soon as possible',
+                    cn: '【正式信·退款诉求】（建议您）尽快给我全额退款。',
+                    formula: '正式信 Bullet 3 · 接在 it is advisable that you 后直接用原形 give'
+                },
+                {
+                    id: 'T1_B3_4',
+                    en: 'come to my house at 6 pm this Saturday',
+                    cn: '【朋友信·时间邀约】（如果你能）本周六下午 6 点来我家。',
+                    formula: '朋友信 Bullet 3 · 接在 if you could 后直接用原形 come'
+                },
+                {
+                    id: 'T1_B3_5',
+                    en: 'bring a warm jacket and your laptop with you',
+                    cn: '【朋友信·物品提醒】（如果你能）随身带上一件保暖夹克和你的笔记本电脑。',
+                    formula: '朋友信 Bullet 3 · 接在 if you could 后直接用原形 bring'
+                },
+                {
+                    id: 'T1_B3_6',
+                    en: 'tell me your arrival time in advance',
+                    cn: '【朋友信·行程确认】（如果你能）提前告诉我你的抵达时间。',
+                    formula: '朋友信 Bullet 3 · 接在 if you could 后直接用原形 tell'
+                }
+            ]
+        }
+    ];
+
+    let currentGrammarCat = 'ERR'; // 'ERR', 'T2', 'T1'
+    let currentGrammarGroupId = 'ERR_SURGERY';
+    let currentGrammarDiff = 'hint'; // 'trace', 'hint', 'blind'
+    let lastFocusedGrammarInput = null;
+
+    function initGrammarTrainer() {
+        renderGrammarSelector();
+        populateWritingLinkageDrawer();
+        populateTask1LinkageDrawer();
+    }
+
+    function toggleGrammarHandbookDrawer() {
+        const drawer = document.getElementById('grammarHandbookDrawer');
+        const arrow = document.getElementById('grammarDrawerArrow');
+        if (!drawer) return;
+        const isHidden = (drawer.style.display === 'none' || !drawer.style.display);
+        drawer.style.display = isHidden ? 'block' : 'none';
+        if (arrow) arrow.innerText = isHidden ? '▴ 收起语法红线表' : '▾ 展开语法红线表';
+    }
+
+    function toggleWritingLinkageDrawer() {
+        const drawer = document.getElementById('writingLinkageDrawer');
+        const arrow = document.getElementById('writingLinkageArrow');
+        if (!drawer) return;
+        const isHidden = (drawer.style.display === 'none' || !drawer.style.display);
+        drawer.style.display = isHidden ? 'block' : 'none';
+        if (arrow) arrow.innerText = isHidden ? '▴ 收起肉体句库' : '▾ 展开肉体句库';
+    }
+
+    function toggleTask1LinkageDrawer() {
+        const drawer = document.getElementById('task1LinkageDrawer');
+        const arrow = document.getElementById('task1LinkageArrow');
+        if (!drawer) return;
+        const isHidden = (drawer.style.display === 'none' || !drawer.style.display);
+        drawer.style.display = isHidden ? 'block' : 'none';
+        if (arrow) arrow.innerText = isHidden ? '▴ 收起肉体短句库' : '▾ 展开肉体短句库';
+    }
+
+    function populateWritingLinkageDrawer() {
+        const el = document.getElementById('writingLinkageDrawer');
+        if (!el) return;
+        const t2Groups = GRAMMAR_HANDBOOK_GROUPS.filter(g => g.cat === 'T2');
+        let html = `
+            <div style="margin-bottom: 10px; padding: 8px 10px; background: rgba(245, 158, 11, 0.12); border-left: 3px solid #fbbf24; border-radius: 6px; color: #fde68a;">
+                <b>🔗 模板横线“高危接头处” 3 大铁律</b>：<br>
+                ① 看到横线前是介词 <b>of / by / through / instead of</b> 👉 第一个词<b>无脑加 -ing</b>（如 <i>by taking... / through buying... / habit of eating...</i>）<br>
+                ② 看到横线前是 <b>in order to / spare no effort to</b> 👉 第一个词<b>必用动词原形</b>（如 <i>in order to solve... / spare no effort to provide...</i>）<br>
+                ③ 写政府/个人方案 👉 无脑用 <b>should + 动词原形</b>（如 <i>The government should invest...</i>）
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 10px;">
+        `;
+        t2Groups.forEach(g => {
+            html += `<div style="background: rgba(30, 41, 59, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 10px;">
+                <div style="font-weight: 800; color: #38bdf8; margin-bottom: 6px; font-size: 13px;">${g.title}</div>`;
+            g.items.forEach(it => {
+                const escaped = it.en.replace(/'/g, "\\'");
+                html += `<div style="margin-bottom: 5px; font-size: 12px; color: #e2e8f0;">
+                    <span class="g-formula-tag">${it.formula.split(' ')[0]}</span>
+                    <b>${it.en}</b>
+                    <button type="button" class="link-btn" style="font-size:11px;margin-left:4px;" onclick="playWordAudio('${escaped}', 0.88)">🔊</button>
+                    <div style="color: #94a3b8; font-size: 11.5px;">${it.cn}</div>
+                </div>`;
+            });
+            html += `</div>`;
+        });
+        html += `</div>`;
+        el.innerHTML = html;
+    }
+
+    function populateTask1LinkageDrawer() {
+        const el = document.getElementById('task1LinkageDrawer');
+        if (!el) return;
+        const t1Groups = GRAMMAR_HANDBOOK_GROUPS.filter(g => g.cat === 'T1');
+        let html = `
+            <div style="margin-bottom: 10px; padding: 8px 10px; background: rgba(16, 185, 129, 0.12); border-left: 3px solid #10b981; border-radius: 6px; color: #a7f3d0;">
+                <b>⏰ 小作文填空“三段三时态”铁律</b>：<b>第2段 (Bullet 1 过去起因)</b> 全用一般过去时；<b>第3段 (Bullet 2 当前问题/安排)</b> 全用一般现在时或 can；<b>第4段 (Bullet 3 提出诉求)</b> 接在 <i>advisable that you... / if you could...</i> 后直接用<b>动词原形</b>！
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
+        `;
+        t1Groups.forEach(g => {
+            html += `<div style="background: rgba(30, 41, 59, 0.75); border: 1px solid #334155; border-radius: 8px; padding: 10px;">
+                <div style="font-weight: 800; color: #6ee7b7; margin-bottom: 6px; font-size: 13px;">${g.title}</div>`;
+            g.items.forEach(it => {
+                const escaped = it.en.replace(/'/g, "\\'");
+                html += `<div style="margin-bottom: 5px; font-size: 12px; color: #e2e8f0;">
+                    <b>${it.en}</b>
+                    <button type="button" class="link-btn" style="font-size:11px;margin-left:4px;" onclick="playWordAudio('${escaped}', 0.88)">🔊</button>
+                    <div style="color: #94a3b8; font-size: 11.5px;">${it.cn}</div>
+                </div>`;
+            });
+            html += `</div>`;
+        });
+        html += `</div>`;
+        el.innerHTML = html;
+    }
+
+    function selectGrammarCategory(cat) {
+        currentGrammarCat = cat;
+        ['ERR', 'T2', 'T1'].forEach(c => {
+            const btn = document.getElementById('g-tab-' + c);
+            if (btn) btn.classList.toggle('active', c === cat);
+        });
+        const firstGroup = GRAMMAR_HANDBOOK_GROUPS.find(g => g.cat === cat);
+        if (firstGroup) currentGrammarGroupId = firstGroup.id;
+        renderGrammarSelector();
+    }
+
+    function selectGrammarGroup(groupId) {
+        currentGrammarGroupId = groupId;
+        renderGrammarSelector();
+    }
+
+    function selectGrammarDifficulty(diff) {
+        currentGrammarDiff = diff;
+        ['trace', 'hint', 'blind'].forEach(d => {
+            const el = document.getElementById('gdiff-' + d);
+            if (el) el.classList.toggle('active', d === diff);
+        });
+    }
+
+    function renderGrammarSelector() {
+        if (!state.grammarMastered) state.grammarMastered = {};
+
+        ['ERR', 'T2', 'T1'].forEach(cat => {
+            const catGroups = GRAMMAR_HANDBOOK_GROUPS.filter(g => g.cat === cat);
+            let total = 0;
+            let done = 0;
+            catGroups.forEach(g => {
+                total += g.items.length;
+                done += g.items.filter(it => state.grammarMastered[it.id]).length;
+            });
+            const badge = document.getElementById('g-badge-' + cat);
+            if (badge) {
+                badge.innerText = `${done}/${total} 句`;
+                badge.classList.toggle('mastered', done === total && total > 0);
+            }
+        });
+
+        const grid = document.getElementById('gGroupSelectGrid');
+        if (!grid) return;
+        const catGroups = GRAMMAR_HANDBOOK_GROUPS.filter(g => g.cat === currentGrammarCat);
+        let htmlStr = '';
+
+        catGroups.forEach(g => {
+            const doneCnt = g.items.filter(it => state.grammarMastered[it.id]).length;
+            const totalCnt = g.items.length;
+            const isAllDone = (doneCnt === totalCnt);
+            const isActive = (currentGrammarGroupId === g.id);
+
+            htmlStr += `
+                <div class="para-card g-para-card para-card-full ${isActive ? 'active' : ''}" onclick="selectGrammarGroup('${g.id}')">
+                    <div>
+                        <div style="font-weight: 800; font-size: 14px; color: #f8fafc;">
+                            ${g.title}
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-sub); margin-top: 2px;">
+                            ${g.sub}
+                        </div>
+                    </div>
+                    <span class="para-done-badge ${isAllDone ? 'mastered' : ''}">
+                        ${isAllDone ? `✅ 已通关 (${doneCnt}/${totalCnt})` : `${doneCnt} / ${totalCnt} 句`}
+                    </span>
+                </div>
+            `;
+        });
+
+        grid.innerHTML = htmlStr;
+    }
+
+    function startGrammarPractice() {
+        stopAllAudio();
+        document.body.dataset.activeMode = 'grammar';
+        document.getElementById('dashboardCard').style.display = 'none';
+        document.getElementById('mainCard1820').style.display = 'none';
+        document.getElementById('hfMainCard').style.display = 'none';
+        document.getElementById('writingMainCard').style.display = 'none';
+        document.getElementById('task1MainCard').style.display = 'none';
+        document.getElementById('grammarCardHeader').style.display = 'none';
+        document.getElementById('grammarMainCard').style.display = 'block';
+        document.getElementById('grammarMainCard').style.marginTop = '0';
+
+        document.getElementById('grammarStartScreen').style.display = 'none';
+        document.getElementById('grammarPracticeScreen').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        renderGrammarWorkspace();
+    }
+
+    function switchInSessionGrammarDifficulty(diff) {
+        const savedVals = {};
+        document.querySelectorAll('#grammarWorkspaceContainer .tpl-slot-input').forEach(inp => {
+            savedVals[inp.dataset.slotId] = inp.value;
+        });
+        currentGrammarDiff = diff;
+        selectGrammarDifficulty(diff);
+        renderGrammarWorkspace(savedVals);
+    }
+
+    function switchInSessionGrammarGroup(groupId) {
+        const grp = GRAMMAR_HANDBOOK_GROUPS.find(g => g.id === groupId);
+        if (grp) {
+            currentGrammarCat = grp.cat;
+            currentGrammarGroupId = groupId;
+            renderGrammarWorkspace();
+        }
+    }
+
+    function renderGrammarWorkspace(savedVals = null) {
+        const grp = GRAMMAR_HANDBOOK_GROUPS.find(g => g.id === currentGrammarGroupId) || GRAMMAR_HANDBOOK_GROUPS[0];
+        document.getElementById('grammarActiveTitle').innerText = grp.title;
+        document.getElementById('grammarActiveSub').innerText = grp.sub;
+
+        ['trace', 'hint', 'blind'].forEach(d => {
+            const btn = document.getElementById('inSessGBtn-' + d);
+            if (btn) {
+                btn.style.borderColor = (d === currentGrammarDiff) ? '#38bdf8' : 'var(--card-border)';
+                btn.style.background = (d === currentGrammarDiff) ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255, 255, 255, 0.08)';
+                btn.style.color = (d === currentGrammarDiff) ? '#fff' : '#cbd5e1';
+            }
+        });
+
+        const navEl = document.getElementById('inSessionGrammarNav');
+        let navHtml = '';
+        GRAMMAR_HANDBOOK_GROUPS.forEach((g, idx) => {
+            const doneCnt = g.items.filter(it => state.grammarMastered && state.grammarMastered[it.id]).length;
+            const isAllDone = (doneCnt === g.items.length);
+            const active = (g.id === currentGrammarGroupId);
+            const shortTitle = g.title.split('（')[0];
+            navHtml += `
+                <button type="button" class="btn btn-audio-slow"
+                        style="padding: 5px 10px; font-size: 12px; ${active ? 'border-color:#38bdf8;background:rgba(56,189,248,0.22);color:#fff;' : ''}"
+                        onclick="switchInSessionGrammarGroup('${g.id}')">
+                    ${isAllDone ? '✅ ' : ''}${shortTitle} (${doneCnt}/${g.items.length})
+                </button>
+            `;
+        });
+        navEl.innerHTML = navHtml;
+
+        const container = document.getElementById('grammarWorkspaceContainer');
+        let wsHtml = '';
+
+        grp.items.forEach((item, idx) => {
+            const slotId = item.id;
+            const targetText = item.en;
+            const wordCnt = targetText.trim().split(/\s+/).length;
+            const escapedAudio = targetText.replace(/'/g, "\\'");
+            const isDone = !!(state.grammarMastered && state.grammarMastered[item.id]);
+
+            let hintLine = '';
+            let placeholderText = '';
+            if (currentGrammarDiff === 'trace') {
+                hintLine = `<div style="font-size: 12.5px; color: #7dd3fc; margin-bottom: 6px;">📖 原句跟打：<b>${targetText}</b></div>`;
+                placeholderText = targetText;
+            } else if (currentGrammarDiff === 'hint') {
+                const firstLetterStr = buildFirstLetterMask(targetText);
+                hintLine = `<div style="font-size: 12px; color: #cbd5e1; margin-bottom: 6px; font-family: monospace;">🧭 首字母提示：${firstLetterStr} (${wordCnt}词)</div>`;
+                placeholderText = `按上方首字母与句型公式默写 (${wordCnt}词)...`;
+            } else {
+                hintLine = `<div style="font-size: 12px; color: #94a3b8; margin-bottom: 6px;">🔥 考场全盲造句：请严格使用【${item.formula}】写出该句英文 (${wordCnt}词)</div>`;
+                placeholderText = `在此盲写 6.0+ 零失误保命简单句 (${wordCnt}词)...`;
+            }
+
+            const wrongBoxHtml = item.wrong
+                ? `<div class="g-wrong-box">🚨 <b>你的 5.0 分原句排雷对比</b>：<del>${item.wrong}</del></div>`
+                : '';
+
+            const val = (savedVals && savedVals[slotId] !== undefined) ? savedVals[slotId].replace(/"/g, '&quot;') : '';
+
+            wsHtml += `
+                <div class="g-sentence-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
+                        <div>
+                            <span style="font-weight: 800; color: #f8fafc; font-size: 14px;">#${idx + 1} ${item.cn}</span>
+                            <span class="g-formula-tag">${item.formula}</span>
+                            ${isDone ? '<span style="color:#34d399;font-size:12px;font-weight:700;">✅已掌握</span>' : ''}
+                        </div>
+                        <button type="button" class="btn btn-audio-slow" style="padding: 3px 10px; font-size: 12px;" onclick="playWordAudio('${escapedAudio}', 0.88)">
+                            🔊 听原句发音
+                        </button>
+                    </div>
+                    ${wrongBoxHtml}
+                    ${hintLine}
+                    <input type="text" class="tpl-slot-input"
+                           id="slot_${slotId}"
+                           data-slot-id="${slotId}"
+                           data-target="${targetText.replace(/"/g, '&quot;')}"
+                           value="${val}"
+                           placeholder="${placeholderText.replace(/"/g, '&quot;')}"
+                           style="width: 100%;"
+                           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <div class="tpl-slot-diff" id="diff_${slotId}"></div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = wsHtml;
+
+        const fb = document.getElementById('grammarFeedbackBox');
+        fb.className = 'feedback-box';
+        fb.innerHTML = '';
+
+        const allInputs = Array.from(document.querySelectorAll('#grammarWorkspaceContainer .tpl-slot-input'));
+        allInputs.forEach((inp, idx) => {
+            inp.addEventListener('focus', () => {
+                lastFocusedGrammarInput = inp;
+            });
+            inp.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (idx < allInputs.length - 1 && !e.ctrlKey) {
+                        allInputs[idx + 1].focus();
+                    } else {
+                        checkGrammarSentences();
+                    }
+                }
+            });
+        });
+
+        if (allInputs.length > 0) {
+            allInputs[0].focus();
+            lastFocusedGrammarInput = allInputs[0];
+        }
+    }
+
+    function checkGrammarSentences() {
+        const allInputs = Array.from(document.querySelectorAll('#grammarWorkspaceContainer .tpl-slot-input'));
+        if (allInputs.length === 0) return;
+
+        let correctCount = 0;
+        let firstWrongInput = null;
+        if (!state.grammarMastered) state.grammarMastered = {};
+
+        allInputs.forEach(inp => {
+            const target = inp.dataset.target || '';
+            const userVal = inp.value || '';
+            const slotId = inp.dataset.slotId;
+            const diffEl = document.getElementById('diff_' + slotId);
+
+            if (normalizeSentenceForCompare(userVal) === normalizeSentenceForCompare(target)) {
+                inp.className = 'tpl-slot-input slot-correct';
+                inp.value = target;
+                state.grammarMastered[slotId] = Date.now();
+                if (diffEl) {
+                    diffEl.style.display = 'none';
+                    diffEl.innerHTML = '';
+                }
+                correctCount++;
+            } else {
+                inp.className = 'tpl-slot-input slot-wrong';
+                if (!firstWrongInput) firstWrongInput = inp;
+                if (diffEl) {
+                    diffEl.style.display = 'block';
+                    diffEl.innerHTML = buildWordDiffHtml(userVal, target);
+                }
+            }
+        });
+
+        const fb = document.getElementById('grammarFeedbackBox');
+        if (correctCount === allInputs.length) {
+            recordDailyActivity(true, true);
+            saveState();
+
+            fb.className = 'feedback-box show-success';
+            fb.innerHTML = `
+                <div style="color: #34d399; font-weight: 800; font-size: 16px;">
+                    🏆 太稳了！本组共 ${allInputs.length} 句“零失误保命例句”全部默写通过！已点亮掌握金标！
+                </div>
+                <div style="font-size: 13px; color: #cbd5e1; margin-top: 6px;">
+                    考场上遇到同话题黄色占位框时，直接把这些“一句一动词”的保底简单句填进去，语法分稳拿 6.0+！
+                </div>
+            `;
+        } else {
+            saveState();
+            fb.className = 'feedback-box show-error';
+            fb.innerHTML = `
+                <div class="error-headline">
+                    ⚡ 已完成批改：本组答对 ${correctCount} / ${allInputs.length} 句（已答对的句子已自动计入掌握进度）。请对照下方红底提示修正剩余错句后再次按 Enter！
+                </div>
+            `;
+            if (firstWrongInput) firstWrongInput.focus();
+        }
+    }
+
+    function fillCurrentGrammarHint() {
+        const allInputs = Array.from(document.querySelectorAll('#grammarWorkspaceContainer .tpl-slot-input'));
+        const targetInp = lastFocusedGrammarInput || allInputs.find(i => !i.classList.contains('slot-correct')) || allInputs[0];
+        if (!targetInp) return;
+        const slotId = targetInp.dataset.slotId;
+        const diffEl = document.getElementById('diff_' + slotId);
+        if (diffEl) {
+            diffEl.style.display = 'block';
+            diffEl.innerHTML = `💡 本句标准零失误写法：<b style="color:#fde68a;">${targetInp.dataset.target}</b>`;
+        }
+        targetInp.focus();
+    }
+
+    function speakGrammarGroup() {
+        const allInputs = Array.from(document.querySelectorAll('#grammarWorkspaceContainer .tpl-slot-input'));
+        const fullText = allInputs.map(i => i.dataset.target).join(' ');
+        playWordAudio(fullText, 0.88);
+    }
+
+    function returnGrammarToHome() {
+        stopAllAudio();
+        delete document.body.dataset.activeMode;
+        document.getElementById('dashboardCard').style.display = 'block';
+        document.getElementById('mainCard1820').style.display = 'block';
+        document.getElementById('hfMainCard').style.display = 'block';
+        document.getElementById('hfCardHeader').style.display = 'block';
+        document.getElementById('hfMainCard').style.marginTop = '20px';
+        document.getElementById('writingMainCard').style.display = 'block';
+        document.getElementById('writingCardHeader').style.display = 'block';
+        document.getElementById('writingMainCard').style.marginTop = '20px';
+        document.getElementById('task1MainCard').style.display = 'block';
+        document.getElementById('task1CardHeader').style.display = 'block';
+        document.getElementById('task1MainCard').style.marginTop = '20px';
+        document.getElementById('grammarMainCard').style.display = 'block';
+        document.getElementById('grammarCardHeader').style.display = 'block';
+        document.getElementById('grammarMainCard').style.marginTop = '20px';
+
+        document.getElementById('grammarPracticeScreen').style.display = 'none';
+        document.getElementById('grammarStartScreen').style.display = 'block';
         updateDashboard();
     }
 
