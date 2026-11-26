@@ -10,6 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js" defer></script>
     <style>
         body[data-active-mode="1820"] #dashboardCard,
         body[data-active-mode="1820"] #hfMainCard,
@@ -539,6 +540,63 @@
             font-size: 13px;
             line-height: 1.6;
             color: #cbd5e1;
+        }
+
+        .gist-config-box {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(52, 211, 153, 0.35);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-top: 12px;
+            font-size: 12.5px;
+            line-height: 1.55;
+            color: #cbd5e1;
+        }
+
+        .gist-input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: #f8fafc;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12.5px;
+            font-family: monospace;
+            margin-top: 6px;
+            box-sizing: border-box;
+        }
+
+        .gist-input:focus {
+            outline: none;
+            border-color: #34d399;
+        }
+
+        .gist-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .gist-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+
+        .gist-badge.on {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(52, 211, 153, 0.4);
+        }
+
+        .gist-badge.off {
+            background: rgba(245, 158, 11, 0.18);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.35);
         }
 
         /* 主交互卡片 */
@@ -2503,32 +2561,66 @@
 <div class="modal-overlay" id="syncModal" onclick="if(event.target===this)closeSyncModal()">
     <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h3 style="font-size: 18px;">📱💻 手机 ↔ 电脑云端实时同步</h3>
+            <h3 style="font-size: 18px;">📱💻 iPad / 手机 ↔ 电脑云端实时同步</h3>
             <button class="btn-quit" style="padding: 4px 10px; border-radius: 6px;" onclick="closeSyncModal()">✕</button>
         </div>
 
         <p style="font-size: 13px; color: var(--text-sub); line-height: 1.5;">
-            系统已为你生成独立同步码。只要在<b>手机和电脑上输入同一个同步码</b>，两端的已掌握词库、错题本和打卡日历就会<b>自动实时合并</b>！
+            只要在两端绑定相同的<b>同步码</b>与<b>GitHub Gist 永久云库</b>，已掌握词库、高频词、作文/语法进度、错题本和打卡日历都会<b>自动实时双向合并</b>，自带版本历史永不丢失！
         </p>
 
         <div class="sync-code-box">
             <input type="text" id="syncCodeInput" class="sync-code-input" value="" maxlength="16" placeholder="输入专属同步暗号">
             <button class="btn btn-audio-main" style="border-radius: 10px;" onclick="saveSyncCodeAndSync()">
-                ☁️ 绑定并同步
+                ☁️ 保存并同步
             </button>
         </div>
         <div id="syncModalLog" style="font-size: 12.5px; color: #34d399; min-height: 20px; text-align: center; font-weight: 600;"></div>
 
+        <div class="gist-config-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                <span style="font-weight: 800; color: #fff;">
+                    🔐 GitHub Gist 永久云库
+                    <span id="gistStatusBadge" class="gist-badge off">未配置</span>
+                </span>
+                <a href="https://github.com/settings/tokens/new?scopes=gist&description=IELTS-1820-Sync"
+                   target="_blank" rel="noopener noreferrer"
+                   style="color: #60a5fa; text-decoration: underline; font-weight: 700; font-size: 12px;">
+                    👉 点此一键生成只含 gist 权限的 Token
+                </a>
+            </div>
+            <div style="font-size: 11.5px; color: #94a3b8; margin-top: 4px;">
+                仅保存在当前设备浏览器本地（绝不上传仓库）。电脑填一次后，iPad 扫下方二维码即可自动带走配置！
+            </div>
+            <input type="password" id="ghTokenInput" class="gist-input" autocomplete="off"
+                   placeholder="粘贴 GitHub Token（ghp_...，只勾 gist 权限，建议选 No expiration）">
+            <input type="text" id="ghGistIdInput" class="gist-input" autocomplete="off"
+                   placeholder="Gist ID（留空会自动搜索或新建私有 Gist）">
+            <div class="gist-actions">
+                <button class="btn btn-audio-slow" id="copyBindLinkBtn" style="padding: 6px 12px; font-size: 12px; border-radius: 8px; display: none;" onclick="copyIpadBindLink()">
+                    📋 复制 iPad 一键绑定链接
+                </button>
+                <button class="btn-quit" style="padding: 6px 10px; font-size: 12px; border-radius: 8px;" onclick="clearGistConfig()" id="clearGistBtn">
+                    🗑️ 清除本机 Token
+                </button>
+                <a id="openGistLink" href="#" target="_blank" rel="noopener noreferrer"
+                   style="display: none; align-self: center; color: #34d399; font-size: 12px; text-decoration: underline;">
+                    📂 查看云端 Gist
+                </a>
+            </div>
+        </div>
+
         <div class="guide-step-box">
-            <div style="font-weight: 800; color: #fff; margin-bottom: 6px;">📲 如何在手机上使用并同步？</div>
-            <p style="margin-bottom: 8px;">
-                1. 用手机浏览器（Safari / Chrome）打开本网站网址（或扫描下方二维码）；<br>
-                2. 点击浏览器菜单中的<b>“添加到主屏幕”</b>，即可像原生 App 一样全屏运行；<br>
-                3. 在手机端打开本弹窗，输入与电脑相同的<b>同步码</b>，点击“绑定并同步”即可！
+            <div style="font-weight: 800; color: #fff; margin-bottom: 6px;">📲 iPad / 手机如何一键同步？</div>
+            <p style="margin-bottom: 8px;" id="syncGuideSteps">
+                1. 在电脑端填入 GitHub Token 并点击<b>“保存并同步”</b>（会自动创建你的私有 Gist）；<br>
+                2. 用 iPad / 手机相机直接扫描下方<b>本机离线生成的二维码</b>（或复制绑定链接在 Safari 打开），自动写入配置并清除地址栏隐私参数；<br>
+                3. 点击 Safari 分享 → <b>“添加到主屏幕”</b>，此后两端永久自动双向合并！
             </p>
             <div style="text-align: center; margin-top: 10px;" id="qrContainer">
+                <canvas id="localQrCanvas" style="width: 170px; height: 170px; border-radius: 8px; border: 6px solid #fff; background: #fff; display: none; image-rendering: pixelated;"></canvas>
                 <img id="dynamicQrImg" src="" alt="手机扫码打开"
-                     style="width: 135px; height: 135px; border-radius: 8px; border: 4px solid #fff; background: #fff; display: none;">
+                     style="width: 145px; height: 145px; border-radius: 8px; border: 4px solid #fff; background: #fff; display: none;">
                 <div id="qrTipText" style="font-size: 11px; color: #94a3b8; margin-top: 4px;"></div>
             </div>
         </div>
@@ -2554,6 +2646,8 @@
 
     const STORAGE_KEY = 'ielts_807_mastery_v2';
     const SYNC_CODE_KEY = 'ielts_807_sync_code';
+    const GH_TOKEN_KEY = 'ielts_807_gh_token';
+    const GH_GIST_ID_KEY = 'ielts_807_gh_gist_id';
 
     function getLocalDateKey(dateObj = new Date()) {
         const y = dateObj.getFullYear();
@@ -2563,6 +2657,50 @@
     }
 
     const GITHUB_PAGES_URL = 'https://saul154575.github.io/ielts-listening-1820-words/';
+
+    function base64UrlEncode(str) {
+        const bytes = new TextEncoder().encode(str);
+        let bin = '';
+        for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+        return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    function base64UrlDecode(b64url) {
+        let b64 = b64url.replace(/-/g, '+').replace(/_/g, '/');
+        while (b64.length % 4) b64 += '=';
+        const bin = atob(b64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        return new TextDecoder().decode(bytes);
+    }
+
+    // 支持通过 URL 锚点 #gh=...（不会发往服务器）一键绑定 GitHub Gist，读取后立刻清除地址栏锚点
+    let justBoundGistFromLink = false;
+    function initGistConfigFromHash() {
+        try {
+            const hash = window.location.hash || '';
+            if (hash.startsWith('#gh=') && hash.length > 8) {
+                const raw = base64UrlDecode(hash.slice(4));
+                const cfg = JSON.parse(raw);
+                if (cfg && typeof cfg.t === 'string' && cfg.t.trim().length >= 10) {
+                    localStorage.setItem(GH_TOKEN_KEY, cfg.t.trim());
+                    if (cfg.g && typeof cfg.g === 'string' && cfg.g.trim().length >= 10) {
+                        localStorage.setItem(GH_GIST_ID_KEY, cfg.g.trim());
+                    }
+                    if (cfg.s && typeof cfg.s === 'string' && cfg.s.trim().length >= 3) {
+                        const cleanS = cfg.s.trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+                        if (cleanS.length >= 3) localStorage.setItem(SYNC_CODE_KEY, cleanS);
+                    }
+                    justBoundGistFromLink = true;
+                }
+                // 立即移除 URL 中的 #gh=... 防止残留在历史记录或截图中
+                const cleanUrl = window.location.pathname + window.location.search;
+                window.history.replaceState(null, '', cleanUrl);
+            }
+        } catch (e) {}
+    }
+
+    initGistConfigFromHash();
 
     // 支持通过扫码 URL 参数 ?sync=XXX 自动绑定同步码；本地 file:// 默认使用 ZHB807，公开网页新访客生成随机独立码
     function getOrInitSyncCode() {
@@ -2680,7 +2818,9 @@
     function initApp() {
         loadState();
         document.getElementById('syncCodeInput').value = syncCode;
-        document.getElementById('syncStatusShort').innerText = `已开启 (${syncCode})`;
+        document.getElementById('syncStatusShort').innerText = getGistToken()
+            ? `连接Gist (${syncCode})...`
+            : `同步中 (${syncCode})...`;
 
         initPageSelectors();
         initHfGroupSelectors();
@@ -2690,7 +2830,12 @@
         initVoiceEngine();
         updateDashboard();
 
-        pullFromCloud(true);
+        pullFromCloud(!justBoundGistFromLink).then(() => {
+            if (justBoundGistFromLink) {
+                justBoundGistFromLink = false;
+                openSyncModal();
+            }
+        });
 
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') {
@@ -2698,7 +2843,7 @@
             } else if (document.visibilityState === 'hidden' && syncTimer) {
                 clearTimeout(syncTimer);
                 syncTimer = null;
-                pushToCloud(true);
+                pushToCloud(true, true);
             }
         });
 
@@ -2706,7 +2851,7 @@
             if (syncTimer) {
                 clearTimeout(syncTimer);
                 syncTimer = null;
-                pushToCloud(true);
+                pushToCloud(true, true);
             }
         });
 
@@ -2761,7 +2906,7 @@
         }
     }
 
-    // ==================== 云端同步核心模块（KVDB永久云库 + ntfy实时通道双引擎） ====================
+    // ==================== 云端同步核心模块（GitHub Gist 永久云库 + Gzip 压缩 ntfy 通道） ====================
     const KVDB_BUCKET = 'EeiPq8pNfjc1JYWYsek9zM';
 
     // ZHB807 基准进度种子（防极端断网或新设备首次冷启动丢失历史打卡）
@@ -2779,9 +2924,225 @@
         ms: 2
     };
 
+    let syncQueue = Promise.resolve();
+    function runSyncLocked(taskFn) {
+        const next = syncQueue.then(taskFn, taskFn);
+        syncQueue = next.catch(() => {});
+        return next;
+    }
+
+    function getCleanSyncCode() {
+        return (syncCode || 'DEFAULT').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+    }
+
     function getTopicName() {
-        const clean = (syncCode || 'DEFAULT').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
-        return `ielts807_sync_v2_${clean}`;
+        return `ielts807_sync_v2_${getCleanSyncCode()}`;
+    }
+
+    function getGistFileName() {
+        return `ielts807_sync_${getCleanSyncCode()}.json`;
+    }
+
+    function getGistToken() {
+        return (localStorage.getItem(GH_TOKEN_KEY) || '').trim();
+    }
+
+    function getGistId() {
+        return (localStorage.getItem(GH_GIST_ID_KEY) || '').trim();
+    }
+
+    function buildGhHeaders(token, withJsonContent = false) {
+        const h = {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28'
+        };
+        if (withJsonContent) h['Content-Type'] = 'application/json';
+        return h;
+    }
+
+    // Gzip 压缩/解压（将 ~6.8KB JSON 压至 ~2.8KB，避免超过 ntfy.sh 4KB 纯文本上限）
+    async function encodeNtfyPayload(payloadObj) {
+        const rawStr = JSON.stringify(payloadObj);
+        try {
+            if (typeof CompressionStream === 'function') {
+                const cs = new CompressionStream('gzip');
+                const writer = cs.writable.getWriter();
+                writer.write(new TextEncoder().encode(rawStr));
+                writer.close();
+                const ab = await new Response(cs.readable).arrayBuffer();
+                const bytes = new Uint8Array(ab);
+                let bin = '';
+                const chunkSize = 0x8000;
+                for (let i = 0; i < bytes.length; i += chunkSize) {
+                    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+                }
+                const compressed = 'GZ1:' + btoa(bin);
+                if (compressed.length < rawStr.length) return compressed;
+            }
+        } catch (e) {}
+        return rawStr;
+    }
+
+    async function decodeCloudText(rawText) {
+        if (!rawText || typeof rawText !== 'string') return null;
+        const trimmed = rawText.trim();
+        if (!trimmed) return null;
+        if (trimmed.startsWith('GZ1:')) {
+            if (typeof DecompressionStream !== 'function') return null;
+            const bin = atob(trimmed.slice(4));
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            const ds = new DecompressionStream('gzip');
+            const writer = ds.writable.getWriter();
+            writer.write(bytes);
+            writer.close();
+            const text = await new Response(ds.readable).text();
+            return JSON.parse(text);
+        }
+        return JSON.parse(trimmed);
+    }
+
+    // ==================== GitHub Gist 读写引擎 ====================
+    async function findExistingGistId(token) {
+        const filename = getGistFileName();
+        const res = await fetch(`https://api.github.com/gists?per_page=100&_t=${Date.now()}`, {
+            headers: buildGhHeaders(token),
+            cache: 'no-store'
+        });
+        if (!res.ok) {
+            return { ok: false, status: res.status, gistId: null };
+        }
+        const list = await res.json();
+        if (Array.isArray(list)) {
+            const match = list.find(g => g && g.files && g.files[filename]);
+            if (match && match.id) {
+                localStorage.setItem(GH_GIST_ID_KEY, match.id);
+                return { ok: true, status: 200, gistId: match.id };
+            }
+        }
+        return { ok: true, status: 200, gistId: null };
+    }
+
+    async function fetchGistPayload(token) {
+        const filename = getGistFileName();
+        let gistId = getGistId();
+
+        if (!gistId) {
+            const found = await findExistingGistId(token);
+            if (!found.ok) {
+                return { ok: false, status: found.status, payload: null, error: formatGhError(found.status) };
+            }
+            gistId = found.gistId;
+            if (!gistId) {
+                return { ok: true, status: 404, payload: null, notFound: true };
+            }
+        }
+
+        let res = await fetch(`https://api.github.com/gists/${encodeURIComponent(gistId)}?_t=${Date.now()}`, {
+            headers: buildGhHeaders(token),
+            cache: 'no-store'
+        });
+
+        if (res.status === 404) {
+            // 本地缓存的 Gist ID 可能已被删除，重新按文件名搜索一次
+            localStorage.removeItem(GH_GIST_ID_KEY);
+            const found = await findExistingGistId(token);
+            if (!found.ok) {
+                return { ok: false, status: found.status, payload: null, error: formatGhError(found.status) };
+            }
+            if (!found.gistId) {
+                return { ok: true, status: 404, payload: null, notFound: true };
+            }
+            gistId = found.gistId;
+            res = await fetch(`https://api.github.com/gists/${encodeURIComponent(gistId)}?_t=${Date.now()}`, {
+                headers: buildGhHeaders(token),
+                cache: 'no-store'
+            });
+        }
+
+        if (!res.ok) {
+            return { ok: false, status: res.status, payload: null, error: formatGhError(res.status) };
+        }
+
+        const data = await res.json();
+        const fileObj = data && data.files && data.files[filename];
+        if (!fileObj) {
+            return { ok: true, status: 200, payload: null, gistId };
+        }
+
+        let contentStr = fileObj.content || '';
+        if (fileObj.truncated && fileObj.raw_url) {
+            const rawRes = await fetch(fileObj.raw_url, { cache: 'no-store' });
+            if (rawRes.ok) contentStr = await rawRes.text();
+        }
+
+        let payload = null;
+        try {
+            payload = await decodeCloudText(contentStr);
+        } catch (e) {}
+        return { ok: true, status: 200, payload, gistId };
+    }
+
+    async function writeGistPayload(token, payloadObj, isUnload = false) {
+        const filename = getGistFileName();
+        const contentStr = JSON.stringify(payloadObj);
+        let gistId = getGistId();
+
+        if (!gistId && !isUnload) {
+            const found = await findExistingGistId(token);
+            if (!found.ok) {
+                return { ok: false, status: found.status, error: formatGhError(found.status) };
+            }
+            gistId = found.gistId;
+        }
+
+        if (gistId) {
+            const res = await fetch(`https://api.github.com/gists/${encodeURIComponent(gistId)}`, {
+                method: 'PATCH',
+                headers: buildGhHeaders(token, true),
+                body: JSON.stringify({
+                    files: { [filename]: { content: contentStr } }
+                }),
+                keepalive: !!isUnload
+            });
+            if (res.ok) {
+                return { ok: true, status: res.status, gistId };
+            }
+            if (res.status !== 404 || isUnload) {
+                return { ok: false, status: res.status, error: formatGhError(res.status) };
+            }
+            localStorage.removeItem(GH_GIST_ID_KEY);
+        }
+
+        // 不存在则自动新建私有 (secret) Gist
+        const createRes = await fetch('https://api.github.com/gists', {
+            method: 'POST',
+            headers: buildGhHeaders(token, true),
+            body: JSON.stringify({
+                description: `IELTS Listening 1820 Sync (${getCleanSyncCode()})`,
+                public: false,
+                files: { [filename]: { content: contentStr } }
+            }),
+            keepalive: !!isUnload
+        });
+        if (!createRes.ok) {
+            return { ok: false, status: createRes.status, error: formatGhError(createRes.status) };
+        }
+        const created = await createRes.json();
+        if (created && created.id) {
+            localStorage.setItem(GH_GIST_ID_KEY, created.id);
+            updateSyncModalUi();
+            return { ok: true, status: createRes.status, gistId: created.id, created: true };
+        }
+        return { ok: true, status: createRes.status };
+    }
+
+    function formatGhError(status) {
+        if (status === 401) return 'GitHub Token 无效或已过期 (HTTP 401)';
+        if (status === 403) return 'GitHub Token 缺少 gist 写入权限或触发限流 (HTTP 403)';
+        if (status === 404) return '指定的 Gist ID 不存在或无权访问 (HTTP 404)';
+        return `GitHub API 错误 (HTTP ${status})`;
     }
 
     function packCloudPayload() {
@@ -2823,7 +3184,16 @@
 
     function isLocalAheadOfCloud(localP, cloudP) {
         if (!cloudP || cloudP.v !== 2) {
-            return (localP.m.length > 0 || Object.keys(localP.c).length > 0 || Object.keys(localP.e).length > 0);
+            return (
+                localP.m.length > 0 ||
+                Object.keys(localP.c).length > 0 ||
+                Object.keys(localP.e).length > 0 ||
+                (localP.hfm && localP.hfm.length > 0) ||
+                Object.keys(localP.hfe || {}).length > 0 ||
+                (localP.wm && localP.wm.length > 0) ||
+                (localP.t1m && localP.t1m.length > 0) ||
+                (localP.gm && localP.gm.length > 0)
+            );
         }
         const cloudMSet = new Set(Array.isArray(cloudP.m) ? cloudP.m : []);
         for (const idx of localP.m) {
@@ -2851,6 +3221,9 @@
         const cloudHfE = cloudP.hfe || {};
         for (const [idxStr, cnt] of Object.entries(localP.hfe || {})) {
             if ((cloudHfE[idxStr] || 0) < cnt) return true;
+        }
+        for (const idxStr of Object.keys(cloudHfE)) {
+            if ((localP.hfe || {})[idxStr] === undefined) return true;
         }
         const cloudWmSet = new Set(Array.isArray(cloudP.wm) ? cloudP.wm : []);
         for (const k of (localP.wm || [])) {
@@ -3003,65 +3376,157 @@
         return changed;
     }
 
-    async function pushToCloud(silent = true) {
+    async function pushToCloudInternal(silent = true, isUnload = false) {
         const topic = getTopicName();
-        const payloadStr = JSON.stringify(packCloudPayload());
+        const token = getGistToken();
         const statusEl = document.getElementById('syncStatusShort');
         const logEl = document.getElementById('syncModalLog');
 
         try {
-            statusEl.innerText = `同步中 (${syncCode})...`;
-            // 使用 CORS 简单请求 (text/plain)，彻底消除 file:// 本地协议下的 OPTIONS 预检拦截
-            const reqInit = {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-                body: payloadStr,
-                keepalive: true
-            };
-            const results = await Promise.allSettled([
-                fetch(`https://kvdb.io/${KVDB_BUCKET}/${topic}`, reqInit),
-                fetch(`https://ntfy.sh/${topic}`, reqInit)
-            ]);
-            const anyOk = results.some(r => r.status === 'fulfilled' && r.value && r.value.ok);
-            if (!anyOk) throw new Error('Cloud endpoints unreachable');
+            if (statusEl) statusEl.innerText = `同步中 (${syncCode})...`;
 
-            statusEl.innerText = `已云同步 (${syncCode})`;
-            if (!silent && logEl) {
-                logEl.innerText = `✅ 已成功同步至永久云端 (${new Date().toLocaleTimeString()})！掌握 ${Object.keys(state.mastered).length} 词`;
+            if (token) {
+                // 写入 Gist 前先拉取一次最新云端数据做合并（非关闭页面时），彻底防止双端同时打开互相覆盖
+                if (!isUnload) {
+                    try {
+                        const prePull = await fetchGistPayload(token);
+                        if (prePull.ok && prePull.payload) {
+                            mergeCloudPayload(prePull.payload);
+                        }
+                    } catch (e) {}
+                }
+
+                const payloadObj = packCloudPayload();
+                const gistRes = await writeGistPayload(token, payloadObj, isUnload);
+
+                // 同时尽力推送一份 Gzip 压缩快照到 ntfy.sh，便于尚未绑定 Token 的过渡期设备也能收到最新进度
+                encodeNtfyPayload(payloadObj).then(ntfyBody => {
+                    fetch(`https://ntfy.sh/${topic}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                        body: ntfyBody,
+                        keepalive: !!isUnload
+                    }).catch(() => {});
+                }).catch(() => {});
+
+                if (!gistRes.ok) {
+                    if (statusEl) statusEl.innerText = `⚠️ Gist失败 (${syncCode})`;
+                    if (!silent && logEl) {
+                        logEl.style.color = '#f87171';
+                        logEl.innerText = `❌ ${gistRes.error || 'GitHub Gist 写入失败'}（本地已保存）`;
+                    }
+                    return false;
+                }
+
+                if (statusEl) statusEl.innerText = `已云同步 · Gist (${syncCode})`;
+                if (!silent && logEl) {
+                    logEl.style.color = '#34d399';
+                    logEl.innerText = `✅ 已同步至 GitHub Gist 永久云库 (${new Date().toLocaleTimeString()})！掌握 ${Object.keys(state.mastered).length} 词`;
+                }
+                return true;
             }
+
+            // 未配置 GitHub Gist 时：推送 Gzip 压缩包到 ntfy（<4KB 不转附件），并尽力尝试旧 kvdb
+            const payloadObj = packCloudPayload();
+            const rawStr = JSON.stringify(payloadObj);
+            const ntfyBody = await encodeNtfyPayload(payloadObj);
+
+            const [kvRes, ntfyRes] = await Promise.allSettled([
+                fetch(`https://kvdb.io/${KVDB_BUCKET}/${topic}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                    body: rawStr,
+                    keepalive: !!isUnload
+                }),
+                fetch(`https://ntfy.sh/${topic}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                    body: ntfyBody,
+                    keepalive: !!isUnload
+                })
+            ]);
+
+            const kvOk = kvRes.status === 'fulfilled' && kvRes.value && kvRes.value.ok;
+            const ntfyOk = ntfyRes.status === 'fulfilled' && ntfyRes.value && ntfyRes.value.ok;
+
+            if (!kvOk && !ntfyOk) throw new Error('Cloud endpoints unreachable');
+
+            if (kvOk) {
+                if (statusEl) statusEl.innerText = `已云同步 (${syncCode})`;
+                if (!silent && logEl) {
+                    logEl.style.color = '#34d399';
+                    logEl.innerText = `✅ 已同步至云端 (${new Date().toLocaleTimeString()})！建议绑定 GitHub Gist 更稳定`;
+                }
+            } else {
+                if (statusEl) statusEl.innerText = `临时同步 (${syncCode})`;
+                if (!silent && logEl) {
+                    logEl.style.color = '#fbbf24';
+                    logEl.innerText = `⚠️ 已通过 ntfy 临时通道同步（仅保留12小时，旧 KVDB 维护中），请绑定下方 GitHub Gist 永久云库！`;
+                }
+            }
+            return true;
         } catch (err) {
-            statusEl.innerText = `本地已存 (${syncCode})`;
+            if (statusEl) statusEl.innerText = `本地已存 (${syncCode})`;
             if (!silent && logEl) {
+                logEl.style.color = '#fbbf24';
                 logEl.innerText = `⚠️ 网络暂不可达，进度已安全保存在本机`;
             }
+            return false;
         }
     }
 
-    async function pullFromCloud(silent = true) {
+    function pushToCloud(silent = true, isUnload = false) {
+        if (isUnload) {
+            return pushToCloudInternal(silent, true);
+        }
+        return runSyncLocked(() => pushToCloudInternal(silent, false));
+    }
+
+    async function pullFromCloudInternal(silent = true) {
         const topic = getTopicName();
+        const token = getGistToken();
         const statusEl = document.getElementById('syncStatusShort');
         const logEl = document.getElementById('syncModalLog');
 
-        if ((syncCode || '').toUpperCase() === 'ZHB807') {
+        if (getCleanSyncCode() === 'ZHB807') {
             mergeCloudPayload(ZHB807_BASELINE_PAYLOAD);
         }
 
+        let gistPayload = null;
+        let gistError = null;
         let kvPayload = null;
         let latestNtfyPayload = null;
         let anyNetworkOk = false;
 
         try {
-            const [kvRes, ntfyRes] = await Promise.allSettled([
+            const gistPromise = token ? fetchGistPayload(token) : Promise.resolve(null);
+            const [gistRes, kvRes, ntfyRes] = await Promise.allSettled([
+                gistPromise,
                 fetch(`https://kvdb.io/${KVDB_BUCKET}/${topic}?_t=${Date.now()}`, { cache: 'no-store' }),
                 fetch(`https://ntfy.sh/${topic}/json?poll=1&since=all&_t=${Date.now()}`, { cache: 'no-store' })
             ]);
 
+            // 1. 解析 GitHub Gist 永久云库
+            if (token && gistRes.status === 'fulfilled' && gistRes.value) {
+                if (gistRes.value.ok) {
+                    anyNetworkOk = true;
+                    if (gistRes.value.payload) {
+                        gistPayload = gistRes.value.payload;
+                        mergeCloudPayload(gistPayload);
+                    }
+                } else {
+                    gistError = gistRes.value.error || 'GitHub Gist 读取失败';
+                }
+            }
+
+            // 2. 兼容读取旧 KVDB 历史快照（只读恢复，避免历史数据丢失）
             if (kvRes.status === 'fulfilled' && kvRes.value.ok) {
                 anyNetworkOk = true;
                 try {
                     const kvText = await kvRes.value.text();
-                    if (kvText && kvText.trim()) {
-                        kvPayload = JSON.parse(kvText.trim());
+                    const parsed = await decodeCloudText(kvText);
+                    if (parsed) {
+                        kvPayload = parsed;
                         mergeCloudPayload(kvPayload);
                     }
                 } catch (e) {}
@@ -3069,71 +3534,257 @@
                 anyNetworkOk = true;
             }
 
+            // 3. 解析 ntfy.sh（同时兼容 Gzip 压缩文本、纯 JSON 文本、以及超过 4KB 自动转存的 attachment.url 附件！）
             if (ntfyRes.status === 'fulfilled' && ntfyRes.value.ok) {
                 anyNetworkOk = true;
                 try {
                     const text = await ntfyRes.value.text();
                     if (text && text.trim()) {
                         const lines = text.trim().split('\n');
-                        // 遍历合并全部历史消息（防止某台旧设备刚打开时的旧快照遮蔽之前的完整进度）
+                        const attachmentUrls = [];
                         for (let i = 0; i < lines.length; i++) {
                             try {
                                 const msgObj = JSON.parse(lines[i]);
-                                if (msgObj && msgObj.message) {
-                                    const payload = JSON.parse(msgObj.message);
-                                    mergeCloudPayload(payload);
-                                    latestNtfyPayload = payload;
+                                if (!msgObj) continue;
+                                let parsed = null;
+                                if (msgObj.message) {
+                                    try {
+                                        parsed = await decodeCloudText(msgObj.message);
+                                    } catch (e) {}
+                                }
+                                if (parsed && parsed.v === 2) {
+                                    mergeCloudPayload(parsed);
+                                    latestNtfyPayload = parsed;
+                                } else if (msgObj.attachment && msgObj.attachment.url) {
+                                    if (!attachmentUrls.includes(msgObj.attachment.url)) {
+                                        attachmentUrls.push(msgObj.attachment.url);
+                                    }
                                 }
                             } catch (e) {}
+                        }
+
+                        // 拉取最近 8 个历史附件并合并（兼容之前超 4KB 被转成附件的同步记录）
+                        if (attachmentUrls.length > 0) {
+                            const recentUrls = attachmentUrls.slice(-8);
+                            const attResults = await Promise.allSettled(
+                                recentUrls.map(u => fetch(u, { cache: 'no-store' }).then(r => r.ok ? r.text() : null))
+                            );
+                            for (const ar of attResults) {
+                                if (ar.status === 'fulfilled' && ar.value) {
+                                    try {
+                                        const attPayload = await decodeCloudText(ar.value);
+                                        if (attPayload && attPayload.v === 2) {
+                                            mergeCloudPayload(attPayload);
+                                            latestNtfyPayload = attPayload;
+                                        }
+                                    } catch (e) {}
+                                }
+                            }
                         }
                     }
                 } catch (e) {}
             }
 
-            if (!anyNetworkOk) {
-                statusEl.innerText = `离线模式 (${syncCode})`;
+            if (token && gistError) {
+                if (statusEl) statusEl.innerText = `⚠️ Gist异常 (${syncCode})`;
+                if (!silent && logEl) {
+                    logEl.style.color = '#f87171';
+                    logEl.innerText = `❌ ${gistError}`;
+                }
                 return;
             }
 
-            // 关键修复：双向对账！如果本地合并后的进度比任一云端通道更新/更多，立即自动反向推送上云
-            const mergedLocal = packCloudPayload();
-            if (isLocalAheadOfCloud(mergedLocal, kvPayload) || isLocalAheadOfCloud(mergedLocal, latestNtfyPayload)) {
-                await pushToCloud(true);
-            } else {
-                statusEl.innerText = `已云同步 (${syncCode})`;
+            if (!anyNetworkOk) {
+                if (statusEl) statusEl.innerText = `离线模式 (${syncCode})`;
+                return;
             }
 
-            if (!silent && logEl) {
-                logEl.innerText = `✅ 云端双向同步完成！当前掌握 ${Object.keys(state.mastered).length} 词，错题本 ${Object.keys(state.mistakes).length} 词`;
+            // 双向对账：本地合并后的进度比云端更新/更多时，自动反向推送上云
+            const mergedLocal = packCloudPayload();
+            if (token) {
+                if (!gistPayload || isLocalAheadOfCloud(mergedLocal, gistPayload)) {
+                    await pushToCloudInternal(silent, false);
+                } else {
+                    if (statusEl) statusEl.innerText = `已云同步 · Gist (${syncCode})`;
+                    if (!silent && logEl) {
+                        logEl.style.color = '#34d399';
+                        logEl.innerText = `✅ GitHub Gist 双向同步完成！当前掌握 ${Object.keys(state.mastered).length} 词，错题本 ${Object.keys(state.mistakes).length} 词`;
+                    }
+                }
+                updateSyncModalUi();
+            } else {
+                if (isLocalAheadOfCloud(mergedLocal, latestNtfyPayload)) {
+                    await pushToCloudInternal(silent, false);
+                } else {
+                    if (statusEl) statusEl.innerText = `临时同步 (${syncCode})`;
+                    if (!silent && logEl) {
+                        logEl.style.color = '#fbbf24';
+                        logEl.innerText = `⚠️ 已从临时通道合并完成（掌握 ${Object.keys(state.mastered).length} 词）。请绑定 GitHub Gist 获得永久同步！`;
+                    }
+                }
             }
         } catch (err) {
-            statusEl.innerText = `离线模式 (${syncCode})`;
+            if (statusEl) statusEl.innerText = `离线模式 (${syncCode})`;
         }
+    }
+
+    function pullFromCloud(silent = true) {
+        return runSyncLocked(() => pullFromCloudInternal(silent));
     }
 
     function scheduleCloudPush() {
         if (syncTimer) clearTimeout(syncTimer);
         syncTimer = setTimeout(() => {
-            pushToCloud(true);
+            pushToCloud(true, false);
         }, 1200);
     }
 
-    function updateModalQrCode() {
-        const qrImg = document.getElementById('dynamicQrImg');
-        const qrTip = document.getElementById('qrTipText');
+    function buildIpadBindUrl() {
         const baseUrl = window.location.protocol.startsWith('http')
             ? (window.location.origin + window.location.pathname)
             : GITHUB_PAGES_URL;
-        const shareUrl = `${baseUrl}?sync=${encodeURIComponent(syncCode)}`;
-        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(shareUrl)}`;
-        qrImg.style.display = 'inline-block';
-        qrTip.innerHTML = `📱 手机相机扫码直接打开在线版，并<b>自动绑定同步码 ${syncCode}</b><br><span style="font-size:10.5px;color:#64748b;">${shareUrl}</span>`;
+        const cleanCode = getCleanSyncCode();
+        const token = getGistToken();
+        const gistId = getGistId();
+        if (token) {
+            const cfg = { t: token, s: cleanCode };
+            if (gistId) cfg.g = gistId;
+            return `${baseUrl}?sync=${encodeURIComponent(cleanCode)}#gh=${base64UrlEncode(JSON.stringify(cfg))}`;
+        }
+        return `${baseUrl}?sync=${encodeURIComponent(cleanCode)}`;
+    }
+
+    function renderQrToCanvas(canvas, text) {
+        if (typeof window.qrcode !== 'function' || !canvas) return false;
+        try {
+            const qr = window.qrcode(0, 'M');
+            qr.addData(text);
+            qr.make();
+            const count = qr.getModuleCount();
+            const size = 240;
+            const scale = Math.max(2, Math.floor(size / (count + 4)));
+            const dim = scale * (count + 4);
+            canvas.width = dim;
+            canvas.height = dim;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, dim, dim);
+            ctx.fillStyle = '#0f172a';
+            for (let r = 0; r < count; r++) {
+                for (let c = 0; c < count; c++) {
+                    if (qr.isDark(r, c)) {
+                        ctx.fillRect((c + 2) * scale, (r + 2) * scale, scale, scale);
+                    }
+                }
+            }
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function updateSyncModalUi() {
+        const token = getGistToken();
+        const gistId = getGistId();
+        const badge = document.getElementById('gistStatusBadge');
+        const copyBtn = document.getElementById('copyBindLinkBtn');
+        const clearBtn = document.getElementById('clearGistBtn');
+        const openLink = document.getElementById('openGistLink');
+        const gistIdInput = document.getElementById('ghGistIdInput');
+
+        if (badge) {
+            if (token) {
+                badge.className = 'gist-badge on';
+                badge.innerText = gistId ? '已绑定 · 永久同步' : '已填 Token · 待同步建库';
+            } else {
+                badge.className = 'gist-badge off';
+                badge.innerText = '未配置（仅临时同步）';
+            }
+        }
+        if (copyBtn) copyBtn.style.display = token ? 'inline-flex' : 'none';
+        if (clearBtn) clearBtn.style.display = token ? 'inline-flex' : 'none';
+        if (openLink) {
+            if (gistId) {
+                openLink.href = `https://gist.github.com/${encodeURIComponent(gistId)}`;
+                openLink.style.display = 'inline-block';
+            } else {
+                openLink.style.display = 'none';
+            }
+        }
+        if (gistIdInput && gistId && !gistIdInput.value) {
+            gistIdInput.value = gistId;
+        }
+        updateModalQrCode();
+    }
+
+    function updateModalQrCode() {
+        const qrCanvas = document.getElementById('localQrCanvas');
+        const qrImg = document.getElementById('dynamicQrImg');
+        const qrTip = document.getElementById('qrTipText');
+        const token = getGistToken();
+        const shareUrl = buildIpadBindUrl();
+
+        // 有 Token 时绝对不经过任何第三方 QR 接口，仅在浏览器本机离线的 Canvas 中绘制！
+        const renderedLocally = renderQrToCanvas(qrCanvas, shareUrl);
+        if (renderedLocally) {
+            qrCanvas.style.display = 'inline-block';
+            qrImg.style.display = 'none';
+            qrImg.removeAttribute('src');
+            if (token) {
+                qrTip.innerHTML = `🔒 本机离线生成的专属绑定二维码：iPad 相机扫码打开即可<b>自动绑定同步码 ${syncCode} + GitHub Gist</b>（扫码后自动清空地址栏隐私锚点）`;
+            } else {
+                qrTip.innerHTML = `📱 手机相机扫码直接打开在线版，并<b>自动绑定同步码 ${syncCode}</b><br><span style="font-size:10.5px;color:#64748b;">${shareUrl}</span>`;
+            }
+        } else if (token) {
+            qrCanvas.style.display = 'none';
+            qrImg.style.display = 'none';
+            qrImg.removeAttribute('src');
+            qrTip.innerHTML = `🔒 为保护 Token 安全，离线二维码组件未加载时不经过第三方制码服务；请直接点击上方<b>“📋 复制 iPad 一键绑定链接”</b>发给 iPad 打开！`;
+        } else {
+            qrCanvas.style.display = 'none';
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(shareUrl)}`;
+            qrImg.style.display = 'inline-block';
+            qrTip.innerHTML = `📱 手机相机扫码直接打开在线版，并<b>自动绑定同步码 ${syncCode}</b><br><span style="font-size:10.5px;color:#64748b;">${shareUrl}</span>`;
+        }
+    }
+
+    function copyIpadBindLink() {
+        const url = buildIpadBindUrl();
+        const logEl = document.getElementById('syncModalLog');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => {
+                if (logEl) {
+                    logEl.style.color = '#34d399';
+                    logEl.innerText = '✅ 已复制 iPad 一键绑定链接！发到 iPad 的 Safari 打开即可自动绑定（注意勿公开分享该链接）';
+                }
+            }).catch(() => {
+                prompt('请手动复制以下 iPad 一键绑定链接（请勿发给他人）：', url);
+            });
+        } else {
+            prompt('请手动复制以下 iPad 一键绑定链接（请勿发给他人）：', url);
+        }
+    }
+
+    function clearGistConfig() {
+        if (!confirm('确定要清除本机浏览器保存的 GitHub Token 和 Gist ID 吗？（不会删除 GitHub 上的云端备份）')) return;
+        localStorage.removeItem(GH_TOKEN_KEY);
+        localStorage.removeItem(GH_GIST_ID_KEY);
+        document.getElementById('ghTokenInput').value = '';
+        document.getElementById('ghGistIdInput').value = '';
+        updateSyncModalUi();
+        const logEl = document.getElementById('syncModalLog');
+        if (logEl) {
+            logEl.style.color = '#fbbf24';
+            logEl.innerText = '🗑️ 已清除本机 GitHub Gist 配置，当前回退为临时同步通道';
+        }
     }
 
     function openSyncModal() {
         document.getElementById('syncCodeInput').value = syncCode;
+        document.getElementById('ghTokenInput').value = getGistToken();
+        document.getElementById('ghGistIdInput').value = getGistId();
         document.getElementById('syncModalLog').innerText = '';
-        updateModalQrCode();
+        updateSyncModalUi();
         document.getElementById('syncModal').style.display = 'flex';
     }
 
@@ -3147,12 +3798,38 @@
             alert('请输入至少 3 位字母或数字作为同步码');
             return;
         }
+        const prevCode = syncCode;
         syncCode = val;
         localStorage.setItem(SYNC_CODE_KEY, syncCode);
-        updateModalQrCode();
-        document.getElementById('syncModalLog').innerText = '🔄 正在与云端双向合并数据...';
+
+        const tokenInputEl = document.getElementById('ghTokenInput');
+        const gistIdInputEl = document.getElementById('ghGistIdInput');
+        const newToken = tokenInputEl ? tokenInputEl.value.trim() : '';
+        const newGistId = gistIdInputEl ? gistIdInputEl.value.trim() : '';
+
+        if (newToken) {
+            localStorage.setItem(GH_TOKEN_KEY, newToken);
+        } else {
+            localStorage.removeItem(GH_TOKEN_KEY);
+        }
+
+        if (newGistId) {
+            localStorage.setItem(GH_GIST_ID_KEY, newGistId);
+        } else if (prevCode !== syncCode) {
+            // 更换同步码且未手动指定 Gist ID 时，清除旧 Gist ID 以重新匹配新同步码对应的 Gist
+            localStorage.removeItem(GH_GIST_ID_KEY);
+        }
+
+        updateSyncModalUi();
+        const logEl = document.getElementById('syncModalLog');
+        logEl.style.color = '#34d399';
+        logEl.innerText = newToken
+            ? '🔄 正在连接 GitHub Gist 永久云库并双向合并数据...'
+            : '🔄 正在与云端双向合并数据...';
+
         await pullFromCloud(false);
         await pushToCloud(false);
+        updateSyncModalUi();
     }
 
     // ==================== 本地存储与打卡日历逻辑 ====================
