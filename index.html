@@ -874,6 +874,25 @@
             border: 1px solid var(--card-border);
         }
 
+        .audio-unlock-banner {
+            margin-top: 10px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: rgba(245, 158, 11, 0.16);
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            color: #fde68a;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+
+        .audio-unlock-banner:active {
+            transform: scale(0.98);
+            background: rgba(245, 158, 11, 0.28);
+        }
+
         /* 输入框 */
         .input-wrapper {
             position: relative;
@@ -1692,6 +1711,10 @@
                     <input type="checkbox" id="blindRetypeToggle" checked>
                     <span>🔥 拼错罚写时盲打校验</span>
                 </label>
+                <label class="toggle-label" title="开启后自动朗读直接使用在线词典真人语音；iPad 静音模式或系统无澳洲语音时也能 100% 稳定自动出声">
+                    <input type="checkbox" id="dictAutoPlayToggle" onchange="setDictAutoPlayPref(this.checked)">
+                    <span>🎵 词典原声自动播 (防iPad静音无声)</span>
+                </label>
             </div>
 
             <button class="btn btn-start-main" onclick="startSession()">
@@ -1729,15 +1752,18 @@
                 <div class="word-mask-dots" id="wordMaskDots"></div>
 
                 <div class="audio-controls">
-                    <button class="btn btn-audio-main" type="button" onclick="playCurrentAudio(0.9)">
+                    <button class="btn btn-audio-main" type="button" onclick="playCurrentAudio(0.9, { isUserGesture: true })">
                         🔊 澳洲发音 (Tab)
                     </button>
-                    <button class="btn btn-audio-slow" type="button" onclick="playCurrentAudio(0.62)">
+                    <button class="btn btn-audio-slow" type="button" onclick="playCurrentAudio(0.62, { isUserGesture: true })">
                         🐢 慢速 (0.6x)
                     </button>
                     <button class="btn btn-audio-slow" type="button" onclick="playOnlineDictAudio()" title="手机静音或无澳洲语音包时可点此播放词典原声">
                         🎵 词典原声
                     </button>
+                </div>
+                <div id="audioUnlockBanner" class="audio-unlock-banner" style="display: none;" onclick="resumePendingAutoPlay()">
+                    🔇 iPad 浏览器拦截了自动发声，点此处或任意位置立即恢复自动朗读
                 </div>
             </div>
 
@@ -1904,6 +1930,10 @@
                     <input type="checkbox" id="hfBlindRetypeToggle" checked>
                     <span>🔥 拼错罚写时盲打校验</span>
                 </label>
+                <label class="toggle-label" title="开启后自动朗读直接使用在线词典真人语音；iPad 静音模式或系统无澳洲语音时也能 100% 稳定自动出声">
+                    <input type="checkbox" id="hfDictAutoPlayToggle" onchange="setDictAutoPlayPref(this.checked)">
+                    <span>🎵 词典原声自动播 (防iPad静音无声)</span>
+                </label>
             </div>
 
             <button class="btn btn-start-hf" onclick="startHfSession()">
@@ -1929,15 +1959,18 @@
                 <div class="word-mask-dots" id="hfWordMaskDots"></div>
 
                 <div class="audio-controls">
-                    <button class="btn btn-audio-main" type="button" onclick="playHfCurrentAudio(0.9)">
+                    <button class="btn btn-audio-main" type="button" onclick="playHfCurrentAudio(0.9, { isUserGesture: true })">
                         🔊 澳洲发音 (Tab)
                     </button>
-                    <button class="btn btn-audio-slow" type="button" onclick="playHfCurrentAudio(0.62)">
+                    <button class="btn btn-audio-slow" type="button" onclick="playHfCurrentAudio(0.62, { isUserGesture: true })">
                         🐢 慢速 (0.6x)
                     </button>
                     <button class="btn btn-audio-slow" type="button" onclick="playHfOnlineDictAudio()">
                         🎵 词典原声
                     </button>
+                </div>
+                <div id="hfAudioUnlockBanner" class="audio-unlock-banner" style="display: none;" onclick="resumePendingAutoPlay()">
+                    🔇 iPad 浏览器拦截了自动发声，点此处或任意位置立即恢复自动朗读
                 </div>
             </div>
 
@@ -2772,7 +2805,32 @@
     let hadErrorOnCurrentWord = false;
     let isTransitioning = false;
     let selectedVoice = null;
-    let currentHtmlAudio = null;
+    const IS_IOS_OR_IPAD = /iPad|iPhone|iPod/.test(navigator.userAgent || '')
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const DICT_AUTOPLAY_PREF_KEY = 'ielts_dict_autoplay_v1';
+    const SILENT_WAV_DATA_URI = 'data:audio/wav;base64,UklGRsQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    const sharedHtmlAudio = (typeof Audio !== 'undefined') ? new Audio() : null;
+    if (sharedHtmlAudio) {
+        sharedHtmlAudio.preload = 'auto';
+        sharedHtmlAudio.playsInline = true;
+        try {
+            sharedHtmlAudio.setAttribute('playsinline', '');
+            sharedHtmlAudio.setAttribute('webkit-playsinline', '');
+        } catch (e) {}
+    }
+    let htmlAudioUnlocked = false;
+    let htmlAudioUnlocking = false;
+    let speechUnlocked = false;
+    let htmlAudioToken = 0;
+    let currentUtterance = null;
+    let audioPlaySeq = 0;
+    let speechWatchdogTimer = null;
+    let speechDelayTimer = null;
+    let speechFailStreak = 0;
+    let preferOnlineAudioForWords = false;
+    let dictAutoPlayPref = false;
+    let pendingAutoPlay = null;
+    const prefetchedAudioUrls = new Set();
 
     const NON_PLURAL_S_WORDS = new Set([
         'bus', 'class', 'glass', 'grass', 'dress', 'stress', 'press', 'success', 'process', 'access',
@@ -2827,6 +2885,7 @@
         initWritingTrainer();
         initTask1Trainer();
         initGrammarTrainer();
+        initAudioPrefsAndUnlock();
         initVoiceEngine();
         updateDashboard();
 
@@ -2840,6 +2899,9 @@
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') {
                 pullFromCloud(true);
+                if ('speechSynthesis' in window && window.speechSynthesis.paused) {
+                    try { window.speechSynthesis.resume(); } catch (e) {}
+                }
             } else if (document.visibilityState === 'hidden' && syncTimer) {
                 clearTimeout(syncTimer);
                 syncTimer = null;
@@ -2859,7 +2921,7 @@
         inputEl.addEventListener('keydown', function(e) {
             if (e.key === 'Tab') {
                 e.preventDefault();
-                playCurrentAudio(0.9);
+                playCurrentAudio(0.9, { isUserGesture: true });
             } else if (e.key === 'Enter') {
                 e.preventDefault();
                 handleSubmit();
@@ -2884,7 +2946,7 @@
             hfInputEl.addEventListener('keydown', function(e) {
                 if (e.key === 'Tab') {
                     e.preventDefault();
-                    playHfCurrentAudio(0.9);
+                    playHfCurrentAudio(0.9, { isUserGesture: true });
                 } else if (e.key === 'Enter') {
                     e.preventDefault();
                     handleHfSubmit();
@@ -4054,28 +4116,142 @@
         document.getElementById('customRemainCount').innerText = remain;
     }
 
-    function initVoiceEngine() {
-        function pickVoice() {
-            const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
-            if (!voices || voices.length === 0) return;
-            selectedVoice = voices.find(v => v.lang === 'en-AU' && v.name.includes('Natural'))
-                         || voices.find(v => v.lang === 'en-AU')
-                         || voices.find(v => v.lang && v.lang.toLowerCase().includes('en-au'))
-                         || voices.find(v => v.lang === 'en-GB')
-                         || voices.find(v => v.lang && v.lang.startsWith('en'));
-
-            const statusEl = document.getElementById('voiceStatusText');
-            if (selectedVoice) {
-                const isAU = selectedVoice.lang.toLowerCase().includes('au');
-                statusEl.innerText = isAU
-                    ? `🦘 已就绪澳洲语音: ${selectedVoice.name}`
-                    : `🔊 已就绪语音: ${selectedVoice.name}`;
-            }
+    function updateVoiceStatusLabel() {
+        const statusEl = document.getElementById('voiceStatusText');
+        if (!statusEl) return;
+        if (dictAutoPlayPref) {
+            statusEl.innerText = '🎵 已开启词典原声自动播（iPad 静音也出声）';
+            return;
         }
+        if (selectedVoice) {
+            const isAU = (selectedVoice.lang || '').toLowerCase().replace('_', '-').includes('au');
+            statusEl.innerText = isAU
+                ? `🦘 已就绪澳洲语音: ${selectedVoice.name}`
+                : `🔊 已就绪语音: ${selectedVoice.name}`;
+        } else if (IS_IOS_OR_IPAD) {
+            statusEl.innerText = '🔊 已就绪 iPad 自动发音（澳洲语音 + 词典原声双兜底）';
+        }
+    }
+
+    function pickVoice() {
+        const voices = (window.speechSynthesis && typeof window.speechSynthesis.getVoices === 'function')
+            ? window.speechSynthesis.getVoices()
+            : [];
+        if (!voices || voices.length === 0) {
+            updateVoiceStatusLabel();
+            return null;
+        }
+        const normLang = v => (v.lang || '').toLowerCase().replace('_', '-');
+        const isLocal = v => v.localService !== false;
+        selectedVoice = voices.find(v => normLang(v) === 'en-au' && v.name && v.name.includes('Natural'))
+                     || (IS_IOS_OR_IPAD && voices.find(v => normLang(v) === 'en-au' && isLocal(v)))
+                     || voices.find(v => normLang(v) === 'en-au')
+                     || voices.find(v => normLang(v).includes('en-au'))
+                     || (IS_IOS_OR_IPAD && voices.find(v => normLang(v) === 'en-gb' && isLocal(v)))
+                     || voices.find(v => normLang(v) === 'en-gb')
+                     || (IS_IOS_OR_IPAD && voices.find(v => normLang(v).startsWith('en') && isLocal(v)))
+                     || voices.find(v => normLang(v).startsWith('en'))
+                     || null;
+        updateVoiceStatusLabel();
+        return selectedVoice;
+    }
+
+    function initVoiceEngine() {
         if ('speechSynthesis' in window) {
             pickVoice();
-            window.speechSynthesis.onvoiceschanged = pickVoice;
+            try {
+                window.speechSynthesis.onvoiceschanged = pickVoice;
+            } catch (e) {}
+        } else {
+            updateVoiceStatusLabel();
         }
+    }
+
+    function setDictAutoPlayPref(enabled) {
+        dictAutoPlayPref = !!enabled;
+        try {
+            localStorage.setItem(DICT_AUTOPLAY_PREF_KEY, dictAutoPlayPref ? '1' : '0');
+        } catch (e) {}
+        const t1 = document.getElementById('dictAutoPlayToggle');
+        const t2 = document.getElementById('hfDictAutoPlayToggle');
+        if (t1) t1.checked = dictAutoPlayPref;
+        if (t2) t2.checked = dictAutoPlayPref;
+        updateVoiceStatusLabel();
+    }
+
+    function unlockAudioFromGesture(options = {}) {
+        const primeSpeech = !!options.primeSpeech;
+        if (!selectedVoice) pickVoice();
+
+        // 1. 永久解锁复用 HTMLAudioElement（iPadOS Safari 需在用户手势内播放一次非静音无声 WAV）
+        if (sharedHtmlAudio && !htmlAudioUnlocked && !htmlAudioUnlocking) {
+            const isPlayingReal = !sharedHtmlAudio.paused && sharedHtmlAudio.src && !sharedHtmlAudio.src.startsWith('data:audio/wav');
+            if (!isPlayingReal) {
+                const myToken = ++htmlAudioToken;
+                htmlAudioUnlocking = true;
+                try {
+                    sharedHtmlAudio.muted = false;
+                    sharedHtmlAudio.volume = 1;
+                    sharedHtmlAudio.src = SILENT_WAV_DATA_URI;
+                    const playPromise = sharedHtmlAudio.play();
+                    if (playPromise && typeof playPromise.then === 'function') {
+                        playPromise.then(() => {
+                            htmlAudioUnlocking = false;
+                            htmlAudioUnlocked = true;
+                            if (htmlAudioToken === myToken) {
+                                try { sharedHtmlAudio.pause(); } catch (e) {}
+                            }
+                        }).catch(() => {
+                            htmlAudioUnlocking = false;
+                        });
+                    } else {
+                        htmlAudioUnlocking = false;
+                        htmlAudioUnlocked = true;
+                    }
+                } catch (e) {
+                    htmlAudioUnlocking = false;
+                }
+            }
+        }
+
+        // 2. 预热 Web Speech 引擎（仅在非开始/发声按钮的首次触控时执行，避免与真实朗读冲突）
+        if (primeSpeech && !speechUnlocked && 'speechSynthesis' in window) {
+            try {
+                if (!window.speechSynthesis.speaking && !window.speechSynthesis.pending) {
+                    const silentUtter = new SpeechSynthesisUtterance('');
+                    silentUtter.volume = 0;
+                    silentUtter.lang = 'en-AU';
+                    window.speechSynthesis.speak(silentUtter);
+                    speechUnlocked = true;
+                }
+            } catch (e) {}
+        }
+    }
+
+    function initAudioPrefsAndUnlock() {
+        try {
+            dictAutoPlayPref = localStorage.getItem(DICT_AUTOPLAY_PREF_KEY) === '1';
+        } catch (e) {
+            dictAutoPlayPref = false;
+        }
+        const t1 = document.getElementById('dictAutoPlayToggle');
+        const t2 = document.getElementById('hfDictAutoPlayToggle');
+        if (t1) t1.checked = dictAutoPlayPref;
+        if (t2) t2.checked = dictAutoPlayPref;
+
+        const onUserGesture = (ev) => {
+            const target = ev && ev.target;
+            const isAudioOrStartTrigger = !!(target && target.closest && target.closest(
+                '.btn-start-main, .btn-start-hf, .btn-audio-main, .btn-audio-slow, .audio-unlock-banner'
+            ));
+            unlockAudioFromGesture({ primeSpeech: !isAudioOrStartTrigger });
+            if (pendingAutoPlay && !isAudioOrStartTrigger) {
+                resumePendingAutoPlay();
+            }
+        };
+        ['touchstart', 'pointerdown', 'click'].forEach(evtName => {
+            document.addEventListener(evtName, onUserGesture, { capture: true, passive: true });
+        });
     }
 
     function updateDashboard() {
@@ -4263,10 +4439,13 @@
         document.getElementById('startScreen').style.display = 'none';
         document.getElementById('summaryScreen').style.display = 'none';
         document.getElementById('trainingScreen').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        renderQuestion();
-        playCurrentAudio(0.9);
+        unlockAudioFromGesture({ primeSpeech: false });
+        renderQuestion(false);
+        playCurrentAudio(0.9, { isUserGesture: true, keepFocus: false });
+        focusActiveSpellInput();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (sessionWords[1]) prefetchDictAudio(sessionWords[1].word);
     }
 
     function renderCapsules() {
@@ -4283,7 +4462,7 @@
         }
     }
 
-    function renderQuestion() {
+    function renderQuestion(autoFocus = true) {
         const currentObj = sessionWords[currentIndex];
         isPenaltyMode = false;
         hadErrorOnCurrentWord = false;
@@ -4320,7 +4499,7 @@
         inputEl.value = '';
         inputEl.className = 'spell-input';
         inputEl.placeholder = '听音盲写单词...';
-        inputEl.focus();
+        if (autoFocus) focusActiveSpellInput();
 
         const fb = document.getElementById('feedbackBox');
         fb.className = 'feedback-box';
@@ -4329,50 +4508,340 @@
         document.getElementById('submitBtn').innerText = '✅ 提交检验 (Enter)';
     }
 
-    function stopAllAudio() {
-        if ('speechSynthesis' in window) {
-            try { window.speechSynthesis.cancel(); } catch (e) {}
+    function focusActiveSpellInput() {
+        const mode = document.body.dataset.activeMode;
+        const targetId = mode === 'hf' ? 'hfSpellInput' : (mode === '1820' ? 'spellInput' : null);
+        if (!targetId) return;
+        const el = document.getElementById(targetId);
+        if (!el || el.offsetParent === null) return;
+        try {
+            el.focus({ preventScroll: true });
+        } catch (e) {
+            try { el.focus(); } catch (_) {}
         }
-        if (currentHtmlAudio) {
+    }
+
+    function showAudioUnlockBanner() {
+        ['audioUnlockBanner', 'hfAudioUnlockBanner'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'inline-block';
+        });
+    }
+
+    function hideAudioUnlockBanner() {
+        ['audioUnlockBanner', 'hfAudioUnlockBanner'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+    }
+
+    function resumePendingAutoPlay() {
+        unlockAudioFromGesture({ primeSpeech: false });
+        const item = pendingAutoPlay;
+        pendingAutoPlay = null;
+        hideAudioUnlockBanner();
+        if (item && item.word) {
+            playWordAudio(item.word, item.rate || 0.9, { isUserGesture: true });
+            return;
+        }
+        const mode = document.body.dataset.activeMode;
+        if (mode === '1820') playCurrentAudio(0.9, { isUserGesture: true });
+        else if (mode === 'hf') playHfCurrentAudio(0.9, { isUserGesture: true });
+    }
+
+    function canUseOnlineDictForText(text) {
+        const cleaned = (text || '').trim();
+        return cleaned.length > 0 && cleaned.length <= 100;
+    }
+
+    function buildDictAudioUrl(word, type = 1) {
+        return `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word.trim())}&type=${type}`;
+    }
+
+    function prefetchDictAudio(word) {
+        if (!canUseOnlineDictForText(word)) return;
+        if (!IS_IOS_OR_IPAD && !dictAutoPlayPref && !preferOnlineAudioForWords) return;
+        const url = buildDictAudioUrl(word, 1);
+        if (prefetchedAudioUrls.has(url)) return;
+        if (prefetchedAudioUrls.size > 80) prefetchedAudioUrls.clear();
+        prefetchedAudioUrls.add(url);
+        try {
+            fetch(url, { mode: 'no-cors', cache: 'force-cache' }).catch(() => {});
+        } catch (e) {}
+    }
+
+    function clearSpeechTimers() {
+        if (speechWatchdogTimer) {
+            clearTimeout(speechWatchdogTimer);
+            speechWatchdogTimer = null;
+        }
+        if (speechDelayTimer) {
+            clearTimeout(speechDelayTimer);
+            speechDelayTimer = null;
+        }
+    }
+
+    function stopAllAudio(invalidateSeq = true) {
+        if (invalidateSeq) audioPlaySeq++;
+        clearSpeechTimers();
+        pendingAutoPlay = null;
+        hideAudioUnlockBanner();
+        let wasSpeechActive = false;
+        if ('speechSynthesis' in window) {
             try {
-                currentHtmlAudio.pause();
-                currentHtmlAudio.currentTime = 0;
+                // iPadOS/iOS Safari 避坑：空闲时切勿调用 cancel()，否则紧接着的 speak() 会被异步吞掉无声
+                wasSpeechActive = !!(window.speechSynthesis.speaking || window.speechSynthesis.pending);
+                if (wasSpeechActive) {
+                    window.speechSynthesis.cancel();
+                }
             } catch (e) {}
-            currentHtmlAudio = null;
+        }
+        currentUtterance = null;
+        if (sharedHtmlAudio) {
+            try {
+                htmlAudioToken++;
+                if (!sharedHtmlAudio.paused) {
+                    sharedHtmlAudio.pause();
+                }
+                sharedHtmlAudio.onended = null;
+                sharedHtmlAudio.onerror = null;
+            } catch (e) {}
+        }
+        return wasSpeechActive;
+    }
+
+    function playOnlineDictAudio(customWord, rate = 1.0, options = {}) {
+        const mode = document.body.dataset.activeMode;
+        const fallbackWord = mode === 'hf'
+            ? (hfSessionWords[hfCurrentIndex] && hfSessionWords[hfCurrentIndex].word)
+            : (sessionWords[currentIndex] && sessionWords[currentIndex].word);
+        const w = (customWord || fallbackWord || '').trim();
+        if (!w || !sharedHtmlAudio) return;
+
+        const seq = (typeof options.seq === 'number') ? options.seq : (++audioPlaySeq);
+        if (typeof options.seq !== 'number') {
+            stopAllAudio(false);
+        }
+
+        const myToken = ++htmlAudioToken;
+        const playType = options.dictType || 1;
+        const targetPlaybackRate = rate <= 0.72 ? 0.72 : 1.0;
+
+        try {
+            sharedHtmlAudio.muted = false;
+            sharedHtmlAudio.volume = 1;
+            sharedHtmlAudio.src = buildDictAudioUrl(w, playType);
+            sharedHtmlAudio.playbackRate = targetPlaybackRate;
+            sharedHtmlAudio.onended = () => {
+                if (htmlAudioToken !== myToken) return;
+                hideAudioUnlockBanner();
+            };
+            sharedHtmlAudio.onerror = () => {
+                if (htmlAudioToken !== myToken || seq !== audioPlaySeq) return;
+                if (playType === 1) {
+                    playOnlineDictAudio(w, rate, { seq, dictType: 2, keepFocus: false });
+                }
+            };
+            const playPromise = sharedHtmlAudio.play();
+            if (playPromise && typeof playPromise.then === 'function') {
+                playPromise.then(() => {
+                    htmlAudioUnlocked = true;
+                    if (htmlAudioToken === myToken) {
+                        try { sharedHtmlAudio.playbackRate = targetPlaybackRate; } catch (e) {}
+                        pendingAutoPlay = null;
+                        hideAudioUnlockBanner();
+                    }
+                }).catch((err) => {
+                    if (htmlAudioToken !== myToken || seq !== audioPlaySeq) return;
+                    if (err && err.name === 'NotAllowedError') {
+                        pendingAutoPlay = { word: w, rate };
+                        showAudioUnlockBanner();
+                    } else if (playType === 1) {
+                        playOnlineDictAudio(w, rate, { seq, dictType: 2, keepFocus: false });
+                    }
+                });
+            } else {
+                htmlAudioUnlocked = true;
+                pendingAutoPlay = null;
+                hideAudioUnlockBanner();
+            }
+        } catch (e) {}
+
+        if (options.keepFocus !== false) {
+            focusActiveSpellInput();
         }
     }
 
-    function playOnlineDictAudio(customWord) {
-        const w = customWord || (sessionWords[currentIndex] && sessionWords[currentIndex].word);
-        if (!w) return;
-        stopAllAudio();
-        currentHtmlAudio = new Audio(`https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(w)}&type=1`);
-        currentHtmlAudio.play().catch(() => {});
-        document.getElementById('spellInput').focus();
+    function handleSpeechFailure(text, rate, seq) {
+        if (seq !== audioPlaySeq) return;
+        clearSpeechTimers();
+        currentUtterance = null;
+        speechFailStreak++;
+        if (IS_IOS_OR_IPAD && speechFailStreak >= 2) {
+            preferOnlineAudioForWords = true;
+        }
+        if (canUseOnlineDictForText(text)) {
+            if ('speechSynthesis' in window) {
+                try {
+                    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+                        window.speechSynthesis.cancel();
+                    }
+                } catch (e) {}
+            }
+            playOnlineDictAudio(text, rate, { seq, keepFocus: false });
+        } else {
+            pendingAutoPlay = { word: text, rate };
+            showAudioUnlockBanner();
+        }
     }
 
-    function playWordAudio(wordText, rate = 0.88) {
-        stopAllAudio();
-        if ('speechSynthesis' in window) {
+    function splitLongSpeechText(text) {
+        if (text.length <= 180) return [text];
+        const rawParts = text.match(/[^.!?]+[.!?]*/g) || [text];
+        const parts = [];
+        for (const raw of rawParts) {
+            const t = raw.trim();
+            if (!t) continue;
+            if (t.length <= 180) {
+                parts.push(t);
+            } else {
+                const words = t.split(/\s+/);
+                let line = '';
+                for (const w of words) {
+                    if ((line + ' ' + w).trim().length > 180 && line) {
+                        parts.push(line.trim());
+                        line = w;
+                    } else {
+                        line = (line ? line + ' ' : '') + w;
+                    }
+                }
+                if (line.trim()) parts.push(line.trim());
+            }
+        }
+        const chunks = [];
+        let buf = '';
+        for (const p of parts) {
+            if ((buf + ' ' + p).trim().length > 180 && buf) {
+                chunks.push(buf.trim());
+                buf = p;
+            } else {
+                buf = (buf ? buf + ' ' : '') + p;
+            }
+        }
+        if (buf.trim()) chunks.push(buf.trim());
+        return chunks.length > 0 ? chunks : [text];
+    }
+
+    function playWordAudio(wordText, rate = 0.88, options = {}) {
+        const text = (wordText || '').trim();
+        if (!text) return;
+
+        if (options.isUserGesture) {
+            unlockAudioFromGesture({ primeSpeech: false });
+        }
+
+        const seq = ++audioPlaySeq;
+        const wasSpeechActive = stopAllAudio(false);
+
+        const useDictDirectly = canUseOnlineDictForText(text) && (
+            !('speechSynthesis' in window)
+            || (dictAutoPlayPref && !options.forceSpeech)
+            || (IS_IOS_OR_IPAD && preferOnlineAudioForWords && !options.forceSpeech)
+        );
+        if (useDictDirectly) {
+            playOnlineDictAudio(text, rate, { seq, keepFocus: false });
+            return;
+        }
+
+        if (!selectedVoice) pickVoice();
+        const chunks = splitLongSpeechText(text);
+
+        const speakChunk = (idx) => {
+            if (seq !== audioPlaySeq || idx >= chunks.length) return;
+            const chunkText = chunks[idx];
             try {
-                const utter = new SpeechSynthesisUtterance(wordText);
-                utter.lang = 'en-AU';
+                const utter = new SpeechSynthesisUtterance(chunkText);
+                utter.lang = (selectedVoice && selectedVoice.lang)
+                    ? selectedVoice.lang.replace('_', '-')
+                    : 'en-AU';
                 if (selectedVoice) utter.voice = selectedVoice;
                 utter.rate = rate;
-                utter.onerror = () => playOnlineDictAudio(wordText);
+                utter.volume = 1.0;
+
+                // 保持全局强引用，防止 Safari/WebKit 垃圾回收导致中途静音
+                currentUtterance = utter;
+                let started = false;
+
+                utter.onstart = () => {
+                    if (seq !== audioPlaySeq) return;
+                    started = true;
+                    speechUnlocked = true;
+                    speechFailStreak = 0;
+                    if (options.forceSpeech) preferOnlineAudioForWords = false;
+                    pendingAutoPlay = null;
+                    hideAudioUnlockBanner();
+                    clearSpeechTimers();
+                };
+
+                utter.onend = () => {
+                    if (seq !== audioPlaySeq) return;
+                    clearSpeechTimers();
+                    if (currentUtterance === utter) currentUtterance = null;
+                    if (idx + 1 < chunks.length) {
+                        speakChunk(idx + 1);
+                    }
+                };
+
+                utter.onerror = (ev) => {
+                    if (seq !== audioPlaySeq) return;
+                    clearSpeechTimers();
+                    if (currentUtterance === utter) currentUtterance = null;
+                    const errCode = ev && ev.error;
+                    if (errCode === 'canceled' || errCode === 'interrupted') return;
+                    handleSpeechFailure(text, rate, seq);
+                };
+
+                if (window.speechSynthesis.paused) {
+                    try { window.speechSynthesis.resume(); } catch (e) {}
+                }
                 window.speechSynthesis.speak(utter);
+
+                // 看门狗：捕获 iPadOS Safari 静默拦截/丢弃 speak()（既不触发 onstart 也不触发 onerror）
+                if (idx === 0) {
+                    const watchdogMs = IS_IOS_OR_IPAD ? 550 : 1200;
+                    speechWatchdogTimer = setTimeout(() => {
+                        if (seq !== audioPlaySeq || started) return;
+                        if (window.speechSynthesis && window.speechSynthesis.speaking) {
+                            speechWatchdogTimer = setTimeout(() => {
+                                if (seq !== audioPlaySeq || started) return;
+                                if (!window.speechSynthesis.speaking) {
+                                    handleSpeechFailure(text, rate, seq);
+                                }
+                            }, 550);
+                            return;
+                        }
+                        handleSpeechFailure(text, rate, seq);
+                    }, watchdogMs);
+                }
             } catch (e) {
-                playOnlineDictAudio(wordText);
+                handleSpeechFailure(text, rate, seq);
             }
+        };
+
+        // 若 iPadOS 刚刚执行了 cancel()，留 60ms 给 AVSpeechSynthesizer 完成清理，防止新语音被吞
+        if (wasSpeechActive && IS_IOS_OR_IPAD) {
+            speechDelayTimer = setTimeout(() => speakChunk(0), 60);
         } else {
-            playOnlineDictAudio(wordText);
+            speakChunk(0);
         }
     }
 
-    function playCurrentAudio(rate = 0.88) {
+    function playCurrentAudio(rate = 0.88, options = {}) {
         if (!sessionWords[currentIndex]) return;
-        playWordAudio(sessionWords[currentIndex].word, rate);
-        document.getElementById('spellInput').focus();
+        playWordAudio(sessionWords[currentIndex].word, rate, options);
+        if (options.keepFocus !== false) {
+            focusActiveSpellInput();
+        }
     }
 
     function buildCharDiffHtml(userInput, targetWord) {
@@ -4389,6 +4858,7 @@
 
     function handleSubmit() {
         if (isTransitioning) return;
+        unlockAudioFromGesture({ primeSpeech: false });
 
         const inputEl = document.getElementById('spellInput');
         const userVal = inputEl.value.trim().replace(/\s+/g, ' ');
@@ -4397,7 +4867,7 @@
         const fb = document.getElementById('feedbackBox');
 
         if (!userVal) {
-            playCurrentAudio(0.88);
+            playCurrentAudio(0.88, { isUserGesture: true });
             return;
         }
 
@@ -4405,6 +4875,9 @@
             isTransitioning = true;
             stopAllAudio();
             inputEl.className = 'spell-input input-success';
+            if (sessionWords[currentIndex + 1]) {
+                prefetchDictAudio(sessionWords[currentIndex + 1].word);
+            }
 
             if (!hadErrorOnCurrentWord) {
                 sessionResults[currentIndex] = 'perfect';
@@ -4473,8 +4946,8 @@
             inputEl.placeholder = '请重新敲入正确拼写过关...';
             document.getElementById('submitBtn').innerText = '💪 提交罚写过关 (Enter)';
 
-            playWordAudio(targetWord, 0.82);
-            inputEl.focus();
+            playWordAudio(targetWord, 0.82, { isUserGesture: true });
+            focusActiveSpellInput();
         }
     }
 
@@ -4488,8 +4961,12 @@
             pushToCloud(true);
             showSessionSummary();
         } else {
-            renderQuestion();
-            playCurrentAudio(0.9);
+            renderQuestion(false);
+            playCurrentAudio(0.9, { keepFocus: false });
+            focusActiveSpellInput();
+            if (sessionWords[currentIndex + 1]) {
+                prefetchDictAudio(sessionWords[currentIndex + 1].word);
+            }
         }
     }
 
@@ -4732,10 +5209,13 @@
         document.getElementById('hfStartScreen').style.display = 'none';
         document.getElementById('hfSummaryScreen').style.display = 'none';
         document.getElementById('hfTrainingScreen').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        renderHfQuestion();
-        playHfCurrentAudio(0.9);
+        unlockAudioFromGesture({ primeSpeech: false });
+        renderHfQuestion(false);
+        playHfCurrentAudio(0.9, { isUserGesture: true, keepFocus: false });
+        focusActiveSpellInput();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (hfSessionWords[1]) prefetchDictAudio(hfSessionWords[1].word);
     }
 
     function renderHfCapsules() {
@@ -4752,7 +5232,7 @@
         }
     }
 
-    function renderHfQuestion() {
+    function renderHfQuestion(autoFocus = true) {
         const currentObj = hfSessionWords[hfCurrentIndex];
         hfIsPenaltyMode = false;
         hfHadErrorOnCurrentWord = false;
@@ -4795,7 +5275,7 @@
         inputEl.value = '';
         inputEl.className = 'spell-input';
         inputEl.placeholder = '在此盲写高频词...';
-        inputEl.focus();
+        if (autoFocus) focusActiveSpellInput();
 
         const fb = document.getElementById('hfFeedbackBox');
         fb.className = 'feedback-box';
@@ -4804,16 +5284,17 @@
         document.getElementById('hfSubmitBtn').innerText = '✅ 提交检验 (Enter)';
     }
 
-    function playHfCurrentAudio(rate = 0.88) {
+    function playHfCurrentAudio(rate = 0.88, options = {}) {
         if (!hfSessionWords[hfCurrentIndex]) return;
-        playWordAudio(hfSessionWords[hfCurrentIndex].word, rate);
-        document.getElementById('hfSpellInput').focus();
+        playWordAudio(hfSessionWords[hfCurrentIndex].word, rate, options);
+        if (options.keepFocus !== false) {
+            focusActiveSpellInput();
+        }
     }
 
     function playHfOnlineDictAudio() {
         if (!hfSessionWords[hfCurrentIndex]) return;
-        playOnlineDictAudio(hfSessionWords[hfCurrentIndex].word);
-        document.getElementById('hfSpellInput').focus();
+        playOnlineDictAudio(hfSessionWords[hfCurrentIndex].word, 1.0, { keepFocus: true });
     }
 
     function buildHfCharDiffHtml(userInput, targetWord) {
@@ -4830,6 +5311,7 @@
 
     function handleHfSubmit() {
         if (hfIsTransitioning) return;
+        unlockAudioFromGesture({ primeSpeech: false });
 
         const inputEl = document.getElementById('hfSpellInput');
         const userVal = inputEl.value.trim().replace(/\s+/g, ' ');
@@ -4838,7 +5320,7 @@
         const fb = document.getElementById('hfFeedbackBox');
 
         if (!userVal) {
-            playHfCurrentAudio(0.88);
+            playHfCurrentAudio(0.88, { isUserGesture: true });
             return;
         }
 
@@ -4852,6 +5334,9 @@
             hfIsTransitioning = true;
             stopAllAudio();
             inputEl.className = 'spell-input input-success';
+            if (hfSessionWords[hfCurrentIndex + 1]) {
+                prefetchDictAudio(hfSessionWords[hfCurrentIndex + 1].word);
+            }
             const key = targetWord.toLowerCase();
 
             if (!hfHadErrorOnCurrentWord) {
@@ -4921,8 +5406,8 @@
             inputEl.placeholder = '请重新敲入正确拼写过关...';
             document.getElementById('hfSubmitBtn').innerText = '💪 提交罚写过关 (Enter)';
 
-            playWordAudio(targetWord, 0.82);
-            inputEl.focus();
+            playWordAudio(targetWord, 0.82, { isUserGesture: true });
+            focusActiveSpellInput();
         }
     }
 
@@ -4936,8 +5421,12 @@
             pushToCloud(true);
             showHfSessionSummary();
         } else {
-            renderHfQuestion();
-            playHfCurrentAudio(0.9);
+            renderHfQuestion(false);
+            playHfCurrentAudio(0.9, { keepFocus: false });
+            focusActiveSpellInput();
+            if (hfSessionWords[hfCurrentIndex + 1]) {
+                prefetchDictAudio(hfSessionWords[hfCurrentIndex + 1].word);
+            }
         }
     }
 
